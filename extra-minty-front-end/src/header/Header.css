@@ -1,0 +1,16 @@
+.header {
+    background-color: aquamarine;
+    display: flex;
+    align-items: center;
+}
+
+.header-name {
+    float: left;
+    padding-right: 10px;
+}
+
+.navbar {
+    font-size: 25px;
+    position: absolute;
+    right: 0;
+}
