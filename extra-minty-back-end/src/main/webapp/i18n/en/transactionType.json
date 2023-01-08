@@ -1,0 +1,10 @@
+{
+  "extraMintyApp": {
+    "TransactionType": {
+      "null": "",
+      "DEPOSIT": "DEPOSIT",
+      "WITHDRAW": "WITHDRAW",
+      "TRANSFER": "TRANSFER"
+    }
+  }
+}

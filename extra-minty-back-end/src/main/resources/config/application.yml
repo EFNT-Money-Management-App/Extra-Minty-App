@@ -24,14 +24,6 @@ springdoc:
   api-docs:
     enabled: false
 ---
-feign:
-  circuitbreaker:
-    enabled: true
-  # client:
-  #   config:
-  #     default:
-  #       connectTimeout: 5000
-  #       readTimeout: 5000
 management:
   endpoints:
     web:
@@ -100,7 +92,7 @@ management:
 
 spring:
   application:
-    name: MintyMicroService
+    name: ExtraMinty
   profiles:
     # The commented value for `active` can be replaced with valid Spring profiles to load.
     # Otherwise, it will be filled in by maven when building the JAR file
@@ -133,10 +125,6 @@ spring:
       hibernate.order_updates: true
       hibernate.query.fail_on_pagination_over_collection_fetch: true
       hibernate.query.in_clause_parameter_padding: true
-      hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
-      hibernate.cache.use_minimal_puts: true
-      hibernate.cache.hazelcast.instance_name: MintyMicroService
-      hibernate.cache.hazelcast.use_lite_member: true
     hibernate:
       ddl-auto: none
       naming:
@@ -151,13 +139,13 @@ spring:
       matching-strategy: ant_path_matcher
   task:
     execution:
-      thread-name-prefix: minty-micro-service-task-
+      thread-name-prefix: extra-minty-task-
       pool:
         core-size: 2
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: minty-micro-service-scheduling-
+      thread-name-prefix: extra-minty-scheduling-
       pool:
         size: 2
   thymeleaf:
@@ -188,7 +176,7 @@ info:
 
 jhipster:
   clientApp:
-    name: 'mintyMicroServiceApp'
+    name: 'extraMintyApp'
   # By default CORS is disabled. Uncomment to enable.
   # cors:
   #   allowed-origins: "http://localhost:8100,http://localhost:9000"
@@ -198,12 +186,12 @@ jhipster:
   #   allow-credentials: true
   #   max-age: 1800
   mail:
-    from: MintyMicroService@localhost
+    from: ExtraMinty@localhost
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/**
     management-include-pattern: ${server.servlet.context-path:}/management/**
-    title: Minty Micro Service API
-    description: Minty Micro Service API documentation
+    title: Extra Minty API
+    description: Extra Minty API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:
@@ -212,6 +200,7 @@ jhipster:
     license: unlicensed
     license-url:
   security:
+    content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

@@ -15,7 +15,7 @@
 
 spring:
   application:
-    name: MintyMicroService
+    name: ExtraMinty
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test
@@ -33,13 +33,13 @@ spring:
     basename: i18n/messages
   task:
     execution:
-      thread-name-prefix: minty-micro-service-task-
+      thread-name-prefix: extra-minty-task-
       pool:
         core-size: 1
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: minty-micro-service-scheduling-
+      thread-name-prefix: extra-minty-scheduling-
       pool:
         size: 20
   thymeleaf:
@@ -56,9 +56,9 @@ server:
 # ===================================================================
 jhipster:
   clientApp:
-    name: 'mintyMicroServiceApp'
+    name: 'extraMintyApp'
   mail:
-    from: MintyMicroService@localhost.com
+    from: ExtraMinty@localhost.com
     base-url: http://127.0.0.1:8080
   logging:
     # To test json console appender
@@ -72,7 +72,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-        base64-secret: MDZiMzU2OTcyOWE1ZTdmODkyMTMwNzljODc4M2MxYzQwZjkyZTIwNjYyMmI0ZDU5MThiNzBjYTY0ZTMwMDZjNjUyNGRjNWI4NWQ5MDBhZDUzNzZmYzliZmI1MDM5NjU4NGI1YTdhODhhYjY2MWYzN2Y3NDc2NGQ4OTk2YjA2Mjk=
+        base64-secret: NzU5NTMwODY4NTMxOTI0YzE1MzMxMzhkMjMyYzVkNWM3MjM2Nzg5OTI0ODg1MjczMmJiNmJiNjJmODc0NDRhNWEwMzllMDgyMWUyYjkzNDFlNzE3MWVjOWE4ZDAxMjYwMzYyZGFiZTc2MDg0ZGU3ZjE1ODM4NWQyNzhiMTFiMDM=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
 

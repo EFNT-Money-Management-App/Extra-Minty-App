@@ -1,0 +1,13 @@
+{
+  "extraMintyApp": {
+    "TransactionCategory": {
+      "null": "",
+      "BILL": "BILL",
+      "FOOD": "FOOD",
+      "ENTERTAINMENT": "ENTERTAINMENT",
+      "TRANSPORTATION": "TRANSPORTATION",
+      "INCOME": "INCOME",
+      "CUSTOM": "CUSTOM"
+    }
+  }
+}

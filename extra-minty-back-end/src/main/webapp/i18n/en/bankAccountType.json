@@ -1,0 +1,9 @@
+{
+  "extraMintyApp": {
+    "BankAccountType": {
+      "null": "",
+      "CHECKING": "CHECKING",
+      "SAVINGS": "SAVINGS"
+    }
+  }
+}

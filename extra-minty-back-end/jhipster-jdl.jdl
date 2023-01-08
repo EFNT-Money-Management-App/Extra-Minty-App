@@ -1,0 +1,98 @@
+application {
+  config {
+    baseName ExtraMinty,
+    applicationType monolith,
+    packageName com.minty
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework react
+  }
+  entities *
+}
+
+entity Profile {
+birthdate LocalDate
+peppermintPoints Integer
+securityQuestion String
+securityAnswer String
+profilePicture ImageBlob
+}
+
+entity BankAccount {
+balance Double
+accountNumber Long 
+routingNumber Long
+bankName String
+type BankAccountType
+}
+
+entity Transaction {
+customCategoryName String
+type TransactionType
+amount Double 
+category TransactionCategory
+date ZonedDateTime
+description String
+transferToAccountNumber Long
+transferFromAccountNumber Long
+}
+
+entity Budget {
+spendingLimit Double
+currentSpending Double
+name String
+monthOfDate Month
+budgetYear Integer
+}
+
+enum TransactionCategory {
+BILL,
+FOOD,
+ENTERTAINMENT,
+TRANSPORTATION,
+INCOME,
+CUSTOM
+}
+
+enum TransactionType {
+DEPOSIT,
+WITHDRAW,
+TRANSFER
+}
+
+enum BankAccountType {
+CHECKING,
+SAVINGS
+}
+
+enum Month {
+JANUARY,
+FEBRUARY,
+MARCH,
+APRIL,
+MAY,
+JUNE,
+JULY,
+AUGUST,
+SEPTEMBER,
+OCTOBER,
+NOVEMBER,
+DECEMBER
+}
+
+relationship OneToOne {
+Profile{user(login)} to User
+}
+
+relationship OneToMany {
+BankAccount to Transaction
+}
+
+relationship ManyToOne {
+Transaction to Budget
+Budget{user(login)} to User
+BankAccount{user(login)} to User
+}
+
+dto * with mapstruct
+service * with serviceClass

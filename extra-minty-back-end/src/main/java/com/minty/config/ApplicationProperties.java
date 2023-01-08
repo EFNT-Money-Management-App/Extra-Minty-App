@@ -3,7 +3,7 @@ package com.minty.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Properties specific to Minty Micro Service.
+ * Properties specific to Extra Minty.
  * <p>
  * Properties are configured in the {@code application.yml} file.
  * See {@link tech.jhipster.config.JHipsterProperties} for a good example.

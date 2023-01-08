@@ -16,6 +16,9 @@ const SignIn = () => {
             <a href="forgot your password">
                 <button>Forgot your password</button>
             </a>
+            <a href="profile">
+                <button>Sign In</button>
+            </a>
         </div>
     )
 }

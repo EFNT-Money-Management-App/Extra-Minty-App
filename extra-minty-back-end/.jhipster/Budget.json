@@ -1,0 +1,50 @@
+{
+  "applications": ["ExtraMinty"],
+  "changelogDate": "20230108000004",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "budget",
+  "fields": [
+    {
+      "fieldName": "spendingLimit",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "currentSpending",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "monthOfDate",
+      "fieldType": "Month",
+      "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
+    },
+    {
+      "fieldName": "budgetYear",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Budget",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "transaction",
+      "otherEntityRelationshipName": "budget",
+      "relationshipName": "transaction",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

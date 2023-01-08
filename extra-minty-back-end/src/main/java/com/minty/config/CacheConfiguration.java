@@ -1,21 +1,17 @@
 package com.minty.config;
 
-import com.hazelcast.config.*;
-import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.HazelcastInstance;
-import javax.annotation.PreDestroy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.time.Duration;
+import org.ehcache.config.builders.*;
+import org.ehcache.jsr107.Eh107Configuration;
+import org.hibernate.cache.jcache.ConfigSettings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.*;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.Profiles;
-import tech.jhipster.config.JHipsterConstants;
 import tech.jhipster.config.JHipsterProperties;
 import tech.jhipster.config.cache.PrefixedKeyGenerator;
 
@@ -25,88 +21,50 @@ public class CacheConfiguration {
 
     private GitProperties gitProperties;
     private BuildProperties buildProperties;
+    private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
 
-    private final Logger log = LoggerFactory.getLogger(CacheConfiguration.class);
+    public CacheConfiguration(JHipsterProperties jHipsterProperties) {
+        JHipsterProperties.Cache.Ehcache ehcache = jHipsterProperties.getCache().getEhcache();
 
-    private final Environment env;
-
-    public CacheConfiguration(Environment env) {
-        this.env = env;
-    }
-
-    @PreDestroy
-    public void destroy() {
-        log.info("Closing Cache Manager");
-        Hazelcast.shutdownAll();
-    }
-
-    @Bean
-    public CacheManager cacheManager(HazelcastInstance hazelcastInstance) {
-        log.debug("Starting HazelcastCacheManager");
-        return new com.hazelcast.spring.cache.HazelcastCacheManager(hazelcastInstance);
+        jcacheConfiguration =
+            Eh107Configuration.fromEhcacheCacheConfiguration(
+                CacheConfigurationBuilder
+                    .newCacheConfigurationBuilder(Object.class, Object.class, ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
+                    .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcache.getTimeToLiveSeconds())))
+                    .build()
+            );
     }
 
     @Bean
-    public HazelcastInstance hazelcastInstance(JHipsterProperties jHipsterProperties) {
-        log.debug("Configuring Hazelcast");
-        HazelcastInstance hazelCastInstance = Hazelcast.getHazelcastInstanceByName("MintyMicroService");
-        if (hazelCastInstance != null) {
-            log.debug("Hazelcast already initialized");
-            return hazelCastInstance;
-        }
-        Config config = new Config();
-        config.setInstanceName("MintyMicroService");
-        config.getNetworkConfig().setPort(5701);
-        config.getNetworkConfig().setPortAutoIncrement(true);
-
-        // In development, remove multicast auto-configuration
-        if (env.acceptsProfiles(Profiles.of(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT))) {
-            System.setProperty("hazelcast.local.localAddress", "127.0.0.1");
-
-            config.getNetworkConfig().getJoin().getAwsConfig().setEnabled(false);
-            config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
-            config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(false);
-        }
-        config.setManagementCenterConfig(new ManagementCenterConfig());
-        config.addMapConfig(initializeDefaultMapConfig(jHipsterProperties));
-        config.addMapConfig(initializeDomainMapConfig(jHipsterProperties));
-        return Hazelcast.newHazelcastInstance(config);
+    public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cacheManager) {
+        return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
     }
 
-    private MapConfig initializeDefaultMapConfig(JHipsterProperties jHipsterProperties) {
-        MapConfig mapConfig = new MapConfig("default");
-
-        /*
-        Number of backups. If 1 is set as the backup-count for example,
-        then all entries of the map will be copied to another JVM for
-        fail-safety. Valid numbers are 0 (no backup), 1, 2, 3.
-        */
-        mapConfig.setBackupCount(jHipsterProperties.getCache().getHazelcast().getBackupCount());
-
-        /*
-        Valid values are:
-        NONE (no eviction),
-        LRU (Least Recently Used),
-        LFU (Least Frequently Used).
-        NONE is the default.
-        */
-        mapConfig.getEvictionConfig().setEvictionPolicy(EvictionPolicy.LRU);
-
-        /*
-        Maximum size of the map. When max size is reached,
-        map is evicted based on the policy defined.
-        Any integer between 0 and Integer.MAX_VALUE. 0 means
-        Integer.MAX_VALUE. Default is 0.
-        */
-        mapConfig.getEvictionConfig().setMaxSizePolicy(MaxSizePolicy.USED_HEAP_SIZE);
-
-        return mapConfig;
+    @Bean
+    public JCacheManagerCustomizer cacheManagerCustomizer() {
+        return cm -> {
+            createCache(cm, com.minty.repository.UserRepository.USERS_BY_LOGIN_CACHE);
+            createCache(cm, com.minty.repository.UserRepository.USERS_BY_EMAIL_CACHE);
+            createCache(cm, com.minty.domain.User.class.getName());
+            createCache(cm, com.minty.domain.Authority.class.getName());
+            createCache(cm, com.minty.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.minty.domain.Profile.class.getName());
+            createCache(cm, com.minty.domain.BankAccount.class.getName());
+            createCache(cm, com.minty.domain.BankAccount.class.getName() + ".transactions");
+            createCache(cm, com.minty.domain.Transaction.class.getName());
+            createCache(cm, com.minty.domain.Budget.class.getName());
+            createCache(cm, com.minty.domain.Budget.class.getName() + ".transactions");
+            // jhipster-needle-ehcache-add-entry
+        };
     }
 
-    private MapConfig initializeDomainMapConfig(JHipsterProperties jHipsterProperties) {
-        MapConfig mapConfig = new MapConfig("com.minty.domain.*");
-        mapConfig.setTimeToLiveSeconds(jHipsterProperties.getCache().getHazelcast().getTimeToLiveSeconds());
-        return mapConfig;
+    private void createCache(javax.cache.CacheManager cm, String cacheName) {
+        javax.cache.Cache<Object, Object> cache = cm.getCache(cacheName);
+        if (cache != null) {
+            cache.clear();
+        } else {
+            cm.createCache(cacheName, jcacheConfiguration);
+        }
     }
 
     @Autowired(required = false)

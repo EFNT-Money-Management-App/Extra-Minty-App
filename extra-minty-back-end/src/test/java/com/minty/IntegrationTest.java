@@ -1,6 +1,6 @@
 package com.minty;
 
-import com.minty.MintyMicroServiceApp;
+import com.minty.ExtraMintyApp;
 import com.minty.config.AsyncSyncConfiguration;
 import com.minty.config.EmbeddedSQL;
 import java.lang.annotation.ElementType;
@@ -15,7 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(classes = { MintyMicroServiceApp.class, AsyncSyncConfiguration.class })
+@SpringBootTest(classes = { ExtraMintyApp.class, AsyncSyncConfiguration.class })
 @EmbeddedSQL
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public @interface IntegrationTest {

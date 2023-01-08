@@ -1,14 +1,14 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 version: '3.8'
 services:
-  mintymicroservice-mysql:
+  extraminty-mysql:
     image: mysql:8.0.30
     volumes:
       - ./config/mysql:/etc/mysql/conf.d
-    #   - ~/volumes/jhipster/MintyMicroService/mysql/:/var/lib/mysql/
+    #   - ~/volumes/jhipster/ExtraMinty/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_DATABASE=mintymicroservice
+      - MYSQL_DATABASE=extraminty
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:

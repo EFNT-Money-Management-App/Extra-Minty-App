@@ -1,0 +1,50 @@
+{
+  "applications": ["ExtraMinty"],
+  "changelogDate": "20230108000002",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "bank_account",
+  "fields": [
+    {
+      "fieldName": "balance",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "accountNumber",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "routingNumber",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "bankName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "BankAccountType",
+      "fieldValues": "CHECKING,SAVINGS"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "BankAccount",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "transaction",
+      "otherEntityRelationshipName": "bankAccount",
+      "relationshipName": "transaction",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

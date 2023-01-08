@@ -1,0 +1,33 @@
+{
+  "extraMintyApp": {
+    "transaction": {
+      "home": {
+        "title": "Transactions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Transaction",
+        "createOrEditLabel": "Create or edit a Transaction",
+        "notFound": "No Transactions found"
+      },
+      "created": "A new Transaction is created with identifier {{ param }}",
+      "updated": "A Transaction is updated with identifier {{ param }}",
+      "deleted": "A Transaction is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Transaction {{ id }}?"
+      },
+      "detail": {
+        "title": "Transaction"
+      },
+      "id": "ID",
+      "customCategoryName": "Custom Category Name",
+      "type": "Type",
+      "amount": "Amount",
+      "category": "Category",
+      "date": "Date",
+      "description": "Description",
+      "transferToAccountNumber": "Transfer To Account Number",
+      "transferFromAccountNumber": "Transfer From Account Number",
+      "budget": "Budget",
+      "bankAccount": "Bank Account"
+    }
+  }
+}

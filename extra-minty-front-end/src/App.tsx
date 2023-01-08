@@ -4,7 +4,7 @@ import './App.css';
 import Profile from './component/profile/Profile';
 import Budget from './component/budget/Budget';
 import { Home, Features, Rewards, About, Register, RegisterSuccess, SignIn } from "./component/index"
-import { ForgotUsername, UsernameRecovery, ForgotPassword } from "./component/index"
+import { ForgotUsername, UsernameRecovery, ForgotPassword, PasswordRecovery } from "./component/index"
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
       <Route path="forgot your username" element={<ForgotUsername />} />
       <Route path="username recovery" element={<UsernameRecovery />} />
       <Route path="forgot your password" element={<ForgotPassword />} />
+      <Route path="password recovery" element={<PasswordRecovery />} />
     </Routes>
   );
 }

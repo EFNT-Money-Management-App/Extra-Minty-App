@@ -24,8 +24,8 @@ scrape_configs:
     #basic_auth:
     # username: admin
     # password: admin
-    metrics_path: /services/MintyMicroService/management/prometheus
+    metrics_path: /management/prometheus
     static_configs:
       - targets:
           # On MacOS, replace localhost by host.docker.internal
-          - localhost:8081
+          - localhost:8080

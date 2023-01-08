@@ -1,0 +1,45 @@
+{
+  "applications": ["ExtraMinty"],
+  "changelogDate": "20230108000001",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "profile",
+  "fields": [
+    {
+      "fieldName": "birthdate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "peppermintPoints",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "securityQuestion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "securityAnswer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "profilePicture",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Profile",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

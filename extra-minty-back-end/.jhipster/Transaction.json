@@ -1,0 +1,63 @@
+{
+  "applications": ["ExtraMinty"],
+  "changelogDate": "20230108000003",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "transaction",
+  "fields": [
+    {
+      "fieldName": "customCategoryName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "TransactionType",
+      "fieldValues": "DEPOSIT,WITHDRAW,TRANSFER"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "TransactionCategory",
+      "fieldValues": "BILL,FOOD,ENTERTAINMENT,TRANSPORTATION,INCOME,CUSTOM"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "transferToAccountNumber",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "transferFromAccountNumber",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Transaction",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "budget",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "budget",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "bankAccount",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "bankAccount",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}
