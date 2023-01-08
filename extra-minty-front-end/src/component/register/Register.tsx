@@ -1,10 +1,8 @@
 import * as React from 'react';
-import Header from '../../header/Header';
 
 const Register = () => {
     return (
         <div>
-            <Header />
             <ol>
                 <li>Insert your username here:</li>
                 <input type="text"/>
