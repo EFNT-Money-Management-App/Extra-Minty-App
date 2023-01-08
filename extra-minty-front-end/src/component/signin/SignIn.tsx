@@ -1,10 +1,8 @@
 import * as React from 'react';
-import Header from '../../header/Header';
 
 const SignIn = () => {
     return (
         <div>
-            <Header />
             <div>Enter your username</div>
             <input />
             <div>Enter your password</div>

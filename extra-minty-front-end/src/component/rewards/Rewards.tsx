@@ -1,10 +1,8 @@
 import * as React from 'react';
-import Header from '../../header/Header';
 
 const Rewards = () => {
     return(
         <div>
-            <Header />
             <section>
                 <section>Get rewards for contributing towards your savings goal!</section>
                 <section>For each $1.00 contributed, 1 point is awarded towards your PepperMint points.</section>

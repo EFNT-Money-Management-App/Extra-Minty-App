@@ -1,10 +1,8 @@
 import * as React from 'react';
-import Header from '../../header/Header';
 
 const Features = () => {
     return(
         <div>
-            <Header />
             <ul className="features-text">
                 <li>Deposit money to each bank accounts</li>
                 <li>Withdraw money from each bank accounts</li>
