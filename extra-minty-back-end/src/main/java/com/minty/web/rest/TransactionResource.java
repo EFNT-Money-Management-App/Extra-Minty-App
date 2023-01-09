@@ -151,6 +151,17 @@ public class TransactionResource {
         return transactionService.findAllForBankAccount(id);
     }
 
+     /**
+     * 
+     * @param id
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of transactions in body for bank account.
+     */
+    @GetMapping("/transactions/budget/{id}")
+    public List<TransactionDTO> getAllTransactionsForBudget(Long id) {
+        log.debug("REST request to get all Transactions : {}", id);
+        return transactionService.findAllForBudget(id);
+    }
+
     /**
      * {@code GET  /transactions/:id} : get the "id" transaction.
      *

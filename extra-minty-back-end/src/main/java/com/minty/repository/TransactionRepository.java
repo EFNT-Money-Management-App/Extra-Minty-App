@@ -15,4 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     //custom
     List<Transaction> findByBankAccountId(Long bankAccountId);
+    
+    //custom 
+    List<Transaction> findByBudgetId(Long budgetId);
 }
