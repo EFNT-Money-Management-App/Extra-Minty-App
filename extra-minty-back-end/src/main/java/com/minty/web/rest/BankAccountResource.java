@@ -169,8 +169,8 @@ public class BankAccountResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
      */
     @GetMapping("/bank-accounts/currentUser")
-    public List<BankAccountDTO> getBankAccountsForAUser(Long userId){
-        log.debug("REST request to save BankAccount : {}", userId);
+    public List<BankAccountDTO> getBankAccountsForAUser(){
+        log.debug("REST request to get BankAccounts");
         return bankAccountService.findAllForUser();
     }
 
