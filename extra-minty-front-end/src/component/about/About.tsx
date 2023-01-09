@@ -1,11 +1,12 @@
 import * as React from 'react';
+import './About.css'
 
 const About = () => {
     return(
-        <div>
+        <div className="about-padding">
             <ul>
                 <li>
-                    Eryk Liszewski
+                    <span className="about-name">Eryk Liszewski</span>
                     <ul>
                         <li>
                             <a href="https://github.com/eliszewski">Go to github profile</a>
@@ -18,7 +19,7 @@ const About = () => {
             </ul>
             <ul>
                 <li>
-                    Freddy Mintarja
+                    <span className="about-name">Freddy Mintarja</span>
                     <ul>
                         <li>
                             <a href="https://github.com/fmintar1">Go to github profile</a>
@@ -31,7 +32,7 @@ const About = () => {
             </ul>
             <ul>
                 <li>
-                    Nina Chen
+                    <span className="about-name">Nina Chen</span>
                     <ul>
                         <li>
                             <a href="https://github.com/ninachen22">Go to github profile</a>
@@ -44,7 +45,7 @@ const About = () => {
             </ul>
             <ul>
                 <li>
-                    Troyanna Butler
+                    <span className="about-name">Troyanna Butler</span>
                     <ul>
                         <li>
                             <a href="https://github.com/Troy2797B">Go to github profile</a>

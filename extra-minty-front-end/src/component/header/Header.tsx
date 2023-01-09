@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Navbar from '../navbar/Navbar';
-import logo from './mintyLogo.png'
+import logo from '../../global/image/mint.png'
 import "./Header.css"
 
 const Header = () => {

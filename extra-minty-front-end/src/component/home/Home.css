@@ -1,3 +1,20 @@
 .home-style {
     min-height: 100%;
 }
+
+.home-h1 {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background:linear-gradient(transparent, rgba(0, 255, 195, 0.5),transparent);
+    justify-content: center;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    font-family:serif
+}
+
+.home-linestyle {
+    padding-left: 10px;
+    padding-top: 10px;
+    font-family: "Ramus Light"; 
+}
