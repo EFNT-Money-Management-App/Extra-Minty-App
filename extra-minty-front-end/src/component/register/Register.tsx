@@ -49,15 +49,8 @@ const Register = () => {
             email: email,
             password: password,
         })
-        .then((response) => {
-            axios.post("http://localhost:8080/api/profiles", {
-                birthdate: birthdate,
-                securityQuestion: securityQuestion,
-                securityAnswer: securityAnswer,
-            })
-            .then((response) => 
-            console.log("succeed",response));
-        })
+        .then((response) => 
+            console.log("succeed",response))
         .catch((error) => {
             console.log(error);
         });
