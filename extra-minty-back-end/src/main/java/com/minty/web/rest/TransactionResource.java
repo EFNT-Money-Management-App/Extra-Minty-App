@@ -129,16 +129,26 @@ public class TransactionResource {
             HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, transactionDTO.getId().toString())
         );
     }
-
     /**
      * {@code GET  /transactions} : get all the transactions.
-     *
+     * 
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of transactions in body.
      */
     @GetMapping("/transactions")
     public List<TransactionDTO> getAllTransactions() {
         log.debug("REST request to get all Transactions");
         return transactionService.findAll();
+    }
+    //CUSTOM!!
+    /**
+     * 
+     * @param id
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of transactions in body for bank account.
+     */
+    @GetMapping("/transactions/bank-account/{id}")
+    public List<TransactionDTO> getAllTransactionsForBankAccount(Long id) {
+        log.debug("REST request to get all Transactions : {}", id);
+        return transactionService.findAllForBankAccount(id);
     }
 
     /**

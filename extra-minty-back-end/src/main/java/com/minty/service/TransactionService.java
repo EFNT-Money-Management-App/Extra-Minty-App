@@ -101,6 +101,19 @@ public class TransactionService {
     }
 
     /**
+     * 
+     * @param id
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<TransactionDTO> findAllForBankAccount(Long id) {
+        log.debug("Request to get all Transactions for BankAccount");
+        return transactionRepository.findByBankAccountId(id).stream().map(transactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    
+
+    /**
      * Delete the transaction by id.
      *
      * @param id the id of the entity.
