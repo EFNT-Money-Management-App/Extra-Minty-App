@@ -2,9 +2,10 @@ import * as React from 'react';
 import { Chart } from 'react-google-charts';
 import './Userhome.css'
 import ProfileLogo from './profileIcon.png'
+import '../../global/style.css'
 
 export const data = [
-    ["Task", "Hours per Day"],
+    ["Category", "Budget spent"],
     ["Utilities", 200],
     ["Entertainment", 200],
     ["Food", 400],
@@ -32,9 +33,9 @@ export const data = [
 const Userhome = () => {
     return (
         <div className='userhome-global'>
-            <h2>
+            <div className='title'>
                 User Profile
-            </h2>
+            </div>
             <div className='userhome-profile-content'>
                 <div>
                     <img className='userhome-profile-picture' src={ProfileLogo} alt="prof pic goes here" />
@@ -50,9 +51,9 @@ const Userhome = () => {
                 width={"800px"}
                 height={"500px"}
             />
-            <h2>
+            <div className='title'>
                 Accounts
-            </h2>
+            </div>
             <div>
                 Checking account: $1,925,312.95
             </div>
