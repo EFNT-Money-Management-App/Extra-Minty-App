@@ -1,13 +1,12 @@
 import * as React from 'react';
+import './Rewards.css'
 
 const Rewards = () => {
     return(
-        <div>
-            <section>
-                <section>Get rewards for contributing towards your savings goal!</section>
-                <section>For each $1.00 contributed, 1 point is awarded towards your PepperMint points.</section>
-                <section>Points can be redeeemed once balance reaches 500 points which is equivalent to $5.00 redemption.</section>
-            </section>
+        <div className="rewards-text">
+            <section>Get rewards for contributing towards your savings goal!</section>
+            <section>For each <span className="peppermint-points">$1.00</span> contributed, <span className="peppermint-points">1</span> point is awarded towards your <span className="peppermint-points">PepperMint points.</span></section>
+            <section>Points can be redeeemed once balance reaches <span className="peppermint-points">500</span> points which is equivalent to <span className="peppermint-points">$5.00</span> redemption.</section>
         </div>
     )
 }

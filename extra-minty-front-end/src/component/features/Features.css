@@ -1,3 +1,14 @@
 .features-text {
-    color: red;
+    margin-top: -5px;
+    font-family: 'Ramus Light';
+    font-size: 30px;
+    padding-left: 20px;
+}
+
+.features-title {
+    margin-top: 10px;
+    font-family: 'Ramus Light';
+    font-size: 50px;
+    padding-left: 30px;
+    font-weight: bold;
 }
