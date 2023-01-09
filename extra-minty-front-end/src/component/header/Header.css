@@ -3,24 +3,29 @@
     display: flex;
     align-items: center;
     height: 80px;
-    font-family: cursive;
 }
 
 .header-name {
     float: left;
+    font-family: "Chopsic";
     padding-right: 10px;
-    padding-left: 20px;
+    padding-top: 10px;
+    font-weight: bold;
     display: flex;
 }
 
 .navbar {
-    font-size: 25px;
+    font-size: 20px;
+    font-family: "Backslash";
     position: absolute;
     right: 0;
 }
 
-.header-logo {
-    width: 100px;
-    align-items: center;
-    padding-left: 10px;
+@media (prefers-reduced-motion: no-preference) {
+    .header-logo {
+        width: 70px;
+        align-items: center;
+        margin: 5px;
+        animation: App-logo-spin infinite 1s linear;
+    }
 }
