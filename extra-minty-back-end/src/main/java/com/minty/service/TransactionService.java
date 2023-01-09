@@ -1,15 +1,22 @@
 package com.minty.service;
 
+import com.minty.domain.BankAccount;
 import com.minty.domain.Transaction;
 import com.minty.repository.TransactionRepository;
 import com.minty.service.dto.TransactionDTO;
+import com.minty.service.mapper.BankAccountMapper;
 import com.minty.service.mapper.TransactionMapper;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +32,9 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
 
     private final TransactionMapper transactionMapper;
+
+    @Autowired
+    private BankAccountService bankAccountService;
 
     public TransactionService(TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
         this.transactionRepository = transactionRepository;
@@ -110,6 +120,19 @@ public class TransactionService {
         log.debug("Request to get all Transactions for BankAccount");
         return transactionRepository.findByBankAccountId(id).stream().map(transactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
+    //CUSTOM
+    @Transactional(readOnly = true)
+    public Map<String, Double> findTransactionCategoryTotals(List<BankAccount> bankAccounts){
+        List<Transaction> userTransactions = new LinkedList<>();
+        for (BankAccount bankAccount : bankAccounts) {
+            userTransactions.addAll(transactionRepository.findByBankAccountId(bankAccount.getId()));
+        }
+        Instant thirtyDaysAgo = Instant.now().minus(Duration.ofDays(30));
+        return userTransactions.stream()
+            .filter(t -> t.getDate().toInstant().isAfter(thirtyDaysAgo))
+            .collect(Collectors.groupingBy((t -> t.getCategory().toString()), Collectors.summingDouble(Transaction::getAmount)));
+    }
+    
 
     @Transactional(readOnly = true)
     public List<TransactionDTO> findAllForBudget(Long id) {
