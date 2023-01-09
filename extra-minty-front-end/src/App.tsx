@@ -8,6 +8,7 @@ import { Route, Routes, Outlet } from 'react-router-dom';
 import Header from './component/header/Header';
 import Footer from './global/footer/Footer';
 import LogInHeader from './logincomponent/header/Header'
+import './global/style.css'
 
 const HomePage = () => (
   <div>
@@ -41,7 +42,6 @@ function App() {
   return (
     <>
     <div>
-      {/* <Header /> */}
       <Routes>
         <Route element={<HomePage />} >
         <Route path="/" element={<Home />} />
