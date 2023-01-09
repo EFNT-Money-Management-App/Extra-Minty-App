@@ -99,7 +99,7 @@ public class TransactionService {
         log.debug("Request to get Transaction : {}", id);
         return transactionRepository.findById(id).map(transactionMapper::toDto);
     }
-
+    //CUSTOM
     /**
      * 
      * @param id
@@ -109,6 +109,12 @@ public class TransactionService {
     public List<TransactionDTO> findAllForBankAccount(Long id) {
         log.debug("Request to get all Transactions for BankAccount");
         return transactionRepository.findByBankAccountId(id).stream().map(transactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    @Transactional(readOnly = true)
+    public List<TransactionDTO> findAllForBudget(Long id) {
+        log.debug("Request to get all Transactions for BankAccount");
+        return transactionRepository.findByBudgetId(id).stream().map(transactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
     
