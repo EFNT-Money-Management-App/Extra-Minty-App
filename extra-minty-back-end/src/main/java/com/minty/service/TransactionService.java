@@ -2,6 +2,7 @@ package com.minty.service;
 
 import com.minty.domain.BankAccount;
 import com.minty.domain.Transaction;
+import com.minty.domain.enumeration.TransactionType;
 import com.minty.repository.TransactionRepository;
 import com.minty.service.dto.TransactionDTO;
 import com.minty.service.mapper.BankAccountMapper;
@@ -121,6 +122,11 @@ public class TransactionService {
         return transactionRepository.findByBankAccountId(id).stream().map(transactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
     //CUSTOM
+    /**
+     * 
+     * @param bankAccounts list of users bank accounts
+     * @return Mapping of the transaction to total amount by transcation.
+     */
     @Transactional(readOnly = true)
     public Map<String, Double> findTransactionCategoryTotals(List<BankAccount> bankAccounts){
         List<Transaction> userTransactions = new LinkedList<>();
@@ -130,6 +136,7 @@ public class TransactionService {
         Instant thirtyDaysAgo = Instant.now().minus(Duration.ofDays(30));
         return userTransactions.stream()
             .filter(t -> t.getDate().toInstant().isAfter(thirtyDaysAgo))
+            .filter(t -> t.getType().equals(TransactionType.WITHDRAW))
             .collect(Collectors.groupingBy((t -> t.getCategory().toString()), Collectors.summingDouble(Transaction::getAmount)));
     }
     
