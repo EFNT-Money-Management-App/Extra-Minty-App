@@ -1,0 +1,26 @@
+.header {
+    background:linear-gradient(rgba(0, 255, 195, 0.5),transparent);
+    display: flex;
+    align-items: center;
+    height: 80px;
+    font-family: cursive;
+}
+
+.header-name {
+    float: left;
+    padding-right: 10px;
+    padding-left: 20px;
+    display: flex;
+}
+
+.navbar {
+    font-size: 25px;
+    position: absolute;
+    right: 0;
+}
+
+.header-logo {
+    width: 100px;
+    align-items: center;
+    padding-left: 10px;
+}
