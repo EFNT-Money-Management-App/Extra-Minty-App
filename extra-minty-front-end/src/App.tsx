@@ -43,8 +43,8 @@ function App() {
     <div>
       {/* <Header /> */}
       <Routes>
-        <Route path="/" element={<HomePage />} >
-        <Route path="home" element={<Home />} />
+        <Route element={<HomePage />} >
+        <Route path="/" element={<Home />} />
         <Route path="features" element={<Features />} />
         <Route path="rewards" element={<Rewards />} />
         <Route path="about" element={<About />} />
@@ -58,11 +58,10 @@ function App() {
         <Route path="signout" element={<Signout />} />
         </Route>
       </Routes>
-      {/* <Footer /> */}
     </div>
     <div>
       <Routes>
-        <Route path="/" element={<UserPage />} >
+        <Route element={<UserPage />} >
         <Route path="profile" element={<Profile />} />
         <Route path="budget" element={<Budget />} />
         <Route path="accounts" element={<Accounts />} />
