@@ -93,12 +93,14 @@ public class BankAccountService {
         log.debug("Request to get all BankAccounts");
         return bankAccountRepository.findAll().stream().map(bankAccountMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
+
+    //CUSTOM
     @Transactional(readOnly = true)
     public List<BankAccountDTO> findAllForUser() {
         log.debug("Request to get all BankAccounts");
         return bankAccountRepository.findByUserIsCurrentUser().stream().map(bankAccountMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
-
+    
     /**
      * Get all the bankAccounts with eager load of many-to-many relationships.
      *
