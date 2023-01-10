@@ -172,6 +172,16 @@ public class TransactionResource {
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
+    @GetMapping("/transactions/user/{id}")
+        public ResponseEntity<String> getAllTransactionsAdmin(Long id) throws JsonProcessingException{
+        List<BankAccount> userBankAccounts = bankAccountRepository.findByUserId(id);
+        Map<String,Double> map = transactionService.findTransactionCategoryTotals(userBankAccounts);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(map);
+        return new ResponseEntity<>(json, HttpStatus.OK);
+    }
+    
+
      /**
      * 
      * @param id
