@@ -1,3 +1,10 @@
 .rewards-text {
-    font-size: large;
+    font-family: "Sparky Stones";
+    text-align: center;
+    margin-top: 10px;
+    font-size: 30px;
+}
+
+.peppermint-points {
+    color:green
 }
