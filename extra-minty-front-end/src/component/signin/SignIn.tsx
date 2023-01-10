@@ -1,10 +1,8 @@
 import * as React from 'react';
-import Header from '../../header/Header';
 
 const SignIn = () => {
     return (
         <div>
-            <Header />
             <div>Enter your username</div>
             <input />
             <div>Enter your password</div>
@@ -16,7 +14,7 @@ const SignIn = () => {
             <a href="forgot your password">
                 <button>Forgot your password</button>
             </a>
-            <a href="profile">
+            <a href="userhome">
                 <button>Sign In</button>
             </a>
         </div>

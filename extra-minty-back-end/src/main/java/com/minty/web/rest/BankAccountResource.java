@@ -40,6 +40,13 @@ public class BankAccountResource {
         this.bankAccountRepository = bankAccountRepository;
     }
 
+
+    
+
+//  --------------------------------------- JHIPSTER GENERATED ---------------------------------------------------
+//  --------------------------------------- JHIPSTER GENERATED ---------------------------------------------------
+//  --------------------------------------- JHIPSTER GENERATED ---------------------------------------------------
+
     /**
      * {@code POST  /bank-accounts} : Create a new bankAccount.
      *
@@ -153,6 +160,18 @@ public class BankAccountResource {
         log.debug("REST request to get BankAccount : {}", id);
         Optional<BankAccountDTO> bankAccountDTO = bankAccountService.findOne(id);
         return ResponseUtil.wrapOrNotFound(bankAccountDTO);
+    }
+
+    /**
+     * CUSTOM ENDPOINT
+     *
+     * @param userId the id of user to retrieve bankAccounts for
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankAccounts in body.
+     */
+    @GetMapping("/bank-accounts/currentUser")
+    public List<BankAccountDTO> getBankAccountsForAUser(){
+        log.debug("REST request to get BankAccounts");
+        return bankAccountService.findAllForUser();
     }
 
     /**
