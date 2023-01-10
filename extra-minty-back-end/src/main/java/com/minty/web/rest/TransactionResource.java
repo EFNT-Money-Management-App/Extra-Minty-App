@@ -163,6 +163,12 @@ public class TransactionResource {
         return transactionService.findAllForBankAccount(id);
     }
     //CUSTOM
+    /**
+     * gets the current logged in user's transacation data formatted for pie chart
+     * @return ResponseEntity, json
+     * @throws JsonProcessingException
+     * 
+     */
     @GetMapping("/transactions/current-user/mapped")
     public ResponseEntity<String> getAllTransactionTotalByCategory() throws JsonProcessingException{
         List<BankAccount> userBankAccounts = bankAccountRepository.findByUserIsCurrentUser();
@@ -171,9 +177,9 @@ public class TransactionResource {
         String json = mapper.writeValueAsString(map);
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
-
+    //CUSTOM **TESTING**
     @GetMapping("/transactions/user/{id}")
-        public ResponseEntity<String> getAllTransactionsAdmin(Long id) throws JsonProcessingException{
+        public ResponseEntity<String> getAllTransactionsForUser(Long id) throws JsonProcessingException{
         List<BankAccount> userBankAccounts = bankAccountRepository.findByUserId(id);
         Map<String,Double> map = transactionService.findTransactionCategoryTotals(userBankAccounts);
         ObjectMapper mapper = new ObjectMapper();
