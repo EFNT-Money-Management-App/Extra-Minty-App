@@ -5,10 +5,12 @@ import { Translate, Storage } from 'react-jhipster';
 import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
-import { Home, Brand } from './header-components';
+import { Home, Brand, Features, Rewards, About, W, Budget, UserAccount, Peppermint, Profile, Userhome } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 import { useAppDispatch } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
+import { Nonusers } from '../menus/Nonusers';
+import { Users } from '../menus/Users';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -30,14 +32,14 @@ const Header = (props: IHeaderProps) => {
     dispatch(setLocale(langKey));
   };
 
-  const renderDevRibbon = () =>
-    props.isInProduction === false ? (
-      <div className="ribbon dev">
-        <a href="">
-          <Translate contentKey={`global.ribbon.${props.ribbonEnv}`} />
-        </a>
-      </div>
-    ) : null;
+  // const renderDevRibbon = () =>
+  //   props.isInProduction === false ? (
+  //     <div className="ribbon dev">
+  //       <a href="">
+  //         <Translate contentKey={`global.ribbon.${props.ribbonEnv}`} />
+  //       </a>
+  //     </div>
+  //   ) : null;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -45,17 +47,20 @@ const Header = (props: IHeaderProps) => {
 
   return (
     <div id="app-header">
-      {renderDevRibbon()}
+      {/* {renderDevRibbon()} */}
       <LoadingBar className="loading-bar" />
       <Navbar data-cy="navbar" dark expand="md" fixed="top" className="jh-navbar">
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
         <Brand />
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ms-auto" navbar>
-            <Home />
-            {props.isAuthenticated && <EntitiesMenu />}
+            {!props.isAuthenticated && <Nonusers />}
+            {props.isAuthenticated && <Users />}
             {props.isAuthenticated && props.isAdmin && (
+              <>
+              <EntitiesMenu />
               <AdminMenu showOpenAPI={props.isOpenAPIEnabled} showDatabase={!props.isInProduction} />
+              </>
             )}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />
