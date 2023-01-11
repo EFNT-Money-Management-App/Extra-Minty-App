@@ -1,30 +1,3 @@
-// import * as React from 'react';
-// import {useState, useEffect} from 'react';
-// // import axios from 'axios';
-// const Accounts = ({id}) => {
-//     const [transactions, setTransactions] = useState([]);
-//     useEffect(() =>{
-//     fetch(`/transactions/bank-account/1`)
-//       .then(res => res.json())
-//       .then(data => setTransactions(data))
-//       .catch(err => console.log(err));
-//   },[]);
-    
-//     return (
-//         <div>
-//         <h2>Transactions</h2>
-//         <ul>
-//           {transactions.map(t => (
-//             <li key={t.id}>
-//               {t.date} - {t.amount} - {t.transactionType}
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//     );
-// }
-
-// export default Accounts;
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
