@@ -24,9 +24,108 @@ export const Brand = () => (
 export const Home = () => (
   <NavItem>
     <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <FontAwesomeIcon icon="home" />
+      {/* <FontAwesomeIcon icon="home" /> */}
       <span>
         <Translate contentKey="global.menu.home">Home</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const Features = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/features" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.features">Features</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const Rewards = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/rewards" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.rewards">Rewards</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const About = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/about" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.about">About</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const Budget = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/userbudget" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.budget">Budget</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const UserAccount = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/useraccount" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.useraccount">Account</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const Peppermint = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/userpeppermint" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.peppermint">Peppermint</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const Profile = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/userprofile" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.profile">Profile</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const Userhome = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/userhome" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.home">Home</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);
+
+export const W = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/w" className="d-flex align-items-center">
+      {/* <FontAwesomeIcon icon="home" /> */}
+      <span>
+        <Translate contentKey="global.menu.w">W</Translate>
       </span>
     </NavLink>
   </NavItem>
