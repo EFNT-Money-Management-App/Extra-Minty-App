@@ -2,9 +2,11 @@ package com.minty.service;
 
 import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
 import com.minty.domain.BankAccount;
+import com.minty.domain.Budget;
 import com.minty.domain.Transaction;
 import com.minty.domain.enumeration.TransactionType;
 import com.minty.repository.BankAccountRepository;
+import com.minty.repository.BudgetRepository;
 import com.minty.repository.TransactionRepository;
 import com.minty.service.dto.TransactionDTO;
 import com.minty.service.mapper.BankAccountMapper;
@@ -40,6 +42,9 @@ public class TransactionService {
     private BankAccountService bankAccountService;
 
     @Autowired
+    private BudgetRepository budgetRepository;
+
+    @Autowired
     private BankAccountRepository bankAccountRepository;
 
     public TransactionService(TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
@@ -59,6 +64,7 @@ public class TransactionService {
         transaction = transactionRepository.save(transaction);
         //CUSTOM
         updateAccountBalance(transaction.getId());
+        updateBudgetCurrentSpending(transaction.getId());
         return transactionMapper.toDto(transaction);
     }
 
@@ -170,7 +176,6 @@ public class TransactionService {
         log.debug("Request to update bank account via transaction");
         TransactionDTO transactionDTO = findOne(id).get();
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
-//        BankAccount bankAccount = transaction.getBankAccount();
         BankAccount bankAccount = bankAccountRepository.findById(transaction.getBankAccount().getId()).get();
         if(transaction.getType() == TransactionType.WITHDRAW){
             bankAccount.setBalance(bankAccount.getBalance() - transaction.getAmount());
@@ -178,6 +183,20 @@ public class TransactionService {
         } else if (transaction.getType() == TransactionType.DEPOSIT){
             bankAccount.setBalance(bankAccount.getBalance() + transaction.getAmount());
             bankAccountRepository.save(bankAccount);
+        }
+    }
+
+    public void updateBudgetCurrentSpending(Long id) {
+        log.debug("Request to update bank account via transaction");
+        TransactionDTO transactionDTO = findOne(id).get();
+        Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        Budget budget = budgetRepository.findById(transaction.getBankAccount().getId()).get();
+        if(transaction.getType() == TransactionType.WITHDRAW){
+            budget.setCurrentSpending(budget.getCurrentSpending() + transaction.getAmount());
+            budgetRepository.save(budget);
+        } else if (transaction.getType() == TransactionType.DEPOSIT){
+            budget.setCurrentSpending(budget.getCurrentSpending() - transaction.getAmount());
+            budgetRepository.save(budget);
         }
     }
 }
