@@ -1,8 +1,10 @@
 package com.minty.service;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
 import com.minty.domain.BankAccount;
 import com.minty.domain.Transaction;
 import com.minty.domain.enumeration.TransactionType;
+import com.minty.repository.BankAccountRepository;
 import com.minty.repository.TransactionRepository;
 import com.minty.service.dto.TransactionDTO;
 import com.minty.service.mapper.BankAccountMapper;
@@ -37,6 +39,9 @@ public class TransactionService {
     @Autowired
     private BankAccountService bankAccountService;
 
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
+
     public TransactionService(TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
         this.transactionRepository = transactionRepository;
         this.transactionMapper = transactionMapper;
@@ -52,6 +57,8 @@ public class TransactionService {
         log.debug("Request to save Transaction : {}", transactionDTO);
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
         transaction = transactionRepository.save(transaction);
+        //CUSTOM
+        updateAccountBalance(transaction.getId());
         return transactionMapper.toDto(transaction);
     }
 
@@ -157,5 +164,20 @@ public class TransactionService {
     public void delete(Long id) {
         log.debug("Request to delete Transaction : {}", id);
         transactionRepository.deleteById(id);
+    }
+    //CUSTOM
+    public void updateAccountBalance(Long id) {
+        log.debug("Request to update bank account via transaction");
+        TransactionDTO transactionDTO = findOne(id).get();
+        Transaction transaction = transactionMapper.toEntity(transactionDTO);
+//        BankAccount bankAccount = transaction.getBankAccount();
+        BankAccount bankAccount = bankAccountRepository.findById(transaction.getBankAccount().getId()).get();
+        if(transaction.getType() == TransactionType.WITHDRAW){
+            bankAccount.setBalance(bankAccount.getBalance() - transaction.getAmount());
+            bankAccountRepository.save(bankAccount);
+        } else if (transaction.getType() == TransactionType.DEPOSIT){
+            bankAccount.setBalance(bankAccount.getBalance() + transaction.getAmount());
+            bankAccountRepository.save(bankAccount);
+        }
     }
 }
