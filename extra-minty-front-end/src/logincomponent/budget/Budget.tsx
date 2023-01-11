@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Chart from 'react-google-charts';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../global/style.css'
 
 export const data = [
