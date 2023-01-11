@@ -1,22 +1,32 @@
 package com.minty.web.rest;
 
+import com.minty.domain.BankAccount;
+import com.minty.repository.BankAccountRepository;
 import com.minty.repository.TransactionRepository;
 import com.minty.service.TransactionService;
 import com.minty.service.dto.TransactionDTO;
 import com.minty.web.rest.errors.BadRequestAlertException;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+// import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * REST controller for managing {@link com.minty.domain.Transaction}.
  */
@@ -35,6 +45,8 @@ public class TransactionResource {
 
     private final TransactionRepository transactionRepository;
 
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
     public TransactionResource(TransactionService transactionService, TransactionRepository transactionRepository) {
         this.transactionService = transactionService;
         this.transactionRepository = transactionRepository;
@@ -150,6 +162,31 @@ public class TransactionResource {
         log.debug("REST request to get all Transactions : {}", id);
         return transactionService.findAllForBankAccount(id);
     }
+    //CUSTOM
+    /**
+     * gets the current logged in user's transacation data formatted for pie chart
+     * @return ResponseEntity, json
+     * @throws JsonProcessingException
+     * 
+     */
+    @GetMapping("/transactions/current-user/mapped")
+    public ResponseEntity<String> getAllTransactionTotalByCategory() throws JsonProcessingException{
+        List<BankAccount> userBankAccounts = bankAccountRepository.findByUserIsCurrentUser();
+        Map<String,Double> map = transactionService.findTransactionCategoryTotals(userBankAccounts);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(map);
+        return new ResponseEntity<>(json, HttpStatus.OK);
+    }
+    //CUSTOM **TESTING**
+    @GetMapping("/transactions/user/{id}")
+        public ResponseEntity<String> getAllTransactionsForUser(Long id) throws JsonProcessingException{
+        List<BankAccount> userBankAccounts = bankAccountRepository.findByUserId(id);
+        Map<String,Double> map = transactionService.findTransactionCategoryTotals(userBankAccounts);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(map);
+        return new ResponseEntity<>(json, HttpStatus.OK);
+    }
+    
 
      /**
      * 

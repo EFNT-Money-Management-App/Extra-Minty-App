@@ -1,15 +1,25 @@
 package com.minty.service;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
+import com.minty.domain.BankAccount;
 import com.minty.domain.Transaction;
+import com.minty.domain.enumeration.TransactionType;
+import com.minty.repository.BankAccountRepository;
 import com.minty.repository.TransactionRepository;
 import com.minty.service.dto.TransactionDTO;
+import com.minty.service.mapper.BankAccountMapper;
 import com.minty.service.mapper.TransactionMapper;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +36,12 @@ public class TransactionService {
 
     private final TransactionMapper transactionMapper;
 
+    @Autowired
+    private BankAccountService bankAccountService;
+
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
+
     public TransactionService(TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
         this.transactionRepository = transactionRepository;
         this.transactionMapper = transactionMapper;
@@ -41,6 +57,8 @@ public class TransactionService {
         log.debug("Request to save Transaction : {}", transactionDTO);
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
         transaction = transactionRepository.save(transaction);
+        //CUSTOM
+        updateAccountBalance(transaction.getId());
         return transactionMapper.toDto(transaction);
     }
 
@@ -110,6 +128,25 @@ public class TransactionService {
         log.debug("Request to get all Transactions for BankAccount");
         return transactionRepository.findByBankAccountId(id).stream().map(transactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
+    //CUSTOM
+    /**
+     * 
+     * @param bankAccounts list of users bank accounts
+     * @return Mapping of the transaction to total amount by transcation.
+     */
+    @Transactional(readOnly = true)
+    public Map<String, Double> findTransactionCategoryTotals(List<BankAccount> bankAccounts){
+        List<Transaction> userTransactions = new LinkedList<>();
+        for (BankAccount bankAccount : bankAccounts) {
+            userTransactions.addAll(transactionRepository.findByBankAccountId(bankAccount.getId()));
+        }
+        Instant thirtyDaysAgo = Instant.now().minus(Duration.ofDays(30));
+        return userTransactions.stream()
+            .filter(t -> t.getDate().toInstant().isAfter(thirtyDaysAgo))
+            .filter(t -> t.getType().equals(TransactionType.WITHDRAW))
+            .collect(Collectors.groupingBy((t -> t.getCategory().toString()), Collectors.summingDouble(Transaction::getAmount)));
+    }
+    
 
     @Transactional(readOnly = true)
     public List<TransactionDTO> findAllForBudget(Long id) {
@@ -127,5 +164,20 @@ public class TransactionService {
     public void delete(Long id) {
         log.debug("Request to delete Transaction : {}", id);
         transactionRepository.deleteById(id);
+    }
+    //CUSTOM
+    public void updateAccountBalance(Long id) {
+        log.debug("Request to update bank account via transaction");
+        TransactionDTO transactionDTO = findOne(id).get();
+        Transaction transaction = transactionMapper.toEntity(transactionDTO);
+//        BankAccount bankAccount = transaction.getBankAccount();
+        BankAccount bankAccount = bankAccountRepository.findById(transaction.getBankAccount().getId()).get();
+        if(transaction.getType() == TransactionType.WITHDRAW){
+            bankAccount.setBalance(bankAccount.getBalance() - transaction.getAmount());
+            bankAccountRepository.save(bankAccount);
+        } else if (transaction.getType() == TransactionType.DEPOSIT){
+            bankAccount.setBalance(bankAccount.getBalance() + transaction.getAmount());
+            bankAccountRepository.save(bankAccount);
+        }
     }
 }
