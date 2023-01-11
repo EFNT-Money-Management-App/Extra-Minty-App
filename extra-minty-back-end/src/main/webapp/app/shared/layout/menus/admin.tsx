@@ -4,6 +4,7 @@ import { DropdownItem } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavDropdown } from './menu-components';
 import { Translate, translate } from 'react-jhipster';
+import EntitiesMenu from 'app/entities/menu';
 
 const adminMenuItems = () => (
   <>

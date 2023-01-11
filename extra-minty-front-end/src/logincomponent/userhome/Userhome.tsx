@@ -3,34 +3,52 @@ import { Chart } from 'react-google-charts';
 import './Userhome.css'
 import ProfileLogo from './profileIcon.png'
 import '../../global/style.css'
-
-export const data = [
-    ["Category", "Budget spent"],
-    ["Utilities", 200],
-    ["Entertainment", 200],
-    ["Food", 400],
-    ["Transportation", 250],
-    ["Miscellaneous", 350],
-    ["Rent", 800]
-  ];
-
-  export const options = {
-    title: "Expenses",
-    titleTextStyle: {
-        fontSize: 25,
-        bold: true
-    },
-    is3D: true,
-    'chartArea': {'width': '100%', 'height': '80%'},
-    legend: {
-        textStyle: {
-            fontSize: 30,
-            bold: true
-        }
-    }
-  };
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Userhome = () => {
+
+    const [userList, setUserList] = useState([])
+
+    const res = axios.get('http://localhost:8080/api/transactions');
+    console.log(res);
+
+    // useEffect(() => {
+    //     const result = axios(
+    //         'http://localhost:8080/api/transactions/current-user/mapped',
+    //     );
+    
+    //     setUserList(result.userList);
+    //   });
+
+    // window.alert(userList.map);
+
+    const data = [
+        ["Category", "Budget spent"],
+        ["Utilities", 200],
+        ["Entertainment", 200],
+        ["Food", 400],
+        ["Transportation", 250],
+        ["Miscellaneous", 350],
+        ["Rent", 800]
+    ];
+        
+    const options = {
+        title: "Expenses",
+        titleTextStyle: {
+            fontSize: 25,
+            bold: true
+        },
+        is3D: true,
+        'chartArea': {'width': '100%', 'height': '80%'},
+        legend: {
+            textStyle: {
+                fontSize: 30,
+                   bold: true
+            }
+        }
+    };
+
     return (
         <div className='userhome-global'>
             <div className='title'>

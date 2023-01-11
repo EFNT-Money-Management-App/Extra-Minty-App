@@ -51,6 +51,8 @@ const Register = () => {
         })
         .then((response) => 
             console.log("succeed",response))
+        .then(() => 
+            setRegistered(true))
         .catch((error) => {
             console.log(error);
         });
