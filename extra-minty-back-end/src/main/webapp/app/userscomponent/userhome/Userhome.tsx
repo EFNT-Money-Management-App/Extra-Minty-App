@@ -3,32 +3,39 @@ import { Chart } from 'react-google-charts';
 import './Userhome.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { IBankAccount, defaultValue} from 'app/shared/model/bank-account.model';
 
 const Userhome = () => {
-
-    const [userList, setUserList] = useState([])
-
-    const res = axios.get('http://localhost:8080/api/transactions');
-    console.log(res);
-
-    // useEffect(() => {
-    //     const result = axios(
-    //         'http://localhost:8080/api/transactions/current-user/mapped',
-    //     );
+    const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([])
+    // let userBankAccounts : IBankAccount[] = null; 
+    const [pieChartData, setPieChartData] = useState(Object)
     
-    //     setUserList(result.userList);
-    //   });
 
-    // window.alert(userList.map);
+    useEffect(() => {
+        ///api/transactions/user/{id}?id=1
+        ///api/transactions/current-user/mapped
+          axios.get('api/transactions/current-user/mapped')
+          .then(response => {
+            console.log(response.data)
+            setPieChartData(response.data)
+          })
+          .catch((error) => console.log(error));
 
-    const data = [
+      }, []);
+      
+    useEffect(() => {
+        axios.get('/api/bank-accounts/currentUser')
+        .then((res) => {
+        console.log(res.data)
+        setUserBankAccounts(res.data)
+        })
+    }, []);
+
+      
+
+    const data1 = [  
         ["Category", "Budget spent"],
-        ["Utilities", 200],
-        ["Entertainment", 200],
-        ["Food", 400],
-        ["Transportation", 250],
-        ["Miscellaneous", 350],
-        ["Rent", 800]
+        ...Object.entries(pieChartData).map(([category, budget]) => [category, budget]),
     ];
         
     const options = {
@@ -37,11 +44,12 @@ const Userhome = () => {
             fontSize: 25,
             bold: true
         },
+        
         is3D: true,
         'chartArea': {'width': '100%', 'height': '80%'},
         legend: {
             textStyle: {
-                fontSize: 30,
+                fontSize: 24,
                    bold: true
             }
         }
@@ -62,7 +70,7 @@ const Userhome = () => {
             </div>
             <Chart className='piechart'
                 chartType='PieChart'
-                data={data}
+                data={data1}
                 options={options}
                 width={"800px"}
                 height={"500px"}
@@ -70,6 +78,21 @@ const Userhome = () => {
             <div className='title'>
                 Accounts
             </div>
+            <div>
+      <h2>Your Bank Accounts</h2>
+      <ul>
+        {userBankAccounts.length !== 0 ? (
+          userBankAccounts.map((bankAccount) => (
+            <ul key={bankAccount.id}>
+              Bank: {(bankAccount.bankName)}  |
+              Balance: {bankAccount.balance} |
+            </ul>
+          ))
+        ) : (
+          <li>No Transactions found</li>
+        )}
+      </ul>
+    </div>
             <div>
                 Checking account: $1,925,312.95
             </div>
