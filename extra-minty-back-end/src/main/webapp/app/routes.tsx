@@ -35,7 +35,7 @@ const AppRoutes = () => {
   return (
     <div className="view-routes">
       <ErrorBoundaryRoutes>
-        <Route index element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="features" element={<Features />} />
         <Route path="rewards" element={<Rewards />} />
         <Route path="about" element={<About />} />
