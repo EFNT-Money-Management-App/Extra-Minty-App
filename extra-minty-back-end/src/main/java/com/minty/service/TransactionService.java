@@ -205,12 +205,14 @@ public class TransactionService {
         log.debug("Request to update budget via transaction");
         TransactionDTO transactionDTO = findOne(id).get();
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        if(transaction.getBudget() == null || transaction.getBudget().getCurrentSpending() < transaction.getAmount()) return;
         Budget budget = budgetRepository.findById(transaction.getBudget().getId()).get();
         if(transaction.getType() == TransactionType.WITHDRAW){
             budget.setCurrentSpending(budget.getCurrentSpending() + transaction.getAmount());
             budgetRepository.save(budget);
         } else if (transaction.getType() == TransactionType.DEPOSIT){
-            budget.setCurrentSpending(budget.getCurrentSpending() - transaction.getAmount());
+            //budget.setCurrentSpending(budget.getCurrentSpending() - transaction.getAmount());
+            capBudgetCurrentSpendingAboveZero(transaction);
             budgetRepository.save(budget);
         }
     }
@@ -220,12 +222,20 @@ public class TransactionService {
         TransactionDTO transactionDTO = findOne(id).get();
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
         Transaction transactionOgFromDB = transactionRepository.findById(transaction.getId()).get();
-        if(transactionOgFromDB.getType() == TransactionType.DEPOSIT){
+        if(transactionOgFromDB.getBudget() != null){
+            if(transactionOgFromDB.getType() == TransactionType.DEPOSIT){
             transactionOgFromDB.getBudget().setCurrentSpending(transactionOgFromDB.getBudget().getCurrentSpending() + transaction.getAmount());
             budgetRepository.save(transactionOgFromDB.getBudget());
         } else if(transactionOgFromDB.getType() == TransactionType.WITHDRAW){
-            transactionOgFromDB.getBudget().setCurrentSpending(transactionOgFromDB.getBudget().getCurrentSpending() - transaction.getAmount());
+            //transactionOgFromDB.getBudget().setCurrentSpending(transactionOgFromDB.getBudget().getCurrentSpending() - transaction.getAmount());
+            capBudgetCurrentSpendingAboveZero(transactionOgFromDB);
             budgetRepository.save(transactionOgFromDB.getBudget());
         }
+        }
+    }
+    public Transaction capBudgetCurrentSpendingAboveZero(Transaction t){
+        if(t.getBudget().getCurrentSpending() < t.getAmount()) t.getBudget().setCurrentSpending(0.0);
+        else t.getBudget().setCurrentSpending(t.getBudget().getCurrentSpending() - t.getAmount());
+        return t;
     }
 }
