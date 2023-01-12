@@ -184,6 +184,7 @@ public class TransactionService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Transaction : {}", id);
+        updateAccountBalanceWithTransactionDelete(id);
         updateBudgetCurrentSpendingWithTransactionDelete(id);
         transactionRepository.deleteById(id);
     }
@@ -199,6 +200,21 @@ public class TransactionService {
         } else if (transaction.getType() == TransactionType.DEPOSIT){
             bankAccount.setBalance(bankAccount.getBalance() + transaction.getAmount());
             bankAccountRepository.save(bankAccount);
+        }
+    }
+
+    public void updateAccountBalanceWithTransactionDelete(Long id) {
+        log.debug("Request to update bank account balance via transaction when transaction is deleted");
+        Transaction transaction = transactionRepository.findById(id).get();
+        BankAccount bankAccount = bankAccountRepository.findById(transaction.getBankAccount().getId()).get();
+        if(transaction.getBudget() != null){
+            if(transaction.getType() == TransactionType.DEPOSIT){
+                bankAccount.setBalance(bankAccount.getBalance() - transaction.getAmount());
+                bankAccountRepository.save(bankAccount);
+        } else if(transaction.getType() == TransactionType.WITHDRAW){
+            bankAccount.setBalance(bankAccount.getBalance() + transaction.getAmount());
+            bankAccountRepository.save(bankAccount);
+        }
         }
     }
 
