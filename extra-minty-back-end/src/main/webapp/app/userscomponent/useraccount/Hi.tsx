@@ -18,7 +18,7 @@ const Hi = () => {
             {checkingTrans &&(
                 <div>
                     <span className="balance">
-                        $38.00
+                        Checking Account: $38.00
                     </span>
                     <table>
                     <col width="20px" />
@@ -69,7 +69,7 @@ const Hi = () => {
             {savingsTrans && (
                 <div>
                     <span className="balance">
-                        $1,054,235,134.19
+                        Savings Account: $1,054,235,134.19
                     </span>
                     <table>
                         <tr>
