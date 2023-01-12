@@ -184,6 +184,7 @@ public class TransactionService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Transaction : {}", id);
+        updateBudgetCurrentSpendingWithTransactionDelete(id);
         transactionRepository.deleteById(id);
     }
     //CUSTOM
@@ -233,6 +234,7 @@ public class TransactionService {
         }
         }
     }
+
     public Transaction capBudgetCurrentSpendingAboveZero(Transaction t){
         Budget budget = t.getBudget();
         if(budget.getCurrentSpending() < t.getAmount()){
@@ -242,5 +244,19 @@ public class TransactionService {
         // budget limit + |CS - transaction amount| 
         else t.getBudget().setCurrentSpending(t.getBudget().getCurrentSpending() - t.getAmount());
         return t;
+    }
+
+    public void updateBudgetCurrentSpendingWithTransactionDelete(Long id) {
+        log.debug("Request to update budget current spending via transaction when transaction is deleted");
+        Transaction transaction = transactionRepository.findById(id).get();
+        if(transaction.getBudget() != null){
+            if(transaction.getType() == TransactionType.DEPOSIT){
+            transaction.getBudget().setCurrentSpending(transaction.getBudget().getCurrentSpending() + transaction.getAmount());
+            budgetRepository.save(transaction.getBudget());
+        } else if(transaction.getType() == TransactionType.WITHDRAW){
+            capBudgetCurrentSpendingAboveZero(transaction);
+            budgetRepository.save(transaction.getBudget());
+        }
+        }
     }
 }
