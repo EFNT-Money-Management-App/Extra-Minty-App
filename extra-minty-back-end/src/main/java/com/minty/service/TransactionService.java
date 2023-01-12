@@ -271,13 +271,29 @@ public class TransactionService {
     }
 
     public Transaction capBudgetCurrentSpendingAboveZero(Transaction t){
-        Budget budget = t.getBudget();
-        if(budget.getCurrentSpending() < t.getAmount()){
-            budget.setSpendingLimit(budget.getSpendingLimit() + Math.abs(budget.getCurrentSpending() - t.getAmount()));
-            budget.setCurrentSpending(0.0);
-        } 
-        // budget limit + |CS - transaction amount| 
-        else t.getBudget().setCurrentSpending(t.getBudget().getCurrentSpending() - t.getAmount());
+        Budget budget = budgetRepository.findById(t.getBudget().getId()).get();
+        // System.out.println(budget);
+        try {
+            if(budget.getCurrentSpending() < t.getAmount()){
+                budget.setSpendingLimit(budget.getSpendingLimit() + Math.abs(budget.getCurrentSpending() - t.getAmount()));
+                budget.setCurrentSpending(0.0);
+                budgetRepository.save(budget);
+            } 
+            // budget limit + |CS - transaction amount| 
+            else t.getBudget().setCurrentSpending(t.getBudget().getCurrentSpending() - t.getAmount());
+            budgetRepository.save(budget);
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(budget);
+        }
+        // if(budget.getCurrentSpending() < t.getAmount()){
+        //     budget.setSpendingLimit(budget.getSpendingLimit() + Math.abs(budget.getCurrentSpending() - t.getAmount()));
+        //     budget.setCurrentSpending(0.0);
+        //     budgetRepository.save(budget);
+        // } 
+        // // budget limit + |CS - transaction amount| 
+        // else t.getBudget().setCurrentSpending(t.getBudget().getCurrentSpending() - t.getAmount());
+        // budgetRepository.save(budget);
         return t;
     }
 
