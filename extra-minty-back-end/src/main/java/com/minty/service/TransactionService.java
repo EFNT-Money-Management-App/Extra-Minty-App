@@ -205,7 +205,7 @@ public class TransactionService {
         log.debug("Request to update budget via transaction");
         TransactionDTO transactionDTO = findOne(id).get();
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
-        if(transaction.getBudget() == null || transaction.getBudget().getCurrentSpending() < transaction.getAmount()) return;
+        if(transaction.getBudget() == null) return;
         Budget budget = budgetRepository.findById(transaction.getBudget().getId()).get();
         if(transaction.getType() == TransactionType.WITHDRAW){
             budget.setCurrentSpending(budget.getCurrentSpending() + transaction.getAmount());
@@ -234,7 +234,12 @@ public class TransactionService {
         }
     }
     public Transaction capBudgetCurrentSpendingAboveZero(Transaction t){
-        if(t.getBudget().getCurrentSpending() < t.getAmount()) t.getBudget().setCurrentSpending(0.0);
+        Budget budget = t.getBudget();
+        if(budget.getCurrentSpending() < t.getAmount()){
+            budget.setSpendingLimit(budget.getSpendingLimit() + Math.abs(budget.getCurrentSpending() - t.getAmount()));
+            budget.setCurrentSpending(0.0);
+        } 
+        // budget limit + |CS - transaction amount| 
         else t.getBudget().setCurrentSpending(t.getBudget().getCurrentSpending() - t.getAmount());
         return t;
     }

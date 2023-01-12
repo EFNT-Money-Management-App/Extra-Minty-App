@@ -110,7 +110,7 @@ export const RegisterPage = () => {
             <span>
               <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
             </span>
-            <a className="alert-link">
+            <a className="alert-link" href="/login">
               <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
             </a>
             <span>
