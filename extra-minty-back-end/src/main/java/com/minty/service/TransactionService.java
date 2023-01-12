@@ -86,12 +86,14 @@ public class TransactionService {
     public TransactionDTO update(TransactionDTO transactionDTO) {
         log.debug("Request to update Transaction : {}", transactionDTO);
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        updatePrevAccountBalanceWithTransactionUpdate(transaction.getId());
         updatePrevBudgetCurrentSpending(transaction.getId());
 
         transaction = transactionRepository.save(transaction);
         // custom
         // transaction.getBudget().setCurrentSpending(transaction.getBudget().getCurrentSpending() + transaction.getAmount());
         // budgetRepository.save(transaction.getBudget());
+        updateAccountBalance(transaction.getId());
         updateBudgetCurrentSpending(transaction.getId());
         return transactionMapper.toDto(transaction);
     }
@@ -213,6 +215,23 @@ public class TransactionService {
                 bankAccountRepository.save(bankAccount);
         } else if(transaction.getType() == TransactionType.WITHDRAW){
             bankAccount.setBalance(bankAccount.getBalance() + transaction.getAmount());
+            bankAccountRepository.save(bankAccount);
+        }
+        }
+    }
+
+    public void updatePrevAccountBalanceWithTransactionUpdate(Long id) {
+        log.debug("Request to update acct balance via transaction when transaction is updated before it's updated");
+        TransactionDTO transactionDTO = findOne(id).get();
+        Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        Transaction transactionOgFromDB = transactionRepository.findById(transaction.getId()).get();
+        BankAccount bankAccount = bankAccountRepository.findById(transactionOgFromDB.getBankAccount().getId()).get();
+        if(bankAccount != transaction.getBankAccount()){
+            if(transactionOgFromDB.getType() == TransactionType.DEPOSIT){
+            transactionOgFromDB.getBankAccount().setBalance(bankAccount.getBalance() - transaction.getAmount());
+            bankAccountRepository.save(bankAccount);
+        } else if(transactionOgFromDB.getType() == TransactionType.WITHDRAW){
+            transactionOgFromDB.getBankAccount().setBalance(bankAccount.getBalance() + transaction.getAmount());
             bankAccountRepository.save(bankAccount);
         }
         }
