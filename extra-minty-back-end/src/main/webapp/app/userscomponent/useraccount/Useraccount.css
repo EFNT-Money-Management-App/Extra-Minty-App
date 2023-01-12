@@ -11,15 +11,28 @@ table {
     width: 100%;
     height: 70%;
 }
+<<<<<<< HEAD
 table, th, td {
     border: 1px ;
 }
 th {
     background-color: #7DEBE4;
+=======
+
+table, th, td {
+    border: 1px solid black;
+}
+th {
+    background-color: #7debe4;
+>>>>>>> 1923efe5862cf9a359bf9bd43230332fd89fb668
 }
 button {
     background-color: #EDEDED;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1923efe5862cf9a359bf9bd43230332fd89fb668
 .box{
     height: 100vh;
     border: #EDEDED;
