@@ -75,10 +75,8 @@ const Userhome = () => {
                 width={"800px"}
                 height={"500px"}
             />
-            <div className='title'>
-                Accounts
-            </div>
-            <div>
+            
+            {/* <div>
       <h2>Your Bank Accounts</h2>
       <ul>
         {userBankAccounts.length !== 0 ? (
@@ -92,13 +90,30 @@ const Userhome = () => {
           <li>No Transactions found</li>
         )}
       </ul>
-    </div>
-            <div>
-                Checking account: $1,925,312.95
-            </div>
-            <div>
-                Savings account: $2,034,493.39
-            </div>
+    </div> */}
+    <div> Your Accounts</div>
+        <table>
+  <thead>
+    <tr>
+      <th>Bank</th>
+      <th>Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    {userBankAccounts.length !== 0 ? (
+      userBankAccounts.map((bankAccount) => (
+        <tr key={bankAccount.id}>
+          <td>{bankAccount.bankName}</td>
+          <td>{"$" + bankAccount.balance + ".00"}</td>
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan={2}>No Transactions found</td>
+      </tr>
+    )}
+  </tbody>
+    </table>
         </div>
     )
 }
