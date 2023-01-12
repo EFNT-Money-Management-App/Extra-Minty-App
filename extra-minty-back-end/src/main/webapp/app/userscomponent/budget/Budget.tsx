@@ -2,6 +2,8 @@ import * as React from 'react';
 import Chart from 'react-google-charts';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
+import Budgetmodal from '../budgetpopup/Budgetmodal';
+import { Button } from 'reactstrap';
 
 const Budget = () => {
 
@@ -22,6 +24,7 @@ const options = {
 };
 
     return (
+      <>
         <div className='title'>
             Budget
             <div>
@@ -33,7 +36,9 @@ const options = {
                 options={options}
                 />
             </div>
-        </div>
+          </div>
+          <Budgetmodal />
+        </>
     )
 }
 
