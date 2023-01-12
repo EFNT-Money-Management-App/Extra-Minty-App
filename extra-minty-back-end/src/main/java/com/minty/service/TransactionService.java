@@ -2,9 +2,11 @@ package com.minty.service;
 
 import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
 import com.minty.domain.BankAccount;
+import com.minty.domain.Budget;
 import com.minty.domain.Transaction;
 import com.minty.domain.enumeration.TransactionType;
 import com.minty.repository.BankAccountRepository;
+import com.minty.repository.BudgetRepository;
 import com.minty.repository.TransactionRepository;
 import com.minty.service.dto.TransactionDTO;
 import com.minty.service.mapper.BankAccountMapper;
@@ -31,13 +33,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransactionService {
 
     private final Logger log = LoggerFactory.getLogger(TransactionService.class);
-
+    
     private final TransactionRepository transactionRepository;
 
     private final TransactionMapper transactionMapper;
 
     @Autowired
     private BankAccountService bankAccountService;
+
+    @Autowired
+    private BudgetRepository budgetRepository;
 
     @Autowired
     private BankAccountRepository bankAccountRepository;
@@ -59,6 +64,7 @@ public class TransactionService {
         transaction = transactionRepository.save(transaction);
         //CUSTOM
         updateAccountBalance(transaction.getId());
+        updateBudgetCurrentSpending(transaction.getId());
         return transactionMapper.toDto(transaction);
     }
 
@@ -68,10 +74,25 @@ public class TransactionService {
      * @param transactionDTO the entity to save.
      * @return the persisted entity.
      */
+    // public TransactionDTO update(TransactionDTO transactionDTO) {
+    //     log.debug("Request to update Transaction : {}", transactionDTO);
+    //     Transaction transaction = transactionMapper.toEntity(transactionDTO);
+    //     transaction = transactionRepository.save(transaction);
+    //     // custom
+    //     // transactionBudgetUpdate(transaction.getId());
+    //     return transactionMapper.toDto(transaction);
+    // }
+
     public TransactionDTO update(TransactionDTO transactionDTO) {
         log.debug("Request to update Transaction : {}", transactionDTO);
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        updatePrevBudgetCurrentSpending(transaction.getId());
+
         transaction = transactionRepository.save(transaction);
+        // custom
+        // transaction.getBudget().setCurrentSpending(transaction.getBudget().getCurrentSpending() + transaction.getAmount());
+        // budgetRepository.save(transaction.getBudget());
+        updateBudgetCurrentSpending(transaction.getId());
         return transactionMapper.toDto(transaction);
     }
 
@@ -170,7 +191,6 @@ public class TransactionService {
         log.debug("Request to update bank account via transaction");
         TransactionDTO transactionDTO = findOne(id).get();
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
-//        BankAccount bankAccount = transaction.getBankAccount();
         BankAccount bankAccount = bankAccountRepository.findById(transaction.getBankAccount().getId()).get();
         if(transaction.getType() == TransactionType.WITHDRAW){
             bankAccount.setBalance(bankAccount.getBalance() - transaction.getAmount());
@@ -178,6 +198,34 @@ public class TransactionService {
         } else if (transaction.getType() == TransactionType.DEPOSIT){
             bankAccount.setBalance(bankAccount.getBalance() + transaction.getAmount());
             bankAccountRepository.save(bankAccount);
+        }
+    }
+
+    public void updateBudgetCurrentSpending(Long id) {
+        log.debug("Request to update budget via transaction");
+        TransactionDTO transactionDTO = findOne(id).get();
+        Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        Budget budget = budgetRepository.findById(transaction.getBudget().getId()).get();
+        if(transaction.getType() == TransactionType.WITHDRAW){
+            budget.setCurrentSpending(budget.getCurrentSpending() + transaction.getAmount());
+            budgetRepository.save(budget);
+        } else if (transaction.getType() == TransactionType.DEPOSIT){
+            budget.setCurrentSpending(budget.getCurrentSpending() - transaction.getAmount());
+            budgetRepository.save(budget);
+        }
+    }
+
+    public void updatePrevBudgetCurrentSpending(Long id) {
+        log.debug("Request to update budget current spending via transaction when transaction is updated before it's updated");
+        TransactionDTO transactionDTO = findOne(id).get();
+        Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        Transaction transactionOgFromDB = transactionRepository.findById(transaction.getId()).get();
+        if(transactionOgFromDB.getType() == TransactionType.DEPOSIT){
+            transactionOgFromDB.getBudget().setCurrentSpending(transactionOgFromDB.getBudget().getCurrentSpending() + transaction.getAmount());
+            budgetRepository.save(transactionOgFromDB.getBudget());
+        } else if(transactionOgFromDB.getType() == TransactionType.WITHDRAW){
+            transactionOgFromDB.getBudget().setCurrentSpending(transactionOgFromDB.getBudget().getCurrentSpending() - transaction.getAmount());
+            budgetRepository.save(transactionOgFromDB.getBudget());
         }
     }
 }

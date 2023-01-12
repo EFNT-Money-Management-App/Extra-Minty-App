@@ -8,12 +8,16 @@ import Activate from 'app/modules/account/activate/activate';
 import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
 import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
 import Logout from 'app/modules/login/logout';
-import Home from 'app/modules/home/home';
+// import Home from 'app/modules/home/home';
 import EntitiesRoutes from 'app/entities/routes';
 import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import { Features, Rewards, About, Home } from './component';
+import { Peppermint, W, Useraccount, Budget, Profile, Userhome } from './userscomponent';
+import Test from './entities/test/test';
+
 
 const loading = <div>loading ...</div>;
 
@@ -32,8 +36,18 @@ const AppRoutes = () => {
     <div className="view-routes">
       <ErrorBoundaryRoutes>
         <Route index element={<Home />} />
+        <Route path="features" element={<Features />} />
+        <Route path="rewards" element={<Rewards />} />
+        <Route path="about" element={<About />} />
         <Route path="login" element={<Login />} />
         <Route path="logout" element={<Logout />} />
+        <Route path="userbudget" element={<Budget />} />
+        <Route path="useraccount" element={<Useraccount />} />
+        <Route path="userprofile" element={<Profile />} />
+        <Route path="userhome" element={<Userhome />} />
+        <Route path="w" element={<W />} />
+        <Route path="test" element={<Test/>} />
+        <Route path="userpeppermint" element={<Peppermint />} />
         <Route path="account">
           <Route
             path="*"
