@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransactionService {
 
     private final Logger log = LoggerFactory.getLogger(TransactionService.class);
-
+    
     private final TransactionRepository transactionRepository;
 
     private final TransactionMapper transactionMapper;
@@ -74,10 +74,25 @@ public class TransactionService {
      * @param transactionDTO the entity to save.
      * @return the persisted entity.
      */
+    // public TransactionDTO update(TransactionDTO transactionDTO) {
+    //     log.debug("Request to update Transaction : {}", transactionDTO);
+    //     Transaction transaction = transactionMapper.toEntity(transactionDTO);
+    //     transaction = transactionRepository.save(transaction);
+    //     // custom
+    //     // transactionBudgetUpdate(transaction.getId());
+    //     return transactionMapper.toDto(transaction);
+    // }
+
     public TransactionDTO update(TransactionDTO transactionDTO) {
         log.debug("Request to update Transaction : {}", transactionDTO);
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        updatePrevBudgetCurrentSpending(transaction.getId());
+
         transaction = transactionRepository.save(transaction);
+        // custom
+        // transaction.getBudget().setCurrentSpending(transaction.getBudget().getCurrentSpending() + transaction.getAmount());
+        // budgetRepository.save(transaction.getBudget());
+        updateBudgetCurrentSpending(transaction.getId());
         return transactionMapper.toDto(transaction);
     }
 
@@ -187,16 +202,40 @@ public class TransactionService {
     }
 
     public void updateBudgetCurrentSpending(Long id) {
-        log.debug("Request to update bank account via transaction");
+        log.debug("Request to update budget via transaction");
         TransactionDTO transactionDTO = findOne(id).get();
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
-        Budget budget = budgetRepository.findById(transaction.getBankAccount().getId()).get();
+        if(transaction.getBudget() == null || transaction.getBudget().getCurrentSpending() < transaction.getAmount()) return;
+        Budget budget = budgetRepository.findById(transaction.getBudget().getId()).get();
         if(transaction.getType() == TransactionType.WITHDRAW){
             budget.setCurrentSpending(budget.getCurrentSpending() + transaction.getAmount());
             budgetRepository.save(budget);
         } else if (transaction.getType() == TransactionType.DEPOSIT){
-            budget.setCurrentSpending(budget.getCurrentSpending() - transaction.getAmount());
+            //budget.setCurrentSpending(budget.getCurrentSpending() - transaction.getAmount());
+            capBudgetCurrentSpendingAboveZero(transaction);
             budgetRepository.save(budget);
         }
+    }
+
+    public void updatePrevBudgetCurrentSpending(Long id) {
+        log.debug("Request to update budget current spending via transaction when transaction is updated before it's updated");
+        TransactionDTO transactionDTO = findOne(id).get();
+        Transaction transaction = transactionMapper.toEntity(transactionDTO);
+        Transaction transactionOgFromDB = transactionRepository.findById(transaction.getId()).get();
+        if(transactionOgFromDB.getBudget() != null){
+            if(transactionOgFromDB.getType() == TransactionType.DEPOSIT){
+            transactionOgFromDB.getBudget().setCurrentSpending(transactionOgFromDB.getBudget().getCurrentSpending() + transaction.getAmount());
+            budgetRepository.save(transactionOgFromDB.getBudget());
+        } else if(transactionOgFromDB.getType() == TransactionType.WITHDRAW){
+            //transactionOgFromDB.getBudget().setCurrentSpending(transactionOgFromDB.getBudget().getCurrentSpending() - transaction.getAmount());
+            capBudgetCurrentSpendingAboveZero(transactionOgFromDB);
+            budgetRepository.save(transactionOgFromDB.getBudget());
+        }
+        }
+    }
+    public Transaction capBudgetCurrentSpendingAboveZero(Transaction t){
+        if(t.getBudget().getCurrentSpending() < t.getAmount()) t.getBudget().setCurrentSpending(0.0);
+        else t.getBudget().setCurrentSpending(t.getBudget().getCurrentSpending() - t.getAmount());
+        return t;
     }
 }
