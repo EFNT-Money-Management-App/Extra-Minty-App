@@ -1,11 +1,12 @@
-import * as React from 'react';
-
+import React from "react";
+import './Useraccount.css';
+import './Accounts';
+import Accounts from "./Accounts";
 const Useraccount = () => {
     return (
         <div>
-            This is the account page
+            <Accounts />
         </div>
     )
 }
-
 export default Useraccount;
