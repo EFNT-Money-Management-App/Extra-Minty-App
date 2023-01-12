@@ -17,3 +17,11 @@
 .userhome-profile-username {
     font-weight: bold;
 }
+
+td {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+th {
+    padding-left: 20px;
+}  
