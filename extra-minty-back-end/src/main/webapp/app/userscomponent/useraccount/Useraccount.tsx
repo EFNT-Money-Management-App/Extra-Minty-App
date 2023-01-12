@@ -1,12 +1,12 @@
 import React from "react";
 import './Useraccount.css';
-import './Accounts';
-import Accounts from "./Accounts";
+import './Hi';
+import Hi from "./Hi";
 
 const Useraccount = () => {
     return (
         <div>
-            <Accounts />
+            <Hi />
         </div>
     )
 }

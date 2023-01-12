@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-const Accounts = () => {
+const Hi = () => {
     const [checkingTrans, setChecking] = useState(true)
     const [savingsTrans, setSavings] = useState(false)
     const checkingHandler = () => {
@@ -116,4 +116,4 @@ const Accounts = () => {
         </div>
     )
 }
-export default Accounts;
+export default Hi;
