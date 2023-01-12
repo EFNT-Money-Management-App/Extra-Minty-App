@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import Transactionmodal from "../transactionmodal/Transactionmodal";
+
 const Hi = () => {
     const [checkingTrans, setChecking] = useState(true)
     const [savingsTrans, setSavings] = useState(false)
@@ -15,10 +17,11 @@ const Hi = () => {
         <div>
             <button onClick={checkingHandler}>Checking Account</button>
             <button onClick={savingsHandler}>Savings Account</button>
+            <Transactionmodal/>
             {checkingTrans &&(
                 <div>
                     <span className="balance">
-                        $38.00
+                        Checking Account: $38.00
                     </span>
                     <table>
                     <col width="20px" />
@@ -69,7 +72,7 @@ const Hi = () => {
             {savingsTrans && (
                 <div>
                     <span className="balance">
-                        $1,054,235,134.19
+                        Savings Account: $1,054,235,134.19
                     </span>
                     <table>
                         <tr>
