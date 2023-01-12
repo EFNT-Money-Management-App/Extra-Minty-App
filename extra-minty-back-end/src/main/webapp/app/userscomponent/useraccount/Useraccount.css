@@ -1,0 +1,28 @@
+html,
+body{
+    margin: 0px;
+    height: 100%;
+    border: #EDEDED;
+}
+span .balance {
+    text-align: right;
+}
+table {
+    width: 100%;
+    height: 70%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+th {
+    background-color: #7debe4;
+}
+button {
+    background-color: #EDEDED;
+}
+
+.box{
+    height: 100vh;
+    border: #EDEDED;
+}
