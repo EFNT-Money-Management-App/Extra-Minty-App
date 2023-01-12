@@ -97,6 +97,7 @@ const Userhome = () => {
     <tr>
       <th>Bank</th>
       <th>Balance</th>
+      <th>Type</th>
     </tr>
   </thead>
   <tbody>
@@ -105,6 +106,7 @@ const Userhome = () => {
         <tr key={bankAccount.id}>
           <td>{bankAccount.bankName}</td>
           <td>{"$" + bankAccount.balance + ".00"}</td>
+          <td>{bankAccount.type}</td>
         </tr>
       ))
     ) : (
