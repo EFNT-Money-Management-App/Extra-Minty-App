@@ -8,6 +8,7 @@
         "createOrEditLabel": "Create or edit a Budget",
         "notFound": "No Budgets found"
       },
+      "addbudget": "Add budget",
       "created": "A new Budget is created with identifier {{ param }}",
       "updated": "A Budget is updated with identifier {{ param }}",
       "deleted": "A Budget is deleted with identifier {{ param }}",
