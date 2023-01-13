@@ -1,30 +1,57 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 import Transactionmodal from "../transactionmodal/Transactionmodal";
 
+
+
 const Hi = () => {
-    const [checkingTrans, setChecking] = useState(true)
-    const [savingsTrans, setSavings] = useState(false)
+    // the actual view of the tables
+    const [checkingTable, setCheckingTable] = useState(true)
+    const [savingsTable, setSavingsTable] = useState(false)
+    // setting the accounts of the user
+    const [userBankAccounts, setUserBankAccounts] = useState({})
+    // balance that changes
+    const [checkingBalance, setCheckingBalance] = useState(0.00)
+    const [savingsBalance, setSavingsBalance] = useState(0.00)
+    // allows the buttons to switch tables
     const checkingHandler = () => {
-        setChecking(true)
-        setSavings(false)
+        setCheckingTable(true)
+        setSavingsTable(false)
     }
     const savingsHandler = () => {
-        setSavings(true)
-        setChecking(false)
+        setSavingsTable(true)
+        setCheckingTable(false)
+    }
+
+    // get accounts by user
+    axios.get('api/bankAccounts/currentUser')
+        .then (respone => {
+            // it will take the accounts and hold them here
+            // console.log(respone.data)
+            // setUserAccounts(response.data)
+        })
+        .catch( err => {
+            // handle the errors
+            console.error(err)
+        })
+    // add more stuff for this to do later...
+    const handleClick = () => {
+        
     }
     return (
         <div>
             <button onClick={checkingHandler}>Checking Account</button>
             <button onClick={savingsHandler}>Savings Account</button>
             <Transactionmodal/>
-            {checkingTrans &&(
+            {checkingTable &&(
                 <div>
                     <span className="balance">
-                        Checking Account: $38.00
+                        Checking Account: ${checkingBalance}
                     </span>
                     <table>
                     <col width="20px" />
+                    <col width="30px" />
                     <col width="30px" />
                     <col width="40px" />
                     <col width="40px" />
@@ -34,6 +61,7 @@ const Hi = () => {
                             <th>Category</th>
                             <th>Location</th>
                             <th>Amount</th>
+                            <th>Type</th>
                         </tr>
                         <tr>
                             {/* a transaction and its details */}
@@ -69,18 +97,24 @@ const Hi = () => {
                     </table>
                 </div>
             )}
-            {savingsTrans && (
+            {savingsTable && (
                 <div>
                     <span className="balance">
-                        Savings Account: $1,054,235,134.19
+                        Savings Account: ${savingsBalance}
                     </span>
                     <table>
+                        <col width="20px" />
+                        <col width="30px" />
+                        <col width="30px" />
+                        <col width="40px" />
+                        <col width="40px" />
                         <tr>
                             {/* these are column names */}
                             <th>Date </th>
                             <th>Category</th>
                             <th>Location</th>
                             <th>Amount</th>
+                            <th>Type</th>
                         </tr>
                         <tr>
                             {/* a transaction and its details */}
