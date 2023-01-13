@@ -63,8 +63,12 @@ public class TransactionService {
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
         transaction = transactionRepository.save(transaction);
         //CUSTOM
-        updateAccountBalance(transaction.getId());
-        updateBudgetCurrentSpending(transaction.getId());
+        handleTransfers(transaction);
+        if(!transaction.getType().equals(TransactionType.TRANSFER)){
+            updateAccountBalance(transaction.getId());
+            updateBudgetCurrentSpending(transaction.getId());
+        }
+        
         return transactionMapper.toDto(transaction);
     }
 
@@ -310,4 +314,8 @@ public class TransactionService {
         }
         }
     }
+    public void handleTransfers(Transaction t){
+        if(t.getType().equals(TransactionType.TRANSFER)) bankAccountService.updateBankAccountsBalancesForTransfer(t);
+    }
+
 }

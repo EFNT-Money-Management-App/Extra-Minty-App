@@ -19,6 +19,8 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Long> 
 
     //custom
     List<BankAccount> findByUserId(Long userId);
+    //custom
+    Optional<BankAccount> findByAccountNumber(Long accountNumber);
 
     default Optional<BankAccount> findOneWithEagerRelationships(Long id) {
         return this.findOneWithToOneRelationships(id);
