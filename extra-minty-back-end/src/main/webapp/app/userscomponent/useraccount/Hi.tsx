@@ -9,6 +9,8 @@ const Hi = () => {
     // the actual view of the tables
     const [checkingTable, setCheckingTable] = useState(true)
     const [savingsTable, setSavingsTable] = useState(false)
+    // setting the accounts of the user
+    const [userBankAccounts, setUserBankAccounts] = useState({})
     // balance that changes
     const [checkingBalance, setCheckingBalance] = useState(0.00)
     const [savingsBalance, setSavingsBalance] = useState(0.00)
@@ -23,10 +25,11 @@ const Hi = () => {
     }
 
     // get accounts by user
-    axios.get('api/user/bank-accounts/{id}')
+    axios.get('api/bankAccounts/currentUser')
         .then (respone => {
-            // make it do something later
-            (respone.data)
+            // it will take the accounts and hold them here
+            // console.log(respone.data)
+            // setUserAccounts(response.data)
         })
         .catch( err => {
             // handle the errors
