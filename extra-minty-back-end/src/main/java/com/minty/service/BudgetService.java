@@ -90,6 +90,12 @@ public class BudgetService {
         return budgetRepository.findAll().stream().map(budgetMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
+    @Transactional
+    public List<BudgetDTO> findAllForUser(){
+        log.debug("Request to get all Budgets for current user");
+        return budgetRepository.findByUserIsCurrentUser().stream().map(budgetMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+    }
+
     /**
      * Get all the budgets with eager load of many-to-many relationships.
      *
