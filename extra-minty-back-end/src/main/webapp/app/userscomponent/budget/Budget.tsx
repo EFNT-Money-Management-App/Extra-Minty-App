@@ -2,10 +2,13 @@ import * as React from 'react';
 import Chart from 'react-google-charts';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-import Budgetmodal from '../budgetmodal/Budgetmodal';
+// import Budgetmodal from '../budgetmodal/Budgetmodal';
 import { Button } from 'reactstrap';
 import { IBudget } from 'app/shared/model/budget.model';
 import axios from 'axios';
+import BudgetUpdate from 'app/entities/budget/budget-update';
+
+import BudgetDeleteDialog from 'app/entities/budget/budget-delete-dialog';
 
 const Budget = () => {
   const colors : string[] = ['#3366cc','#dc3911','#ff9900','#0d9618','#990099','#0099c6'];
@@ -34,7 +37,6 @@ const data1 = [
   ...userBudgets.map(budget => [budget.name, budget.currentSpending, colors[Math.floor(Math.random() * 5)],budget.spendingLimit])
 ];
 
-
 const options = {
   chart: {
     title: "Budget",
@@ -55,7 +57,7 @@ const options = {
                 />
             </div>
           </div>
-          <Budgetmodal />
+          <BudgetUpdate />
       
 
         <div>
@@ -76,6 +78,12 @@ const options = {
           <td>{"$" + budget.currentSpending + ".00"}</td>
           <td>{"$" + budget.spendingLimit + ".00"}</td>
           <td>{"$" + (budget.spendingLimit - budget.currentSpending) + ".00"}</td>
+          <a href={"/budget/"+budget.id+"/edit"}>
+            <button>Update</button>
+          </a>
+          <a href={"/budget/"+budget.id+"/delete"}>
+            <button>Delete</button>
+          </a>
         </tr>
       ))
     ) : (
