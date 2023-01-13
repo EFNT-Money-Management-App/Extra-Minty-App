@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+import { IBankAccount } from "app/shared/model/bank-account.model";
+import { ITransaction } from "app/shared/model/transaction.model";
 import Transactionmodal from "../transactionmodal/Transactionmodal";
+import BankAccount from "app/entities/bank-account/bank-account";
+import { forEach } from "lodash";
 
 
 
@@ -10,10 +14,23 @@ const Hi = () => {
     const [checkingTable, setCheckingTable] = useState(true)
     const [savingsTable, setSavingsTable] = useState(false)
     // setting the accounts of the user
-    const [userBankAccounts, setUserBankAccounts] = useState({})
-    // balance that changes
+    const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([])
+    const [bankAccountTransaction, setBankAccountTransaction] = useState(new Map<IBankAccount, ITransaction[]>())
+    // the individual user bank accounts
+    // const [checkingAccount, setCheckingAccount] 
+    // each of the bank account transactions
+
+
+    // balance of each that changes
     const [checkingBalance, setCheckingBalance] = useState(0.00)
     const [savingsBalance, setSavingsBalance] = useState(0.00)
+
+    const [currentBankAccount, setCurrentBankAccount] = useState<IBankAccount>(userBankAccounts[0])
+
+    const setCurrentAccountOnClick = (bankAccount: IBankAccount) => {
+        setCurrentBankAccount(bankAccount)
+        // return bankAccount
+    }
     // allows the buttons to switch tables
     const checkingHandler = () => {
         setCheckingTable(true)
@@ -24,132 +41,87 @@ const Hi = () => {
         setCheckingTable(false)
     }
 
-    // get accounts by user
-    axios.get('api/bankAccounts/currentUser')
-        .then (respone => {
-            // it will take the accounts and hold them here
-            // console.log(respone.data)
-            // setUserAccounts(response.data)
+    const getValueOfMap= () => {
+
+    }
+
+    useEffect(() => {
+        axios.get('/api/bank-accounts/currentUser')
+        .then(response => {
+            console.log(response.data)
+            setUserBankAccounts(response.data)
+            console.log(userBankAccounts[0].transactions)
         })
         .catch( err => {
-            // handle the errors
             console.error(err)
         })
-    // add more stuff for this to do later...
-    const handleClick = () => {
-        
+    }, [])
+
+    const getTransactions = (id: number): ITransaction[] => {
+        axios.get(`/api/transactions/bank-account/${id}`)
+        .then (response => {
+            return response.data
+        })
+        return null
     }
+    useEffect(() => {
+        userBankAccounts.forEach(bankAccount => {
+            bankAccountTransaction.set(bankAccount, getTransactions(bankAccount.id))
+        })
+    }, [])
+
+
     return (
         <div>
-            <button onClick={checkingHandler}>Checking Account</button>
-            <button onClick={savingsHandler}>Savings Account</button>
-            <Transactionmodal/>
-            {checkingTable &&(
-                <div>
-                    <span className="balance">
+            <span className="balance">
                         Checking Account: ${checkingBalance}
                     </span>
-                    <table>
-                    <col width="20px" />
-                    <col width="30px" />
-                    <col width="30px" />
-                    <col width="40px" />
-                    <col width="40px" />
-                        <tr>
-                            {/* these are column names */}
-                            <th>Date </th>
-                            <th>Category</th>
-                            <th>Location</th>
-                            <th>Amount</th>
-                            <th>Type</th>
-                        </tr>
-                        <tr>
-                            {/* a transaction and its details */}
-                            <td>12-26-2022</td>
-                            <td>Food</td>
-                            <td>Ramen Kumamoto - Newark</td>
-                            <td>$14.00</td>
-                        </tr>
-                        <tr>
-                            <td>12-30-2022</td>
-                            <td>Misc</td>
-                            <td>Well's Fargo ATM - Wilmington</td>
-                            <td>$2.00</td>
-                        </tr>
-                        <tr>
-                            <td>12-31-2022</td>
-                            <td>Entertainment</td>
-                            <td>Skating Rink - Christiana</td>
-                            <td>$20.95</td>
-                        </tr>
-                        <tr>
-                            <td>01-03-2023</td>
-                            <td>Bill</td>
-                            <td>Delmarva</td>
-                            <td>$219.00</td>
-                        </tr>
-                        <tr>
-                            <td>01-10-2023</td>
-                            <td>Bill</td>
-                            <td>AT&T</td>
-                            <td>$190.70</td>
-                        </tr>
-                    </table>
-                </div>
-            )}
-            {savingsTable && (
-                <div>
-                    <span className="balance">
-                        Savings Account: ${savingsBalance}
-                    </span>
-                    <table>
+                    {/* <table> */}
+                        <colgroup>
                         <col width="20px" />
                         <col width="30px" />
                         <col width="30px" />
                         <col width="40px" />
                         <col width="40px" />
+                        </colgroup>
+                        
+                        
+            
+            <div>
+                {userBankAccounts.map((bankAccount) => (
+                
+                    <button key= {bankAccount.id} onClick={() => setCurrentAccountOnClick(bankAccount)} >{bankAccount.type}</button>
+                ))}
+            </div>
+                <table>
+                    <thead>
                         <tr>
                             {/* these are column names */}
-                            <th>Date </th>
-                            <th>Category</th>
-                            <th>Location</th>
+                            <th>Date</th>
                             <th>Amount</th>
                             <th>Type</th>
+                            
+                        
                         </tr>
-                        <tr>
-                            {/* a transaction and its details */}
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                            <td>$54.87</td>
-                        </tr>
-                        <tr>
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                            <td>$54.87</td>
-                        </tr>
-                        <tr>
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                        <td>$54.87</td>
-                        </tr>
-                        <tr>
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                            <td>$54.87</td>
-                        </tr>
-                        <tr>
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                            <td>$54.87</td>
-                        </tr>
+                        </thead>
+                        <tbody>
+                            {bankAccountTransaction.get(currentBankAccount).length !== 0 ? (
+                                bankAccountTransaction.get(currentBankAccount).map((transaction) => (
+                                    <tr key={transaction.id}>
+                                    <td>{transaction.date}</td>
+                                    <td>{"$" + transaction.amount + ".00"}</td>
+                                    <td>{transaction.type}</td>
+                    
+                                    </tr>
+                                ))
+                                ) : (
+                    <tr>
+                        <td colSpan={2}>No Transactions found</td>
+                    </tr>
+    )}
+  </tbody>
                     </table>
-                </div>
-            )}
+            <Transactionmodal/>
         </div>
     )
 }
