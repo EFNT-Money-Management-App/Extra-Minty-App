@@ -142,6 +142,12 @@ public class BudgetResource {
         return budgetService.findAll();
     }
 
+    @GetMapping("/budgets/current-user")
+    public List<BudgetDTO> getAllBudgetsForUser() {
+        log.debug("REST request to get all Budgets for user");
+        return budgetService.findAllForUser();
+    }
+
     /**
      * {@code GET  /budgets/:id} : get the "id" budget.
      *
