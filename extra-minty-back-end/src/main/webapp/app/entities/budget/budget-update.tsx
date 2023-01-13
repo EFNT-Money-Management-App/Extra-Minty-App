@@ -14,6 +14,8 @@ import { IBudget } from 'app/shared/model/budget.model';
 import { Month } from 'app/shared/model/enumerations/month.model';
 import { getEntity, updateEntity, createEntity, reset } from './budget.reducer';
 
+import { Modal } from 'react-bootstrap';
+
 export const BudgetUpdate = () => {
   const dispatch = useAppDispatch();
 
@@ -29,8 +31,12 @@ export const BudgetUpdate = () => {
   const updateSuccess = useAppSelector(state => state.budget.updateSuccess);
   const monthValues = Object.keys(Month);
 
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+
   const handleClose = () => {
-    navigate('/budget');
+    navigate('/userbudget')
+    setShow(false);
   };
 
   useEffect(() => {
@@ -60,7 +66,9 @@ export const BudgetUpdate = () => {
       dispatch(createEntity(entity));
     } else {
       dispatch(updateEntity(entity));
-    }
+    };
+
+    handleClose();
   };
 
   const defaultValues = () =>
@@ -74,6 +82,13 @@ export const BudgetUpdate = () => {
 
   return (
     <div>
+      <button onClick={handleShow}>
+        {isNew ? "Add Budget" : "Update Budget"}
+      </button> 
+      
+      <Modal show={show} onHide={handleClose}>
+
+
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="extraMintyApp.budget.home.createOrEditLabel" data-cy="BudgetCreateUpdateHeading">
@@ -142,13 +157,12 @@ export const BudgetUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/budget" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
+              {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/userbudget" replace color="info">
                 &nbsp;
                 <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
+                  <Translate contentKey="entity.action.cancel">Cancel</Translate>
                 </span>
-              </Button>
+              </Button> */}
               &nbsp;
               <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
@@ -159,6 +173,8 @@ export const BudgetUpdate = () => {
           )}
         </Col>
       </Row>
+
+      </Modal>
     </div>
   );
 };
