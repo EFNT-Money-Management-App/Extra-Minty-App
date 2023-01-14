@@ -4,11 +4,14 @@ import './Userhome.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { IBankAccount, defaultValue} from 'app/shared/model/bank-account.model';
+import { IUser } from 'app/shared/model/user.model';
+import transaction from 'app/entities/transaction/transaction.reducer';
 
 const Userhome = () => {
     const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([])
     // let userBankAccounts : IBankAccount[] = null; 
     const [pieChartData, setPieChartData] = useState(Object)
+    const [user, setUser] = useState<IUser>()
     
 
     useEffect(() => {
@@ -31,7 +34,13 @@ const Userhome = () => {
         })
     }, []);
 
-      
+    useEffect(() =>{
+      axios.get('/api/account')
+      .then(res => {
+          console.log(res.data)
+          setUser(res.data)
+      })
+  },[])
 
     const data1 = [  
         ["Category", "Budget spent"],
@@ -39,7 +48,7 @@ const Userhome = () => {
     ];
         
     const options = {
-        title: "Expenses",
+        title: "Expenses Past 30 Days",
         titleTextStyle: {
             fontSize: 25,
             bold: true
@@ -56,17 +65,15 @@ const Userhome = () => {
     };
 
     return (
-        <div className='userhome-global'>
-            <div className='title'>
-                User Profile
-            </div>
+        <div className='userhome-global'>           
             <div className='userhome-profile-content'>
-                <div>
+                {/* <div>
                     <img className='userhome-profile-picture' src='./icon.png' alt="prof pic goes here" />
-                </div>
-                <div className='userhome-profile-username'>
-                    Username
-                </div>
+                </div> */}
+                {user ? <h3 className='userhome-profile-username'>
+                    {"Welcome Back " + user.firstName}
+                </h3> : "error: no user"}
+                
             </div>
             <Chart className='piechart'
                 chartType='PieChart'
@@ -75,23 +82,8 @@ const Userhome = () => {
                 width={"800px"}
                 height={"500px"}
             />
-            
-            {/* <div>
-      <h2>Your Bank Accounts</h2>
-      <ul>
-        {userBankAccounts.length !== 0 ? (
-          userBankAccounts.map((bankAccount) => (
-            <ul key={bankAccount.id}>
-              Bank: {(bankAccount.bankName)}  |
-              Balance: {bankAccount.balance} |
-            </ul>
-          ))
-        ) : (
-          <li>No Transactions found</li>
-        )}
-      </ul>
-    </div> */}
-    <div> Your Accounts</div>
+
+    <h3>Your Accounts</h3>
         <table>
   <thead>
     <tr>

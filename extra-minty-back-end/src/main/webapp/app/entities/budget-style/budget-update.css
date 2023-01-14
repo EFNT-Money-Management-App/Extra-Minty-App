@@ -1,0 +1,6 @@
+.add-budget-button, .add-budget:hover, .add-budget:focus, .add-budget:active, .add-budget.active, .open>.dropdown-toggle.add-budget {
+    color: rgb(255, 255, 255);
+    background-color: #5f6ce1;
+    border-color: #5f6ce1;
+    margin: 3px;
+}
