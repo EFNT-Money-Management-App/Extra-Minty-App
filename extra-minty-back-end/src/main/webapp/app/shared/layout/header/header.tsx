@@ -5,7 +5,7 @@ import { Translate, Storage } from 'react-jhipster';
 import { Navbar, Nav, NavbarToggler, Collapse } from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 
-import { Home, Brand, Features, Rewards, About, W, Budget, UserAccount, Peppermint, Profile, Userhome } from './header-components';
+import { Home, Brand, Features, Rewards, About, Budget, UserAccount, Peppermint, Profile, Userhome } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
 import { useAppDispatch } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';

@@ -26,6 +26,7 @@ export const BudgetDeleteDialog = () => {
 
   const handleClose = () => {
     navigate('/userbudget');
+    window.location.reload();
   };
 
   useEffect(() => {

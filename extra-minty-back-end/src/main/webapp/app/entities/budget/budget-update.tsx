@@ -15,13 +15,16 @@ import { Month } from 'app/shared/model/enumerations/month.model';
 import { getEntity, updateEntity, createEntity, reset } from './budget.reducer';
 
 import { Modal } from 'react-bootstrap';
+import { AUTHORITIES } from 'app/config/constants';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
-export const BudgetUpdate = () => {
+export const BudgetUpdate = (props) => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   const { id } = useParams<'id'>();
+  // const { id } = props;
   const isNew = id === undefined;
 
   const users = useAppSelector(state => state.userManagement.users);
@@ -31,11 +34,15 @@ export const BudgetUpdate = () => {
   const updateSuccess = useAppSelector(state => state.budget.updateSuccess);
   const monthValues = Object.keys(Month);
 
+  const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
+  const account = useAppSelector(state => state.authentication.account);
+
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
 
   const handleClose = () => {
     navigate('/userbudget')
+    window.location.reload();
     setShow(false);
   };
 
@@ -84,7 +91,7 @@ export const BudgetUpdate = () => {
     <div>
       <button onClick={handleShow}>
         {isNew ? "Add Budget" : "Update Budget"}
-      </button> 
+      </button>
       
       <Modal show={show} onHide={handleClose}>
 
@@ -148,14 +155,16 @@ export const BudgetUpdate = () => {
                 type="text"
               />
               <ValidatedField id="budget-user" name="user" data-cy="user" label={translate('extraMintyApp.budget.user')} type="select">
-                <option value="" key="0" />
-                {users
+                {isAdmin ? <option value="" key="0" /> : <div>{account.login}</div>}
+                {isAdmin
                   ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.login}
                       </option>
                     ))
-                  : null}
+                  : <option>
+                      {account.login}
+                    </option>}
               </ValidatedField>
               {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/userbudget" replace color="info">
                 &nbsp;

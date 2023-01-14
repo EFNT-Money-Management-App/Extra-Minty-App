@@ -119,14 +119,3 @@ export const Userhome = () => (
     </NavLink>
   </NavItem>
 );
-
-export const W = () => (
-  <NavItem>
-    <NavLink tag={Link} to="/w" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
-        <Translate contentKey="global.menu.w">W</Translate>
-      </span>
-    </NavLink>
-  </NavItem>
-);
