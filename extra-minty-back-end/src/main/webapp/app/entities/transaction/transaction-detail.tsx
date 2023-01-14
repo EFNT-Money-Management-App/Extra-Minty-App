@@ -8,6 +8,10 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './transaction.reducer';
+import { TransactionType } from '../../shared/model/enumerations/transaction-type.model';
+import { TransactionCategory } from '../../shared/model/enumerations/transaction-category.model';
+import transaction from 'app/entities/transaction/transaction.reducer';
+import budget from 'app/entities/budget/budget.reducer';
 
 export const TransactionDetail = () => {
   const dispatch = useAppDispatch();
@@ -26,18 +30,17 @@ export const TransactionDetail = () => {
           <Translate contentKey="extraMintyApp.transaction.detail.title">Transaction</Translate>
         </h2>
         <dl className="jh-entity-details">
-          <dt>
+          {/* <dt>
             <span id="id">
               <Translate contentKey="global.field.id">ID</Translate>
             </span>
           </dt>
-          <dd>{transactionEntity.id}</dd>
-          <dt>
+          <dd>{transactionEntity.id}</dd> */}
+          {transactionEntity.TransactionType == TransactionCategory.CUSTOM ? <><dt>
             <span id="customCategoryName">
               <Translate contentKey="extraMintyApp.transaction.customCategoryName">Custom Category Name</Translate>
             </span>
-          </dt>
-          <dd>{transactionEntity.customCategoryName}</dd>
+          </dt><dd>{transactionEntity.customCategoryName}</dd></> : null }
           <dt>
             <span id="type">
               <Translate contentKey="extraMintyApp.transaction.type">Type</Translate>
@@ -49,7 +52,7 @@ export const TransactionDetail = () => {
               <Translate contentKey="extraMintyApp.transaction.amount">Amount</Translate>
             </span>
           </dt>
-          <dd>{transactionEntity.amount}</dd>
+          <dd>{"$" + transactionEntity.amount + ".00"}</dd>
           <dt>
             <span id="category">
               <Translate contentKey="extraMintyApp.transaction.category">Category</Translate>
@@ -68,40 +71,41 @@ export const TransactionDetail = () => {
             </span>
           </dt>
           <dd>{transactionEntity.description}</dd>
-          <dt>
+          {transactionEntity.type == TransactionType.TRANSFER ? <><dt>
             <span id="transferToAccountNumber">
               <Translate contentKey="extraMintyApp.transaction.transferToAccountNumber">Transfer To Account Number</Translate>
             </span>
-          </dt>
-          <dd>{transactionEntity.transferToAccountNumber}</dd>
-          <dt>
-            <span id="transferFromAccountNumber">
-              <Translate contentKey="extraMintyApp.transaction.transferFromAccountNumber">Transfer From Account Number</Translate>
-            </span>
-          </dt>
-          <dd>{transactionEntity.transferFromAccountNumber}</dd>
-          <dt>
+          </dt><dd>{transactionEntity.transferToAccountNumber}</dd></> : null}
+          {transactionEntity.type == TransactionType.TRANSFER ?
+          <><dt>
+              <span id="transferFromAccountNumber">
+                <Translate contentKey="extraMintyApp.transaction.transferFromAccountNumber">Transfer From Account Number</Translate>
+              </span>
+            </dt><dd>{transactionEntity.transferFromAccountNumber}</dd></> : null}
+            {transactionEntity.budget ? 
+            <><dt>
             <Translate contentKey="extraMintyApp.transaction.budget">Budget</Translate>
-          </dt>
-          <dd>{transactionEntity.budget ? transactionEntity.budget.id : ''}</dd>
+          </dt><dd>{transactionEntity.budget ? transactionEntity.budget.id : ''}</dd>
+          </> : null}
+          
           <dt>
             <Translate contentKey="extraMintyApp.transaction.bankAccount">Bank Account</Translate>
           </dt>
           <dd>{transactionEntity.bankAccount ? transactionEntity.bankAccount.id : ''}</dd>
         </dl>
-        <Button tag={Link} to="/transaction" replace color="info" data-cy="entityDetailsBackButton">
+        <Button tag={Link} to="/useraccount" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}
           <span className="d-none d-md-inline">
             <Translate contentKey="entity.action.back">Back</Translate>
           </span>
         </Button>
         &nbsp;
-        <Button tag={Link} to={`/transaction/${transactionEntity.id}/edit`} replace color="primary">
+        {/* <Button tag={Link} to={`/transaction/${transactionEntity.id}/edit`} replace color="primary">
           <FontAwesomeIcon icon="pencil-alt" />{' '}
           <span className="d-none d-md-inline">
             <Translate contentKey="entity.action.edit">Edit</Translate>
           </span>
-        </Button>
+        </Button> */}
       </Col>
     </Row>
   );

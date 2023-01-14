@@ -25,7 +25,8 @@ export const BudgetDeleteDialog = () => {
   const updateSuccess = useAppSelector(state => state.budget.updateSuccess);
 
   const handleClose = () => {
-    navigate('/budget');
+    navigate('/userbudget');
+    window.location.reload();
   };
 
   useEffect(() => {

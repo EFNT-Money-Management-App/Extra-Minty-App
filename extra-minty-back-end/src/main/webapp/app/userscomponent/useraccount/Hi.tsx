@@ -1,122 +1,122 @@
-import React from "react";
-import { useState } from "react";
-import Transactionmodal from "../transactionmodal/Transactionmodal";
 
-const Hi = () => {
-    const [checkingTrans, setChecking] = useState(true)
-    const [savingsTrans, setSavings] = useState(false)
-    const checkingHandler = () => {
-        setChecking(true)
-        setSavings(false)
+import React, { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { IBankAccount } from "app/shared/model/bank-account.model";
+import { ITransaction } from "app/shared/model/transaction.model";
+import { IUser } from '../../shared/model/user.model';
+import { NavLink } from 'reactstrap';
+import { NavLink as Link } from 'react-router-dom';
+import transaction from 'app/entities/transaction/transaction.reducer';
+import { APP_DATE_FORMAT } from "app/config/constants";
+import { TextFormat } from "react-jhipster";
+
+
+
+
+const Temp = () => {
+    // State for the selected bank account and its transactions
+    const [selectedBankAccount, setSelectedBankAccount] = useState<IBankAccount>();
+    const [currentTransactions, setCurrentTransactions] = useState<ITransaction[]>();
+    const dataCache = new Map<number, ITransaction[]>();
+    const [user, setUser] = useState<IUser>()
+
+    // State for all of the user's bank accounts
+    const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([]);
+
+    // useEffect to fetch the user's bank accounts when the component is first rendered
+    useEffect(() => {
+        axios.get('/api/bank-accounts/currentUser')
+            .then(response => {
+                console.log(response.data)
+                setUserBankAccounts(response.data);
+                setSelectedBankAccount(response.data[0]);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
+    useEffect(() =>{
+        axios.get('/api/account')
+        .then(res => {
+            console.log(res.data)
+            setUser(res.data)
+        })
+    },[])
+
+    // const getTransactions = async (bankAccountId: number) => {
+    //     try {
+    //         const response = await axios.get(`/api/transactions/bank-account/{id}?id=${bankAccountId}`);
+    //         return response.data;
+    //     } catch (error) {
+    //         console.error(error);
+    //         throw error;
+    //     }
+    // }
+    const getTransactions = async (bankAccountId: number) => {
+        if (dataCache.has(bankAccountId)) {
+            return dataCache.get(bankAccountId);
+        }
+        try {
+            const response = await axios.get(`/api/transactions/bank-account/{id}?id=${bankAccountId}`);
+            const data = response.data;
+            dataCache.set(bankAccountId, data);
+            return data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     }
-    const savingsHandler = () => {
-        setSavings(true)
-        setChecking(false)
+    
+    const handleTabClick = (bankAccount: IBankAccount) => {
+        setSelectedBankAccount(bankAccount);
+        getTransactions(bankAccount.id).then((data) => setCurrentTransactions(data));
     }
+
+    const handleDetailsClick = (transaction: ITransaction) => {
+
+    }
+    
     return (
         <div>
-            <button onClick={checkingHandler}>Checking Account</button>
-            <button onClick={savingsHandler}>Savings Account</button>
-            <Transactionmodal/>
-            {checkingTrans &&(
-                <div>
-                    <span className="balance">
-                        Checking Account: $38.00
-                    </span>
-                    <table>
-                    <col width="20px" />
-                    <col width="30px" />
-                    <col width="40px" />
-                    <col width="40px" />
+            <div>
+                <h2>Hello,{user ? <div>{user.firstName}</div> : <div>Loading...</div>}</h2>
+                <h4>Click an account to view transactions.</h4>
+                {userBankAccounts.map((bankAccount) => (
+                    <button key={bankAccount.id} onClick={() => handleTabClick(bankAccount)}>
+                        { bankAccount.bankName + " || " + bankAccount.type }
+                    </button>
+                ))}
+            </div>
+            {currentTransactions && currentTransactions.length > 0 ? (
+                <table>
+                    <thead>
                         <tr>
-                            {/* these are column names */}
-                            <th>Date </th>
-                            <th>Category</th>
-                            <th>Location</th>
+                            <th>Date</th>
                             <th>Amount</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th></th>
                         </tr>
-                        <tr>
-                            {/* a transaction and its details */}
-                            <td>12-26-2022</td>
-                            <td>Food</td>
-                            <td>Ramen Kumamoto - Newark</td>
-                            <td>$14.00</td>
-                        </tr>
-                        <tr>
-                            <td>12-30-2022</td>
-                            <td>Misc</td>
-                            <td>Well's Fargo ATM - Wilmington</td>
-                            <td>$2.00</td>
-                        </tr>
-                        <tr>
-                            <td>12-31-2022</td>
-                            <td>Entertainment</td>
-                            <td>Skating Rink - Christiana</td>
-                            <td>$20.95</td>
-                        </tr>
-                        <tr>
-                            <td>01-03-2023</td>
-                            <td>Bill</td>
-                            <td>Delmarva</td>
-                            <td>$219.00</td>
-                        </tr>
-                        <tr>
-                            <td>01-10-2023</td>
-                            <td>Bill</td>
-                            <td>AT&T</td>
-                            <td>$190.70</td>
-                        </tr>
-                    </table>
-                </div>
-            )}
-            {savingsTrans && (
-                <div>
-                    <span className="balance">
-                        Savings Account: $1,054,235,134.19
-                    </span>
-                    <table>
-                        <tr>
-                            {/* these are column names */}
-                            <th>Date </th>
-                            <th>Category</th>
-                            <th>Location</th>
-                            <th>Amount</th>
-                        </tr>
-                        <tr>
-                            {/* a transaction and its details */}
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                            <td>$54.87</td>
-                        </tr>
-                        <tr>
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                            <td>$54.87</td>
-                        </tr>
-                        <tr>
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                        <td>$54.87</td>
-                        </tr>
-                        <tr>
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                            <td>$54.87</td>
-                        </tr>
-                        <tr>
-                            <td>12-26-2022</td>
-                            <td>Transportation</td>
-                            <td>Sunoco - Newark</td>
-                            <td>$54.87</td>
-                        </tr>
-                    </table>
-                </div>
+                    </thead>
+                    <tbody>
+                        {currentTransactions.map((transaction) => (
+                            <tr key={transaction.id}>
+                                <td>{transaction.date ? <TextFormat value={transaction.date} type="date" format={APP_DATE_FORMAT} /> : null}</td>
+                                <td>{"$" + transaction.amount + ".00"}</td>
+                                <td>{transaction.description}</td>
+                                <td>{transaction.type}</td>
+                                <Link to={`/transaction/${transaction.id}`}>
+                                    <button>Details</button>
+                                </Link>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <div>No transactions found for the selected bank account.</div>
             )}
         </div>
     )
-}
-export default Hi;
+};
+export default Temp;

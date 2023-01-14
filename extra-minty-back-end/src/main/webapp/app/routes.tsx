@@ -15,7 +15,7 @@ import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import { Features, Rewards, About, Home } from './component';
-import { Peppermint, W, Useraccount, Budget, Profile, Userhome } from './userscomponent';
+import { Peppermint, Useraccount, Budget, Profile, Userhome } from './userscomponent';
 import Test from './entities/test/test';
 
 
@@ -45,7 +45,6 @@ const AppRoutes = () => {
         <Route path="useraccount" element={<Useraccount />} />
         <Route path="userprofile" element={<Profile />} />
         <Route path="userhome" element={<Userhome />} />
-        <Route path="w" element={<W />} />
         <Route path="test" element={<Test/>} />
         <Route path="userpeppermint" element={<Peppermint />} />
         <Route path="account">
