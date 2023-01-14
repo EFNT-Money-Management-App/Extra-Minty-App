@@ -81,6 +81,7 @@ const options = {
           <a href={"/budget/"+budget.id+"/edit"}>
             <button>Update</button>
           </a>
+          {/* <BudgetUpdate id={budget}/> */}
           <a href={"/budget/"+budget.id+"/delete"}>
             <button>Delete</button>
           </a>
@@ -88,7 +89,7 @@ const options = {
       ))
     ) : (
       <tr>
-        <td colSpan={2}>No Budgetsfound</td>
+        <td colSpan={2}>No Budgets found</td>
       </tr>
     )}
   </tbody>
