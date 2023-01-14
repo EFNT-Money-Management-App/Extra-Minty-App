@@ -10,119 +10,60 @@ import { forEach } from "lodash";
 
 
 const Hi = () => {
-    // the actual view of the tables
-    const [checkingTable, setCheckingTable] = useState(true)
-    const [savingsTable, setSavingsTable] = useState(false)
-    // setting the accounts of the user
-    const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([])
-    const [bankAccountTransaction, setBankAccountTransaction] = useState(new Map<IBankAccount, ITransaction[]>())
-    // the individual user bank accounts
-    // const [checkingAccount, setCheckingAccount] 
-    // each of the bank account transactions
-
-
-    // balance of each that changes
-    const [checkingBalance, setCheckingBalance] = useState(0.00)
-    const [savingsBalance, setSavingsBalance] = useState(0.00)
-
-    const [currentBankAccount, setCurrentBankAccount] = useState<IBankAccount>(userBankAccounts[0])
-
-    const setCurrentAccountOnClick = (bankAccount: IBankAccount) => {
-        setCurrentBankAccount(bankAccount)
-        // return bankAccount
-    }
-    // allows the buttons to switch tables
-    const checkingHandler = () => {
-        setCheckingTable(true)
-        setSavingsTable(false)
-    }
-    const savingsHandler = () => {
-        setSavingsTable(true)
-        setCheckingTable(false)
-    }
-
-    const getValueOfMap= () => {
-
-    }
+    const [bankAccounts, setBankAccounts] = useState([]);
+    const [selectedBankAccount, setSelectedBankAccount] = useState<IBankAccount>();
+    const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
     useEffect(() => {
         axios.get('/api/bank-accounts/currentUser')
-        .then(response => {
-            console.log(response.data)
-            setUserBankAccounts(response.data)
-            console.log(userBankAccounts[0].transactions)
-        })
-        .catch( err => {
-            console.error(err)
-        })
-    }, [])
+            .then(response => setBankAccounts(response.data))
+            .catch(error => console.log(error));
+    }, []);
 
-    const getTransactions = (id: number): ITransaction[] => {
-        axios.get(`/api/transactions/bank-account/${id}`)
-        .then (response => {
-            return response.data
-        })
-        return null
-    }
     useEffect(() => {
-        userBankAccounts.forEach(bankAccount => {
-            bankAccountTransaction.set(bankAccount, getTransactions(bankAccount.id))
-        })
-    }, [])
-
+        if (selectedBankAccount) {
+            axios.get(`/api/transactions/bank-account/${selectedBankAccount.id}`)
+                .then(response => setTransactions(response.data))
+                .catch(error => console.log(error));
+        }
+    }, [selectedBankAccount]);
 
     return (
         <div>
-            <span className="balance">
-                        Checking Account: ${checkingBalance}
-                    </span>
-                    {/* <table> */}
-                        <colgroup>
-                        <col width="20px" />
-                        <col width="30px" />
-                        <col width="30px" />
-                        <col width="40px" />
-                        <col width="40px" />
-                        </colgroup>
-                        
-                        
-            
-            <div>
-                {userBankAccounts.map((bankAccount) => (
-                
-                    <button key= {bankAccount.id} onClick={() => setCurrentAccountOnClick(bankAccount)} >{bankAccount.type}</button>
+            <h2>Bank Accounts</h2>
+            <ul>
+                {bankAccounts.map(bankAccount => (
+                    <li key={bankAccount.id}>
+                        <button name ={bankAccount.id} onClick={() => setSelectedBankAccount(bankAccount)}>
+                            {bankAccount.name}
+                        </button>
+                    </li>
                 ))}
-            </div>
-                <table>
-                    <thead>
-                        <tr>
-                            {/* these are column names */}
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Type</th>
-                            
-                        
-                        </tr>
+            </ul>
+            {selectedBankAccount && (
+                <div>
+                    <h2>Transactions for {selectedBankAccount.bankName}</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            {bankAccountTransaction.get(currentBankAccount).length !== 0 ? (
-                                bankAccountTransaction.get(currentBankAccount).map((transaction) => (
-                                    <tr key={transaction.id}>
+                            {transactions.map(transaction => (
+                                <tr key={transaction.id}>
                                     <td>{transaction.date}</td>
-                                    <td>{"$" + transaction.amount + ".00"}</td>
-                                    <td>{transaction.type}</td>
-                    
-                                    </tr>
-                                ))
-                                ) : (
-                    <tr>
-                        <td colSpan={2}>No Transactions found</td>
-                    </tr>
-    )}
-  </tbody>
+                                    <td>{transaction.description}</td>
+                                    <td>{transaction.amount}</td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
-            <Transactionmodal/>
+                </div>
+            )}
         </div>
-    )
-}
+    );
+};
 export default Hi;
