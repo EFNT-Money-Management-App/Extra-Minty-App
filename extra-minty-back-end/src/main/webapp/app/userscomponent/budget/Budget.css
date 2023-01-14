@@ -1,3 +1,70 @@
+.title {
+    text-align: center;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 35px;
+}
+
 .progress-bar {
     width: 50%;
+}
+
+.bar-scrollable {
+    overflow-y: scroll;
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(#7CECE4, transparent);
+    border-radius: 20px;
+}
+
+.budget-column {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.budget-style {
+    font-size: 20px;
+}
+
+.budget-buttons {
+    display: flex;
+}
+
+.bar-toggle {
+    float: right;
+}
+
+.circular-scrollable {
+    overflow-x: scroll;
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(#7CECE4, transparent);
+    border-radius: 20px;
+    display: flex;
+}
+
+.budget-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.button-style, .button-style:hover, .button-style:focus, .button-style:active, .button-style.active, .open>.dropdown-toggle.button-style {
+    color: black;
+    background-color: #7CECE4;
+    border-color: #7CECE4;
+    margin: 10px;
+}
+
+.delete-button, .delete-button:hover, .delete-button:focus, .delete-button:active, .delete-button.active, .open>.dropdown-toggle.delete-button {
+    color: rgb(255, 255, 255);
+    background-color: #ff0000;
+    border-color: #ff0000;
+    margin: 3px;
+}
+
+.update-button, .update-button:hover, .update-button:focus, .update-button:active, .update-button.active, .open>.dropdown-toggle.update-button {
+    color: rgb(255, 255, 255);
+    background-color: #5f6ce1;
+    border-color: #5f6ce1;
+    margin: 3px;
 }
