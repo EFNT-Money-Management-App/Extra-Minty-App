@@ -8,6 +8,8 @@ import { IUser } from '../../shared/model/user.model';
 import { NavLink } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
 import transaction from 'app/entities/transaction/transaction.reducer';
+import { APP_DATE_FORMAT } from "app/config/constants";
+import { TextFormat } from "react-jhipster";
 
 
 
@@ -79,10 +81,10 @@ const Temp = () => {
         <div>
             <div>
                 <h2>Hello,{user ? <div>{user.firstName}</div> : <div>Loading...</div>}</h2>
-                <h4>Your accounts:</h4>
+                <h4>Click an account to view transactions.</h4>
                 {userBankAccounts.map((bankAccount) => (
                     <button key={bankAccount.id} onClick={() => handleTabClick(bankAccount)}>
-                        { bankAccount.bankName + " " + bankAccount.type }
+                        { bankAccount.bankName + " || " + bankAccount.type }
                     </button>
                 ))}
             </div>
@@ -100,7 +102,7 @@ const Temp = () => {
                     <tbody>
                         {currentTransactions.map((transaction) => (
                             <tr key={transaction.id}>
-                                <td>{transaction.date}</td>
+                                <td>{transaction.date ? <TextFormat value={transaction.date} type="date" format={APP_DATE_FORMAT} /> : null}</td>
                                 <td>{"$" + transaction.amount + ".00"}</td>
                                 <td>{transaction.description}</td>
                                 <td>{transaction.type}</td>
