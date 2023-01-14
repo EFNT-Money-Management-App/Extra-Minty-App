@@ -104,7 +104,7 @@ const Hi = () => {
                         
                         </tr>
                         </thead>
-                        <tbody>
+                        {/* <tbody>
                             {bankAccountTransaction.get(currentBankAccount).length !== 0 ? (
                                 bankAccountTransaction.get(currentBankAccount).map((transaction) => (
                                     <tr key={transaction.id}>
@@ -119,7 +119,7 @@ const Hi = () => {
                         <td colSpan={2}>No Transactions found</td>
                     </tr>
     )}
-  </tbody>
+  </tbody> */}
                     </table>
             <Transactionmodal/>
         </div>
