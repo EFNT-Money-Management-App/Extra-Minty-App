@@ -4,6 +4,10 @@ import { useState } from "react";
 import axios from "axios";
 import { IBankAccount } from "app/shared/model/bank-account.model";
 import { ITransaction } from "app/shared/model/transaction.model";
+import { IUser } from '../../shared/model/user.model';
+import { NavLink } from 'reactstrap';
+import { NavLink as Link } from 'react-router-dom';
+import transaction from 'app/entities/transaction/transaction.reducer';
 
 
 
@@ -13,7 +17,7 @@ const Temp = () => {
     const [selectedBankAccount, setSelectedBankAccount] = useState<IBankAccount>();
     const [currentTransactions, setCurrentTransactions] = useState<ITransaction[]>();
     const dataCache = new Map<number, ITransaction[]>();
-
+    const [user, setUser] = useState<IUser>()
 
     // State for all of the user's bank accounts
     const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([]);
@@ -30,6 +34,13 @@ const Temp = () => {
                 console.error(err);
             });
     }, []);
+    useEffect(() =>{
+        axios.get('/api/account')
+        .then(res => {
+            console.log(res.data)
+            setUser(res.data)
+        })
+    },[])
 
     // const getTransactions = async (bankAccountId: number) => {
     //     try {
@@ -59,11 +70,16 @@ const Temp = () => {
         setSelectedBankAccount(bankAccount);
         getTransactions(bankAccount.id).then((data) => setCurrentTransactions(data));
     }
+
+    const handleDetailsClick = (transaction: ITransaction) => {
+
+    }
     
     return (
         <div>
             <div>
-                <h2>Your Accounts</h2>
+                <h2>Hello,{user ? <div>{user.firstName}</div> : <div>Loading...</div>}</h2>
+                <h4>Your accounts:</h4>
                 {userBankAccounts.map((bankAccount) => (
                     <button key={bankAccount.id} onClick={() => handleTabClick(bankAccount)}>
                         { bankAccount.bankName + " " + bankAccount.type }
@@ -78,6 +94,7 @@ const Temp = () => {
                             <th>Amount</th>
                             <th>Description</th>
                             <th>Type</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,6 +104,9 @@ const Temp = () => {
                                 <td>{"$" + transaction.amount + ".00"}</td>
                                 <td>{transaction.description}</td>
                                 <td>{transaction.type}</td>
+                                <Link to={`/transaction/${transaction.id}`}>
+                                    <button>Details</button>
+                                </Link>
                             </tr>
                         ))}
                     </tbody>
