@@ -43,6 +43,9 @@ const Profile = () => {
                 <span className='user-name'></span>
             </div>
             <div>
+                <div  className='user-info'>
+                    <table>
+                    </table>
                <Card>
                     <div  className='user-info'>
                         <span>First Name: Lola</span>
@@ -54,7 +57,6 @@ const Profile = () => {
                         <p></p>
                         <p></p>
                     </div>
-                </Card>
             </div>
         </div>
     )
