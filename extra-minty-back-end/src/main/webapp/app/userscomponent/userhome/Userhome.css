@@ -18,6 +18,10 @@
     font-weight: bold;
 }
 
+.account-table {
+    background: linear-gradient(#7CECE4, transparent);
+    border-radius: 20px;
+}
 td {
     padding-left: 20px;
     padding-right: 20px;
