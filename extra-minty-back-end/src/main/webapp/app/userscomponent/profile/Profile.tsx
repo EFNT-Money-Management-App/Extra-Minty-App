@@ -10,12 +10,10 @@ const Profile = () => {
                 <span className='user-name' >User1</span>
             </div>
             <div>
-               <Card>
                 <div  className='user-info'>
                     <table>
                     </table>
                     </div>
-                </Card>
             </div>
         </div>
     )
