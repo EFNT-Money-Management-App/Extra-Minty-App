@@ -37,6 +37,7 @@ const Profile = () => {
     }, [])
 
     return (
+<<<<<<< HEAD
             <Container fluid="m" className='profile-content'>
                 <Row> 
                     <Col sm={{size:"4"}} className='left-column'>
