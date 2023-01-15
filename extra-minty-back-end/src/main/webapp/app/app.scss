@@ -29,8 +29,14 @@ a {
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem;
+    padding-top: 1.7rem;
     .card {
       padding: 1rem;
+      border: 10px solid;
+      border-image: linear-gradient(to bottom, #7cec9c, transparent, transparent) 1;
+      background: linear-gradient(to top,#7cec9c, transparent, transparent);
+
+      // border-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet) 1;
     }
     .view-routes {
       height: 100%;

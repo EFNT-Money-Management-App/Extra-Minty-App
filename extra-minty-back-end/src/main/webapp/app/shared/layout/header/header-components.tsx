@@ -24,8 +24,7 @@ export const Brand = () => (
 export const Home = () => (
   <NavItem>
     <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.home">Home</Translate>
       </span>
     </NavLink>
@@ -35,8 +34,7 @@ export const Home = () => (
 export const Features = () => (
   <NavItem>
     <NavLink tag={Link} to="/features" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.features">Features</Translate>
       </span>
     </NavLink>
@@ -46,8 +44,7 @@ export const Features = () => (
 export const Rewards = () => (
   <NavItem>
     <NavLink tag={Link} to="/rewards" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.rewards">Rewards</Translate>
       </span>
     </NavLink>
@@ -57,8 +54,7 @@ export const Rewards = () => (
 export const About = () => (
   <NavItem>
     <NavLink tag={Link} to="/about" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.about">About</Translate>
       </span>
     </NavLink>
@@ -68,8 +64,7 @@ export const About = () => (
 export const Budget = () => (
   <NavItem>
     <NavLink tag={Link} to="/userbudget" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.budget">Budget</Translate>
       </span>
     </NavLink>
@@ -79,8 +74,7 @@ export const Budget = () => (
 export const UserAccount = () => (
   <NavItem>
     <NavLink tag={Link} to="/useraccount" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.useraccount">Account</Translate>
       </span>
     </NavLink>
@@ -90,8 +84,7 @@ export const UserAccount = () => (
 export const Peppermint = () => (
   <NavItem>
     <NavLink tag={Link} to="/userpeppermint" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.peppermint">Peppermint</Translate>
       </span>
     </NavLink>
@@ -101,8 +94,7 @@ export const Peppermint = () => (
 export const Profile = () => (
   <NavItem>
     <NavLink tag={Link} to="/userprofile" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.profile">Profile</Translate>
       </span>
     </NavLink>
@@ -112,8 +104,7 @@ export const Profile = () => (
 export const Userhome = () => (
   <NavItem>
     <NavLink tag={Link} to="/userhome" className="d-flex align-items-center">
-      {/* <FontAwesomeIcon icon="home" /> */}
-      <span>
+      <span className="navbar-title-name">
         <Translate contentKey="global.menu.home">Home</Translate>
       </span>
     </NavLink>

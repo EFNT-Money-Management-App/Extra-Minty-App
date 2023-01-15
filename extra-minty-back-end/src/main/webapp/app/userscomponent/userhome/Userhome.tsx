@@ -48,6 +48,7 @@ const Userhome = () => {
     ];
         
     const options = {
+      backgroundColor: 'transparent',
         title: "Expenses Past 30 Days",
         titleTextStyle: {
             fontSize: 25,
