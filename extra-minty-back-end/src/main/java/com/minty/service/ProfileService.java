@@ -111,6 +111,19 @@ public class ProfileService {
         return profileRepository.findOneWithEagerRelationships(id).map(profileMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<ProfileDTO> findOneForUser(Long id) {
+        log.debug("Request to get Profile for User: {}", id);
+        return profileRepository.findOneByUserId(id).map(profileMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<ProfileDTO> findOneForCurrentUser() {
+        log.debug("Request to get Profile for User: {}");
+        return profileRepository.findByUserIsCurrentUser().map(profileMapper::toDto);
+    }
+
+
     /**
      * Delete the profile by id.
      *

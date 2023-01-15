@@ -37,4 +37,10 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
     @Query("select profile from Profile profile left join fetch profile.user where profile.id =:id")
     Optional<Profile> findOneWithToOneRelationships(@Param("id") Long id);
+    //CUSTOM
+    Optional<Profile> findOneByUserId(Long userId);
+
+    //custom
+    @Query("select profile from Profile profile where profile.user.login = ?#{principal.username}")
+    Optional<Profile> findByUserIsCurrentUser();
 }
