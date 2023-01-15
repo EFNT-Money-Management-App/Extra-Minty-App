@@ -1,0 +1,14 @@
+.account-name-style {
+    color: black;
+    font-family: 'BebasNeue';
+    font-size: 20px;
+}
+
+@font-face {
+  font-family: 'BebasNeue';
+  src: local('BebasNeue'), url(../../../../content/fonts/BebasNeue-Bold.ttf);
+}
+
+.account-name-style:hover {
+  color:rgba(0, 0, 0, 0.086)
+}

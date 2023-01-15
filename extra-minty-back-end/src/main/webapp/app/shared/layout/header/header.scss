@@ -1,4 +1,4 @@
-$header-color: #fff;
+$header-color: rgb(0, 0, 0);
 $header-color-secondary: #bbb;
 $header-color-hover: darken($header-color, 20%);
 
@@ -38,8 +38,11 @@ Developement Ribbon
 Navbar styles
 ========================================================================== */
 .jh-navbar {
-  background-color: #353d47;
+  background-color: #7CECE4;
   padding: 0.2em 1em;
+  height: 70px;
+  // background-image: url('../../../../content/images/green-leaves-clipart-png-clip-art.png');
+  background-size:200px;
   .profile-image {
     margin: -10px 0px;
     height: 40px;
@@ -54,8 +57,9 @@ Navbar styles
   .dropdown-toggle::after {
     margin-left: 0.15em;
   }
+  //padding and margin for the right side links
   ul.navbar-nav {
-    padding: 0.5em;
+    padding-right: 10em;
     .nav-item {
       margin-left: 1.5rem;
     }
@@ -105,8 +109,9 @@ Navbar styles
 }
 
 .brand-title {
-  font-size: 24px;
+  font-size: 30px;
   color: $header-color;
+  padding-left: 50px;
   &:hover {
     color: $header-color-hover;
     text-decoration: none;
@@ -119,4 +124,19 @@ Navbar styles
   position: absolute;
   top: 0px;
   z-index: 1031;
+}
+
+@font-face {
+  font-family: 'BebasNeue';
+  src: local('BebasNeue'), url(../../../../content/fonts/BebasNeue-Bold.ttf);
+}
+
+.navbar-title-name {
+  color:rgb(0, 0, 0);
+  font-family: 'BebasNeue';
+  font-size: 20px;
+}
+
+.navbar-title-name:hover {
+  color:rgba(0, 0, 0, 0.086)
 }

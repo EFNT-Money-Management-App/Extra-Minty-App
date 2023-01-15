@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
@@ -10,8 +9,10 @@ import { NavLink as Link } from 'react-router-dom';
 import transaction from 'app/entities/transaction/transaction.reducer';
 import { APP_DATE_FORMAT } from "app/config/constants";
 import { TextFormat } from "react-jhipster";
+import TransactionUpdate from 'app/entities/transaction/transaction-update'
+import BankAccountUpdate from "app/entities/bank-account/bank-account-update";
 
-
+import './Useraccount.css'
 
 
 const Temp = () => {
@@ -78,45 +79,53 @@ const Temp = () => {
     }
     
     return (
+      <div>
         <div>
-            <div>
-                <h2>Hello,{user ? <div>{user.firstName}</div> : <div>Loading...</div>}</h2>
-                <h4>Click an account to view transactions.</h4>
-                {userBankAccounts.map((bankAccount) => (
-                    <button key={bankAccount.id} onClick={() => handleTabClick(bankAccount)}>
-                        { bankAccount.bankName + " || " + bankAccount.type }
-                    </button>
-                ))}
-            </div>
-            {currentTransactions && currentTransactions.length > 0 ? (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>Type</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentTransactions.map((transaction) => (
-                            <tr key={transaction.id}>
-                                <td>{transaction.date ? <TextFormat value={transaction.date} type="date" format={APP_DATE_FORMAT} /> : null}</td>
-                                <td>{"$" + transaction.amount + ".00"}</td>
-                                <td>{transaction.description}</td>
-                                <td>{transaction.type}</td>
-                                <Link to={`/transaction/${transaction.id}`}>
-                                    <button>Details</button>
-                                </Link>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            ) : (
-                <div>No transactions found for the selected bank account.</div>
-            )}
+          <h2>Hello,{user ? <div>{user.firstName}</div> : <div>Loading...</div>}</h2>
+          <h4>Click an account to view transactions.</h4>
+          {userBankAccounts.map(bankAccount => (
+            <button key={bankAccount.id} onClick={() => handleTabClick(bankAccount)}>
+              {bankAccount.bankName + ' || ' + bankAccount.type}
+            </button>
+          ))}
         </div>
-    )
+        {currentTransactions && currentTransactions.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentTransactions.map(transaction => (
+                <tr key={transaction.id}>
+                  <td>{transaction.date ? <TextFormat value={transaction.date} type="date" format={APP_DATE_FORMAT} /> : null}</td>
+                  <td>{'$' + transaction.amount + '.00'}</td>
+                  <td>{transaction.description}</td>
+                  <td>{transaction.type}</td>
+                  <Link to={`/transaction/${transaction.id}`}>
+                    <button>Details</button>
+                  </Link>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div>No transactions found for the selected bank account.</div>
+        )}
+        <div className="transaction-bankaccount-button">
+          <div className="transaction-button">
+            <TransactionUpdate />
+          </div>
+          <div className="bankaccount-button">
+            <BankAccountUpdate />
+          </div>
+        </div>
+      </div>
+    );
 };
 export default Temp;
