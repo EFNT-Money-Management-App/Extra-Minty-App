@@ -85,7 +85,7 @@ const Userhome = () => {
             />
 
     <h3>Your Accounts</h3>
-        <table>
+        <table className='account-table'>
   <thead>
     <tr>
       <th>Bank</th>
