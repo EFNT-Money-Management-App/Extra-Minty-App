@@ -154,6 +154,20 @@ public class ProfileResource {
         Optional<ProfileDTO> profileDTO = profileService.findOne(id);
         return ResponseUtil.wrapOrNotFound(profileDTO);
     }
+    //CUSTOM
+    @GetMapping("/profiles/user/{id}")
+    public ResponseEntity<ProfileDTO> getUserProfile(Long id) {
+        log.debug("REST request to get Profile : {}", id);
+        Optional<ProfileDTO> profileDTO = profileService.findOneForUser(id);
+        return ResponseUtil.wrapOrNotFound(profileDTO);
+    }
+    //CUSTOM
+    @GetMapping("/profiles/current-user")
+    public ResponseEntity<ProfileDTO> getUserProfileCurrentUser() {
+        log.debug("REST request to get Profile : {}");
+        Optional<ProfileDTO> profileDTO = profileService.findOneForCurrentUser();
+        return ResponseUtil.wrapOrNotFound(profileDTO);
+    }
 
     /**
      * {@code DELETE  /profiles/:id} : delete the "id" profile.
