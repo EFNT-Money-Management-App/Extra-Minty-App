@@ -24,3 +24,11 @@ button {
     height: 100vh;
     border: #EDEDED;
 }
+
+.transaction-bankaccount-button {
+    display: flex;
+}
+
+.transaction-button {
+    padding-right: 10px;
+}
