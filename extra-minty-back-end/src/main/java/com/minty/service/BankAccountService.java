@@ -1,9 +1,12 @@
 package com.minty.service;
 
 import com.minty.domain.BankAccount;
+import com.minty.domain.Transaction;
 import com.minty.repository.BankAccountRepository;
 import com.minty.service.dto.BankAccountDTO;
 import com.minty.service.mapper.BankAccountMapper;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -130,5 +133,21 @@ public class BankAccountService {
     public void delete(Long id) {
         log.debug("Request to delete BankAccount : {}", id);
         bankAccountRepository.deleteById(id);
+    }
+
+    //CUSTOM
+    public List<BankAccount> updateBankAccountsBalancesForTransfer(Transaction t){
+        BankAccount from = bankAccountRepository.findByAccountNumber(t.getTransferFromAccountNumber()).get();
+        BankAccount to = bankAccountRepository.findByAccountNumber(t.getTransferToAccountNumber()).get();
+        if(from != null && to != null){
+           from.setBalance(from.getBalance() - t.getAmount());
+           to.setBalance(to.getBalance() + t.getAmount());
+           bankAccountRepository.save(from);
+           bankAccountRepository.save(to);
+        }
+        List<BankAccount> updates = new LinkedList<>();
+        updates.add(from);
+        updates.add(to);
+        return updates;
     }
 }

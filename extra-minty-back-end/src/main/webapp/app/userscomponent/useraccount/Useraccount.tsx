@@ -1,9 +1,13 @@
-import * as React from 'react';
+import React from "react";
+import './Useraccount.css';
+import './Hi';
+import Hi from "./Hi";
+import temp from "./temp"
 
 const Useraccount = () => {
     return (
         <div>
-            This is the account page
+            <Hi/>
         </div>
     )
 }

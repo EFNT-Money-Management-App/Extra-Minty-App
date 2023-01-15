@@ -1,11 +1,21 @@
 import * as React from 'react';
-
+import './Profile.css';
+import { Card } from 'reactstrap';
 const Profile = () => {
     return (
         <div>
-            This is the profile page
+            <h2> User Profile</h2>
+            <div className='user'>
+                <span className='user-image'><img src="../content/images/jhipster_family_member_0_head-192.png" alt="" /></span>
+                <span className='user-name' >User1</span>
+            </div>
+            <div>
+                <div  className='user-info'>
+                    <table>
+                    </table>
+                    </div>
+            </div>
         </div>
     )
 }
-
 export default Profile;
