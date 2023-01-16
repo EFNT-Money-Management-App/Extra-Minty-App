@@ -6,6 +6,7 @@
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Transaction",
         "createOrEditLabel": "Create or edit a Transaction",
+        "editLabel": "Edit current Transaction",
         "notFound": "No Transactions found"
       },
       "created": "A new Transaction is created with identifier {{ param }}",
