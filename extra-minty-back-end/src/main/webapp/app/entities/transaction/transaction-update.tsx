@@ -5,7 +5,6 @@ import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'r
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IBudget } from 'app/shared/model/budget.model';
@@ -17,7 +16,11 @@ import { TransactionType } from 'app/shared/model/enumerations/transaction-type.
 import { TransactionCategory } from 'app/shared/model/enumerations/transaction-category.model';
 import { getEntity, updateEntity, createEntity, reset } from './transaction.reducer';
 
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import { AUTHORITIES } from 'app/config/constants';
 import { Modal } from 'react-bootstrap';
+import axios from 'axios';
+import { IUser } from 'app/shared/model/user.model';
 
 export const TransactionUpdate = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +38,46 @@ export const TransactionUpdate = () => {
   const updateSuccess = useAppSelector(state => state.transaction.updateSuccess);
 
   const account = useAppSelector(state => state.authentication.account);
+  const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
+
+
+
+
+
+  //HERE IS WHEN I WENT CRAZY
+  const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([]);
+  const [selectedBankAccount, setSelectedBankAccount] = useState<IBankAccount>();
+  const [userBudget, setUserBudget] = useState<IBudget[]>([]);
+
+  useEffect(() => {
+    axios
+      .get('/api/bank-accounts/currentUser')
+      .then(response => {
+        console.log(response.data);
+        setUserBankAccounts(response.data);
+        setSelectedBankAccount(response.data[0]);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get('/api/budgets/current-user')
+      .then(response => {
+        console.log(response.data);
+        setUserBudget(response.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+  //AND NOT SURE IF IT WILL WORK OR NOT
+
+
+
+
 
   const transactionTypeValues = Object.keys(TransactionType);
   const transactionCategoryValues = Object.keys(TransactionCategory);
@@ -98,7 +141,9 @@ export const TransactionUpdate = () => {
 
   return (
     <div>
-      <Button style={{ background: '#00c314', border: '#00c314'}}onClick={handleShow}>Add Transaction</Button>
+      <Button style={{ background: '#00c314', border: '#00c314' }} onClick={handleShow}>
+        Add Transaction
+      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Row className="justify-content-center">
@@ -201,13 +246,11 @@ export const TransactionUpdate = () => {
                   type="select"
                 >
                   <option value="" key="0" />
-                  {budgets
-                    ? budgets.map(otherEntity => (
+                  {userBudget.map(otherEntity => (
                         <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.id}
+                          {otherEntity.name}
                         </option>
-                      ))
-                    : null}
+                      ))}
                 </ValidatedField>
                 <ValidatedField
                   id="transaction-bankAccount"
@@ -216,24 +259,12 @@ export const TransactionUpdate = () => {
                   label={translate('extraMintyApp.transaction.bankAccount')}
                   type="select"
                 >
-                  <option value="" key="0" />
-                  {bankAccounts ? (
-                    bankAccounts.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  ) : (
-                    <option>{account.login}</option>
-                  )}
+                      {userBankAccounts.map(bankAcct => (
+                        <option value={bankAcct.id} key={bankAcct.id}>
+                          {bankAcct.bankName}
+                        </option>
+                      ))}
                 </ValidatedField>
-                {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/transaction" replace color="info">
-                  <FontAwesomeIcon icon="arrow-left" />
-                  &nbsp;
-                  <span className="d-none d-md-inline">
-                    <Translate contentKey="entity.action.back">Back</Translate>
-                  </span>
-                </Button> */}
                 &nbsp;
                 <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                   <FontAwesomeIcon icon="save" />
