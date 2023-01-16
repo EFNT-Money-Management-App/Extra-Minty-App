@@ -109,11 +109,13 @@ export const BudgetUpdate = (props) => {
         {isNew ? 'Add Budget' : 'Update Budget'}
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={isNew ? show : true} onHide={handleClose}>
         <Row className="justify-content-center">
           <Col md="8">
             <h2 id="extraMintyApp.budget.home.createOrEditLabel" data-cy="BudgetCreateUpdateHeading">
-              <Translate contentKey="extraMintyApp.budget.home.createOrEditLabel">Create or edit a Budget</Translate>
+              <Translate contentKey={isNew ? 'extraMintyApp.budget.home.createLabel' : 'extraMintyApp.budget.home.editLabel'}>
+                {isNew ? 'Create a Budget' : 'Edit Budget'}
+              </Translate>
             </h2>
           </Col>
         </Row>
@@ -169,7 +171,7 @@ export const BudgetUpdate = (props) => {
                   type="text"
                 />
                 {/* <ValidatedField id="budget-user" name="user" data-cy="user" label={translate('extraMintyApp.budget.user')} type="select"> */}
-                  {/* {isAdmin ? <option value="" key="0" /> : <div>{account.login}</div>}
+                {/* {isAdmin ? <option value="" key="0" /> : <div>{account.login}</div>}
                   {users ? (
                     users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
@@ -177,15 +179,15 @@ export const BudgetUpdate = (props) => {
                       </option>
                     ))
                   ) : (null)}; */}
-                    {/* <option>
+                {/* <option>
                       {userList.login}
                     </option> */}
-                    {/* {userList.map(userEntity => ( */}
-                      {/* <option>
+                {/* {userList.map(userEntity => ( */}
+                {/* <option>
                         {userList.id}
                       </option> */}
-                    {/* ))} */}
-                  {/* )} */}
+                {/* ))} */}
+                {/* )} */}
                 {/* </ValidatedField> */}
                 {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/userbudget" replace color="info">
                 &nbsp;
@@ -194,7 +196,14 @@ export const BudgetUpdate = (props) => {
                 </span>
               </Button> */}
                 &nbsp;
-                <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                <Button
+                  style={{ marginBottom: 30 }}
+                  color="primary"
+                  id="save-entity"
+                  data-cy="entityCreateSaveButton"
+                  type="submit"
+                  disabled={updating}
+                >
                   <FontAwesomeIcon icon="save" />
                   &nbsp;
                   <Translate contentKey="entity.action.save">Save</Translate>
