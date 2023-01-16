@@ -36,6 +36,7 @@ const Profile = () => {
             setCurrentUser(res.data)
         })
     },[])
+    
     useEffect(() =>{
         axios.get('api/profiles/current-user')
         .then(res =>{
