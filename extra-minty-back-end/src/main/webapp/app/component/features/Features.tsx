@@ -8,7 +8,7 @@ const Features = () => {
             <div className="features-text">
             <ul>
                 <li><strong>Connect/create</strong> bank accounts</li>
-                <li><strong>Deposit/withdraw</strong> money to bank accounts</li>
+                <li><strong>Deposit/withdraw</strong> money to and from bank accounts</li>
                 <li><strong>Transfer</strong> money to and from one bank account to another bank account</li>
                 <li>Create your own <strong>categories</strong> of transactions</li>
                 <ul>
