@@ -7,7 +7,7 @@ import { IUser } from 'app/shared/model/user.model';
 import * as Login from 'app/modules/login/login';
 import { IProfile } from '../../shared/model/profile.model';
 import profile from 'app/entities/profile/profile.reducer';
-import { kMaxLength } from 'buffer';
+// import { MaxLength } from 'buffer';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
