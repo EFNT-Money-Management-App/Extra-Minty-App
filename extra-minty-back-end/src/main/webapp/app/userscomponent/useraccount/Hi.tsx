@@ -11,6 +11,8 @@ import { APP_DATE_FORMAT } from "app/config/constants";
 import { TextFormat } from "react-jhipster";
 import TransactionUpdate from 'app/entities/transaction/transaction-update'
 import BankAccountUpdate from "app/entities/bank-account/bank-account-update";
+import { Button } from "reactstrap";
+import { useAppSelector } from "app/config/store";
 
 import './Useraccount.css'
 
@@ -21,6 +23,8 @@ const Temp = () => {
     const [currentTransactions, setCurrentTransactions] = useState<ITransaction[]>();
     const dataCache = new Map<number, ITransaction[]>();
     const [user, setUser] = useState<IUser>()
+
+    const transactionEntity = useAppSelector(state => state.transaction.entity);
 
     // State for all of the user's bank accounts
     const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([]);
@@ -108,7 +112,7 @@ const Temp = () => {
                   <td>{transaction.description}</td>
                   <td>{transaction.type}</td>
                   <Link to={`/transaction/${transaction.id}`}>
-                    <button>Details</button>
+                    <Button className="details-button">Details</Button>
                   </Link>
                 </tr>
               ))}
