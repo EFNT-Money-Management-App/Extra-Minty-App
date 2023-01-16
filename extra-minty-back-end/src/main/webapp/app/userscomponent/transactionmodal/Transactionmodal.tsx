@@ -101,13 +101,13 @@ const Transactionmodal = () => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField
+              {/* <ValidatedField
                 label={translate('extraMintyApp.transaction.customCategoryName')}
                 id="transaction-customCategoryName"
                 name="customCategoryName"
                 data-cy="customCategoryName"
                 type="text"
-              />
+              /> */}
               <ValidatedField
                 label={translate('extraMintyApp.transaction.type')}
                 id="transaction-type"
@@ -121,6 +121,13 @@ const Transactionmodal = () => {
                   </option>
                 ))}
               </ValidatedField>
+              <ValidatedField
+                label={translate('extraMintyApp.transaction.customCategoryName')}
+                id="transaction-customCategoryName"
+                name="customCategoryName"
+                data-cy="customCategoryName"
+                type="text"
+              />
               <ValidatedField
                 label={translate('extraMintyApp.transaction.amount')}
                 id="transaction-amount"
