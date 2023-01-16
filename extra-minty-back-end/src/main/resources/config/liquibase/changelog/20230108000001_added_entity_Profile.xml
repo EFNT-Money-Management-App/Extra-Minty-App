@@ -14,6 +14,20 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+
+
+            <column name="firstName" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="lastName" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="email" type="date">
+                <constraints nullable="true" />
+            </column>
+
+
+
             <column name="birthdate" type="date">
                 <constraints nullable="true" />
             </column>
@@ -56,6 +70,13 @@
                   tableName="profile"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
+
+
+            <column name"firstName" type="string"/>
+            <column name"lastName" type="string"/>
+            <column name"email" type="string"/>
+
+
             <column name="birthdate" type="date"/>
             <column name="peppermint_points" type="numeric"/>
             <column name="security_question" type="string"/>

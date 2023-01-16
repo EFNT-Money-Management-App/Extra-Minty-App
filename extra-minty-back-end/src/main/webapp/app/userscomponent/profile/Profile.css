@@ -19,13 +19,16 @@ profile-content{ min-height: 100vh;
     /* padding: 0%;
     margin: 0%; */
 }
+
 .profile-picture{/* align-content: center; */
     /* justify-content: center; */
     /* align-items: center; */
-    width: 300px; 
-    height: 300px; 
-    /* border-radius: 50%;  */
-    overflow: auto;
+    width: auto; 
+    height: auto; 
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 50%; 
+    overflow: hidden;
     /* display: block; */
     margin-left: auto; 
     margin-right: auto;
