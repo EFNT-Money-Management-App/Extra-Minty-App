@@ -98,6 +98,27 @@ export const ProfileUpdate = () => {
                   />
                 ) : null}
                 <ValidatedField
+                  label={translate('extraMintyApp.profile.firstName')}
+                  id="profile-firstName"
+                  name="firstName"
+                  data-cy="firstName"
+                  type="text"
+                />
+                <ValidatedField
+                  label={translate('extraMintyApp.profile.lastName')}
+                  id="profile-lastName"
+                  name="lastName"
+                  data-cy="lastName"
+                  type="text"
+                />
+                <ValidatedField
+                  label={translate('extraMintyApp.profile.email')}
+                  id="profile-email"
+                  name="email"
+                  data-cy="email"
+                  type="text"
+                />
+                <ValidatedField
                   label={translate('extraMintyApp.profile.birthdate')}
                   id="profile-birthdate"
                   name="birthdate"
@@ -143,13 +164,13 @@ export const ProfileUpdate = () => {
                       ))
                     : null}
                 </ValidatedField>
-                <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/profile" replace color="info">
+                {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/profile" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
                   <span className="d-none d-md-inline">
                     <Translate contentKey="entity.action.back">Back</Translate>
                   </span>
-                </Button>
+                </Button> */}
                 &nbsp;
                 <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
                   <FontAwesomeIcon icon="save" />
