@@ -25,7 +25,6 @@ export const BudgetUpdate = (props) => {
   const navigate = useNavigate();
 
   const { id } = useParams<'id'>();
-  // const { id } = props;
   const isNew = id === undefined;
 
   const users = useAppSelector(state => state.userManagement.users);
