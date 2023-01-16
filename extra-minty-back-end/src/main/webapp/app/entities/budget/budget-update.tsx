@@ -17,6 +17,7 @@ import { getEntity, updateEntity, createEntity, reset } from './budget.reducer';
 import { Modal } from 'react-bootstrap';
 import { AUTHORITIES } from 'app/config/constants';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import axios from 'axios';
 
 export const BudgetUpdate = (props) => {
   const dispatch = useAppDispatch();
@@ -39,6 +40,20 @@ export const BudgetUpdate = (props) => {
 
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
+
+  const [userList, setUserList] = useState<IUser>();
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:9000/api/account')
+      .then(response => {
+        console.log(response.data);
+        setUserList(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   const handleClose = () => {
     navigate('/userbudget')
@@ -66,7 +81,8 @@ export const BudgetUpdate = (props) => {
     const entity = {
       ...budgetEntity,
       ...values,
-      user: users.find(it => it.id.toString() === values.user.toString()),
+      // user: users.find(it => it.id.toString() === values.user.toString()),
+      user: users.find(it => it.login === account.login),
     };
 
     if (isNew) {
@@ -89,7 +105,7 @@ export const BudgetUpdate = (props) => {
 
   return (
     <div>
-      <Button style={{ background: '#00c314', border: '#00c314'}} onClick={handleShow}>
+      <Button style={{ background: '#00c314', border: '#00c314' }} onClick={handleShow}>
         {isNew ? 'Add Budget' : 'Update Budget'}
       </Button>
 
@@ -152,18 +168,25 @@ export const BudgetUpdate = (props) => {
                   data-cy="budgetYear"
                   type="text"
                 />
-                <ValidatedField id="budget-user" name="user" data-cy="user" label={translate('extraMintyApp.budget.user')} type="select">
-                  {isAdmin ? <option value="" key="0" /> : <div>{account.login}</div>}
-                  {isAdmin ? (
+                {/* <ValidatedField id="budget-user" name="user" data-cy="user" label={translate('extraMintyApp.budget.user')} type="select"> */}
+                  {/* {isAdmin ? <option value="" key="0" /> : <div>{account.login}</div>}
+                  {users ? (
                     users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.login}
                       </option>
                     ))
-                  ) : (
-                    <option>{account.login}</option>
-                  )}
-                </ValidatedField>
+                  ) : (null)}; */}
+                    {/* <option>
+                      {userList.login}
+                    </option> */}
+                    {/* {userList.map(userEntity => ( */}
+                      {/* <option>
+                        {userList.id}
+                      </option> */}
+                    {/* ))} */}
+                  {/* )} */}
+                {/* </ValidatedField> */}
                 {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/userbudget" replace color="info">
                 &nbsp;
                 <span className="d-none d-md-inline">

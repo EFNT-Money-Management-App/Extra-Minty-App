@@ -17,6 +17,7 @@ import { getEntity, updateEntity, createEntity, reset } from './bank-account.red
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { AUTHORITIES } from 'app/config/constants';
 import { Modal } from 'react-bootstrap';
+import axios from 'axios';
 
 export const BankAccountUpdate = () => {
   const dispatch = useAppDispatch();
@@ -36,8 +37,37 @@ export const BankAccountUpdate = () => {
   const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
   const account = useAppSelector(state => state.authentication.account);
 
+
+
+  const [user, setUser] = useState<IUser>();
+  const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([]);
+  const [selectedBankAccount, setSelectedBankAccount] = useState<IBankAccount>();
+
+  useEffect(() => {
+    axios
+      .get('/api/bank-accounts/currentUser')
+      .then(response => {
+        console.log(response.data);
+        setUserBankAccounts(response.data);
+        setSelectedBankAccount(response.data[0]);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+  useEffect(() => {
+    axios.get('/api/account').then(res => {
+      console.log(res.data);
+      setUser(res.data);
+    });
+  }, []);
+
+
+
+
+
   const handleClose = () => {
-    navigate('/useraccount');
+    // navigate('/useraccount');
     window.location.reload();
     setShow(false);
   };
@@ -65,7 +95,7 @@ export const BankAccountUpdate = () => {
     const entity = {
       ...bankAccountEntity,
       ...values,
-      user: users.find(it => it.id.toString() === values.user.toString()),
+      user: users.find(it => it.login === account.login),
     };
 
     if (isNew) {
@@ -155,15 +185,15 @@ export const BankAccountUpdate = () => {
                     </option>
                   ))}
                 </ValidatedField>
-                <ValidatedField
+                {/* <ValidatedField
                   id="bank-account-user"
                   name="user"
                   data-cy="user"
                   label={translate('extraMintyApp.bankAccount.user')}
                   type="select"
-                >
-                  {isAdmin ? <option value="" key="0" /> : <div>{account.login}</div>}
-                  {isAdmin ? (
+                > */}
+                  {/* {isAdmin ? <option value="" key="0" /> : <div>{account.login}</div>} */}
+                  {/* {isAdmin ? (
                     users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.login}
@@ -171,8 +201,18 @@ export const BankAccountUpdate = () => {
                     ))
                   ) : (
                     <option>{account.login}</option>
-                  )}
-                </ValidatedField>
+                  )} */}
+                  {/* <option value="" key="0" />
+                  {users ? (
+                    users.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.login}
+                      </option>
+                    ))
+                  ) : (
+                    null
+                  )} */}
+                {/* </ValidatedField> */}
                 {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/bank-account" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;
