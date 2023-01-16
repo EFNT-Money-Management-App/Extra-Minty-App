@@ -11,14 +11,16 @@ import { IProfile } from '../../shared/model/profile.model';
 import profile from 'app/entities/profile/profile.reducer';
 // import { MaxLength } from 'buffer';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 
 
 const Profile = () => {
     const [currentUser, setCurrentUser] = useState<IUser>({})
     const [profileUser, setProfileUser] = useState<IProfile>({})
-   
+
+      const { id } = useParams<'id'>();
+      const isNew = id === undefined;
 
     // useEffect(() => {
     //     axios.get('/api/bank-accounts/currentUser')
@@ -94,7 +96,7 @@ const Profile = () => {
           </Col>
           <Col className="right-column" l={{ offset: 1, size: 'auto' }}>
             <Container className="details-card">
-              <Container className="title">{currentUser.firstName}'s Profile</Container>
+              <Container className="title">{currentUser.login}'s Profile</Container>
               <Container className="user-info">
                 <div className="user-title">
                   <div className="profile-picture">
@@ -129,7 +131,7 @@ const Profile = () => {
                         ) : null}
                       </ListGroupItem>
                       <ListGroupItem>Peppermint Points: {profileUser.peppermintPoints}</ListGroupItem>
-                      <a href={`profile/${profileUser.id}/edit`}>
+                      <a href={isNew ? `profile/new`:`profile/${profileUser.id}/edit`}>
                         <button>Edit Profile</button>
                       </a>
                     </div>
@@ -145,3 +147,7 @@ const Profile = () => {
     );
 }
 export default Profile;
+
+function useAppSelector(arg0: (state: any) => any) {
+  throw new Error('Function not implemented.');
+}

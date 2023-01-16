@@ -10,6 +10,18 @@
       "fieldType": "LocalDate"
     },
     {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastname",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "peppermintPoints",
       "fieldType": "Integer"
     },
