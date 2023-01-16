@@ -88,9 +88,13 @@ const Temp = () => {
           <h2>Hello,{user ? <div>{user.firstName}</div> : <div>Loading...</div>}</h2>
           <h4>Click an account to view transactions.</h4>
           {userBankAccounts.map(bankAccount => (
-            <button key={bankAccount.id} onClick={() => handleTabClick(bankAccount)}>
+            <Button
+              className={bankAccount.type === 'CHECKING' ? 'checking-button' : 'savings-button'}
+              key={bankAccount.id}
+              onClick={() => handleTabClick(bankAccount)}
+            >
               {bankAccount.bankName + ' || ' + bankAccount.type}
-            </button>
+            </Button>
           ))}
         </div>
         {currentTransactions && currentTransactions.length > 0 ? (
