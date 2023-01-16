@@ -22,6 +22,19 @@
     background: linear-gradient(#7CECE4, transparent);
     border-radius: 20px;
 }
+.account-balance{
+    text-align: right;
+    padding-left: 100px;
+}
+.account-number{
+    text-align: center;
+    margin-left: 50%;
+}
+
+.account-info{
+    display: flex;
+    align-items: right;
+}
 td {
     padding-left: 20px;
     padding-right: 20px;
