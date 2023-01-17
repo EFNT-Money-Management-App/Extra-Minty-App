@@ -51,21 +51,36 @@ const Profile = () => {
 
     return (
       <Container fluid="m" className="profile-content">
-        <a href="/profiles/update-peppermints">
-          <Button>DO IT WORK?!!?!?!?!?!?!?!</Button>
-        </a>
-      
+
         <Row>
           <Col sm={{ size: '4' }} className="left-column">
-           
             <Container className="bottom-left-card">
               <Container className="title">Your Achievements</Container>
               <tr>
-                <td><img src="./content/images/candy.png" alt="" className="icon-styling"/></td>
-                <td><img src="./content/images/coins.png" alt="" className="icon-styling" /></td>
-                <td><img src="./content/images/dollars.png" alt="" className="icon-styling" /></td>
-                <td onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}><img src="./content/images/mint.png" alt="" className="icon-styling" /></td>
-                {hover&&<div>Gettin Minty!</div>}
+                <td>
+                  <div className="toolpit">
+                    <img src="./content/images/candy.png" alt="" className="icon-styling" />
+                    <span className="tooltiptext">Your first Peppermint!</span>
+                  </div>
+                </td>
+                <td>
+                  <div className="toolpit">
+                    <img src="./content/images/money-bag.png" alt="" className="icon-styling" />
+                    <span className="tooltiptext">Securing the bag!</span>
+                  </div>
+                </td>
+                <td>
+                  <div className="toolpit">
+                    <img src="./content/images/dollars.png" alt="" className="icon-styling" />
+                    <span className="tooltiptext">Bills bills bills!</span>
+                  </div>
+                </td>
+                <td>
+                  <div className="toolpit">
+                    <img src="./content/images/mint.png" alt="" className="icon-styling" />
+                    <span className="tooltiptext">Getting minty!</span>
+                  </div>
+                </td>
               </tr>
             </Container>
           </Col>
@@ -95,24 +110,23 @@ const Profile = () => {
                 <ListGroup className="list">
                   {currentUser && profileUser ? (
                     <div>
-                    <div className="details-border">
-                      <ListGroupItem className="form">{'Username: ' + currentUser.login}</ListGroupItem>
-                      <ListGroupItem>{'First Name: ' + currentUser.firstName}</ListGroupItem>
-                      <ListGroupItem>{'Last Name: ' + currentUser.lastName}</ListGroupItem>
-                      <ListGroupItem>{'Email: ' + currentUser.email}</ListGroupItem>
-                      <ListGroupItem>{'Date of Birth: ' + profileUser.birthdate}</ListGroupItem>
-                      <ListGroupItem>
-                        Join Date:{' '}
-                        {currentUser.createdDate ? (
-                          <TextFormat value={currentUser.createdDate} type="date" format={APP_DATE_FORMAT} />
-                        ) : null}
-                      </ListGroupItem>
-                      <ListGroupItem>Peppermint Points: {profileUser.peppermintPoints}</ListGroupItem>
+                      <div className="details-border">
+                        <ListGroupItem className="form">{'Username: ' + currentUser.login}</ListGroupItem>
+                        <ListGroupItem>{'First Name: ' + currentUser.firstName}</ListGroupItem>
+                        <ListGroupItem>{'Last Name: ' + currentUser.lastName}</ListGroupItem>
+                        <ListGroupItem>{'Email: ' + currentUser.email}</ListGroupItem>
+                        <ListGroupItem>{'Date of Birth: ' + profileUser.birthdate}</ListGroupItem>
+                        <ListGroupItem>
+                          Join Date:{' '}
+                          {currentUser.createdDate ? (
+                            <TextFormat value={currentUser.createdDate} type="date" format={APP_DATE_FORMAT} />
+                          ) : null}
+                        </ListGroupItem>
+                        <ListGroupItem>Peppermint Points: {profileUser.peppermintPoints}</ListGroupItem>
                       </div>
                       <a href={isNew ? `profile/new` : `profile/${profileUser.id}/edit`}>
                         <Button className="apply-button">Add birthdate & profile image</Button>
                       </a>
-                    
                     </div>
                   ) : (
                     'Error: User not Found.'
