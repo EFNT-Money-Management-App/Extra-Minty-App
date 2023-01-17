@@ -11,6 +11,8 @@ import { APP_DATE_FORMAT } from "app/config/constants";
 import { TextFormat } from "react-jhipster";
 import TransactionUpdate from 'app/entities/transaction/transaction-update'
 import BankAccountUpdate from "app/entities/bank-account/bank-account-update";
+import { Button } from "reactstrap";
+import { useAppSelector } from "app/config/store";
 
 import './Useraccount.css'
 
@@ -21,6 +23,8 @@ const Temp = () => {
     const [currentTransactions, setCurrentTransactions] = useState<ITransaction[]>();
     const dataCache = new Map<number, ITransaction[]>();
     const [user, setUser] = useState<IUser>()
+
+    const transactionEntity = useAppSelector(state => state.transaction.entity);
 
     // State for all of the user's bank accounts
     const [userBankAccounts, setUserBankAccounts] = useState<IBankAccount[]>([]);
@@ -84,19 +88,37 @@ const Temp = () => {
           <h2>Hello,{user ? <div>{user.firstName}</div> : <div>Loading...</div>}</h2>
           <h4>Click an account to view transactions.</h4>
           {userBankAccounts.map(bankAccount => (
-            <button key={bankAccount.id} onClick={() => handleTabClick(bankAccount)}>
+            <Button
+              className={bankAccount.type === 'CHECKING' ? 'checking-button' : 'savings-button'}
+              key={bankAccount.id}
+              onClick={() => handleTabClick(bankAccount)}
+            >
               {bankAccount.bankName + ' || ' + bankAccount.type}
-            </button>
+            </Button>
           ))}
+            <div className="account-info">
+              <span>
+                {selectedBankAccount ? <h3 className="account-number">{"Account Number: " + selectedBankAccount.accountNumber}</h3> : "No Bank Account Selected"}
+              </span>
+              <span>
+                {selectedBankAccount ? <h3 className="account-balance">{"Account Balance: $" + selectedBankAccount.balance}</h3> : "No Bank Account Selected"}
+              </span>
+            </div>
+              
+            
+            
+              
+            
         </div>
         {currentTransactions && currentTransactions.length > 0 ? (
           <table>
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Amount</th>
-                <th>Description</th>
                 <th>Type</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Amount</th>
                 <th></th>
               </tr>
             </thead>
@@ -104,11 +126,12 @@ const Temp = () => {
               {currentTransactions.map(transaction => (
                 <tr key={transaction.id}>
                   <td>{transaction.date ? <TextFormat value={transaction.date} type="date" format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{'$' + transaction.amount + '.00'}</td>
-                  <td>{transaction.description}</td>
                   <td>{transaction.type}</td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.description}</td>
+                  <td>{'$' + transaction.amount + ''}</td>
                   <Link to={`/transaction/${transaction.id}`}>
-                    <button>Details</button>
+                    <Button className="details-button">Details</Button>
                   </Link>
                 </tr>
               ))}
