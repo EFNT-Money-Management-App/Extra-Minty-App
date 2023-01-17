@@ -4,9 +4,6 @@ import { IUser } from 'app/shared/model/user.model';
 export interface IProfile {
   id?: number;
   birthdate?: string | null;
-  email?: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
   peppermintPoints?: number | null;
   securityQuestion?: string | null;
   securityAnswer?: string | null;
