@@ -95,6 +95,7 @@ const Profile = () => {
                 <ListGroup className="list">
                   {currentUser && profileUser ? (
                     <div>
+                    <div className="details-border">
                       <ListGroupItem className="form">{'Username: ' + currentUser.login}</ListGroupItem>
                       <ListGroupItem>{'First Name: ' + currentUser.firstName}</ListGroupItem>
                       <ListGroupItem>{'Last Name: ' + currentUser.lastName}</ListGroupItem>
@@ -107,9 +108,11 @@ const Profile = () => {
                         ) : null}
                       </ListGroupItem>
                       <ListGroupItem>Peppermint Points: {profileUser.peppermintPoints}</ListGroupItem>
+                      </div>
                       <a href={isNew ? `profile/new` : `profile/${profileUser.id}/edit`}>
-                       <Button>Edit profile</Button>
+                        <Button className="apply-button">Add birthdate & profile image</Button>
                       </a>
+                    
                     </div>
                   ) : (
                     'Error: User not Found.'

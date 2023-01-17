@@ -44,6 +44,7 @@ profile-content{ min-height: 100vh;
     outline-color: #7CECE4;
     outline-style: auto;
     background-color: #ffffff;
+    border-radius: 10px;
 }
 
 .subtitle {
@@ -97,4 +98,9 @@ profile-content{ min-height: 100vh;
 
 .icon-styling , .icon-styling:hover{
     width: 100%;
+    margin-top: 3px;
+}
+
+.details-border {
+    border-radius: 10px;
 }
