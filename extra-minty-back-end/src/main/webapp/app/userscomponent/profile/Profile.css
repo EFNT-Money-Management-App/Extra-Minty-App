@@ -94,6 +94,10 @@ profile-content{ min-height: 100vh;
     color: white;
     background-color: #5f6ce1 !important;
     border-color: #5f6ce1 !important;
+}
+
+.icon-styling , .icon-styling:hover{
+    width: 100%;
     margin-top: 3px;
 }
 
