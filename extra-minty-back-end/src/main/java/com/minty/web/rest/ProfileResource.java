@@ -186,5 +186,19 @@ public class ProfileResource {
     }
 //CUSTOM - TROY
     //make a endpoint for refreshing the profile and mapping it to a button in the front end
+    @PutMapping("/profiles/update-peppermints")
+    public ResponseEntity<ProfileDTO> updatePeppermints(@PathVariable Long id){
+        profileService.findOne(id);
+        profileService.updatePeppermintPoints(id);
+        ProfileDTO result = profileService.update(profileDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, profileDTO.getId().toString()))
+            .body(result);
+    }
 
+    //get the profile
+    //change it
+    //save it to the repository
+    //might have to break the method up in the profile service
 }
