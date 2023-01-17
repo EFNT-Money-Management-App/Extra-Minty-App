@@ -24,17 +24,18 @@
 }
 .account-balance{
     text-align: right;
-    padding-left: 100px;
+    
 }
 .account-number{
     text-align: center;
-    margin-left: 50%;
 }
 
 .account-info{
     display: flex;
-    align-items: right;
+    justify-content: space-between;
 }
+
+
 td {
     padding-left: 20px;
     padding-right: 20px;
