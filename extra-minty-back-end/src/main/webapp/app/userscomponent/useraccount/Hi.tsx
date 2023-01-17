@@ -96,14 +96,14 @@ const Temp = () => {
               {bankAccount.bankName + ' || ' + bankAccount.type}
             </Button>
           ))}
-            <table>
-              <th> 
-                {selectedBankAccount ? <h2 className="account-number">{"Account Number: " + selectedBankAccount.accountNumber}</h2> : "No Bank Account Selected"}
-              </th>
-              <th>
-                {selectedBankAccount ? <h2 className="account-balance">{"Account Balance: $" + selectedBankAccount.balance}</h2> : "No Bank Account Selected"}
-              </th>
-            </table>
+            <div className="account-info">
+              <span>
+                {selectedBankAccount ? <h3 className="account-number">{"Account Number: " + selectedBankAccount.accountNumber}</h3> : "No Bank Account Selected"}
+              </span>
+              <span>
+                {selectedBankAccount ? <h3 className="account-balance">{"Account Balance: $" + selectedBankAccount.balance}</h3> : "No Bank Account Selected"}
+              </span>
+            </div>
               
             
             
