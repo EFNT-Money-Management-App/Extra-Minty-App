@@ -107,27 +107,27 @@ export const ProfileUpdate = () => {
                   data-cy="birthdate"
                   type="date"
                 />
-                <ValidatedField
+                {/* <ValidatedField
                   label={translate('extraMintyApp.profile.peppermintPoints')}
                   id="profile-peppermintPoints"
                   name="peppermintPoints"
                   data-cy="peppermintPoints"
                   type="text"
-                />
-                <ValidatedField
+                /> */}
+                {/* <ValidatedField
                   label={translate('extraMintyApp.profile.securityQuestion')}
                   id="profile-securityQuestion"
                   name="securityQuestion"
                   data-cy="securityQuestion"
                   type="text"
-                />
-                <ValidatedField
+                /> */}
+                {/* <ValidatedField
                   label={translate('extraMintyApp.profile.securityAnswer')}
                   id="profile-securityAnswer"
                   name="securityAnswer"
                   data-cy="securityAnswer"
                   type="text"
-                />
+                /> */}
                 <ValidatedBlobField
                   label={translate('extraMintyApp.profile.profilePicture')}
                   id="profile-profilePicture"
