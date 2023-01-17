@@ -184,4 +184,7 @@ public class ProfileResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+//CUSTOM - TROY
+    //make a endpoint for refreshing the profile and mapping it to a button in the front end
+
 }
