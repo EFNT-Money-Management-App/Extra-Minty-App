@@ -2,6 +2,7 @@ package com.minty.service;
 
 import com.minty.domain.BankAccount;
 import com.minty.domain.Transaction;
+import com.minty.domain.enumeration.BankAccountType;
 import com.minty.repository.BankAccountRepository;
 import com.minty.service.dto.BankAccountDTO;
 import com.minty.service.mapper.BankAccountMapper;
@@ -102,6 +103,13 @@ public class BankAccountService {
     public List<BankAccountDTO> findAllForUser() {
         log.debug("Request to get all BankAccounts");
         return bankAccountRepository.findByUserIsCurrentUser().stream().map(bankAccountMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    //CUSTOM -TROY
+    @Transactional(readOnly = true)
+    public List<BankAccountDTO> findAllSavingsBankAccountsForUser(){
+        log.debug("Request to get all savings accounts");
+        return findAllForUser().stream().filter(bankAccount -> bankAccount.getType().equals(BankAccountType.SAVINGS)).collect(Collectors.toCollection(LinkedList::new));
     }
     
     /**
