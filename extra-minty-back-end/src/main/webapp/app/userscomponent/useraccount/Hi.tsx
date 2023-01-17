@@ -96,15 +96,29 @@ const Temp = () => {
               {bankAccount.bankName + ' || ' + bankAccount.type}
             </Button>
           ))}
+            <div className="account-info">
+              <span>
+                {selectedBankAccount ? <h3 className="account-number">{"Account Number: " + selectedBankAccount.accountNumber}</h3> : "No Bank Account Selected"}
+              </span>
+              <span>
+                {selectedBankAccount ? <h3 className="account-balance">{"Account Balance: $" + selectedBankAccount.balance}</h3> : "No Bank Account Selected"}
+              </span>
+            </div>
+              
+            
+            
+              
+            
         </div>
         {currentTransactions && currentTransactions.length > 0 ? (
           <table>
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Amount</th>
-                <th>Description</th>
                 <th>Type</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Amount</th>
                 <th></th>
               </tr>
             </thead>
@@ -112,9 +126,10 @@ const Temp = () => {
               {currentTransactions.map(transaction => (
                 <tr key={transaction.id}>
                   <td>{transaction.date ? <TextFormat value={transaction.date} type="date" format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{'$' + transaction.amount + '.00'}</td>
-                  <td>{transaction.description}</td>
                   <td>{transaction.type}</td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.description}</td>
+                  <td>{'$' + transaction.amount + ''}</td>
                   <Link to={`/transaction/${transaction.id}`}>
                     <Button className="details-button">Details</Button>
                   </Link>

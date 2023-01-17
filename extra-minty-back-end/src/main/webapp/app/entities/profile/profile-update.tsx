@@ -29,6 +29,8 @@ export const ProfileUpdate = () => {
   const updating = useAppSelector(state => state.profile.updating);
   const updateSuccess = useAppSelector(state => state.profile.updateSuccess);
 
+  const account = useAppSelector(state => state.authentication.account);
+
   const handleClose = () => {
     navigate('/userprofile');
   };
@@ -53,7 +55,7 @@ export const ProfileUpdate = () => {
     const entity = {
       ...profileEntity,
       ...values,
-      user: users.find(it => it.id.toString() === values.user.toString()),
+      user: users.find(it => it.login === account.login),
     };
 
     if (isNew) {
@@ -73,6 +75,7 @@ export const ProfileUpdate = () => {
 
   return (
     <div>
+
       <Modal show={true} onHide={handleClose}>
         <Row className="justify-content-center">
           <Col md="8">
@@ -97,27 +100,6 @@ export const ProfileUpdate = () => {
                     validate={{ required: true }}
                   />
                 ) : null}
-                <ValidatedField
-                  label={translate('extraMintyApp.profile.firstName')}
-                  id="profile-firstName"
-                  name="firstName"
-                  data-cy="firstName"
-                  type="text"
-                />
-                <ValidatedField
-                  label={translate('extraMintyApp.profile.lastName')}
-                  id="profile-lastName"
-                  name="lastName"
-                  data-cy="lastName"
-                  type="text"
-                />
-                <ValidatedField
-                  label={translate('extraMintyApp.profile.email')}
-                  id="profile-email"
-                  name="email"
-                  data-cy="email"
-                  type="text"
-                />
                 <ValidatedField
                   label={translate('extraMintyApp.profile.birthdate')}
                   id="profile-birthdate"
@@ -154,7 +136,7 @@ export const ProfileUpdate = () => {
                   isImage
                   accept="image/*"
                 />
-                <ValidatedField id="profile-user" name="user" data-cy="user" label={translate('extraMintyApp.profile.user')} type="select">
+                {/* <ValidatedField id="profile-user" name="user" data-cy="user" label={translate('extraMintyApp.profile.user')} type="select">
                   <option value="" key="0" />
                   {users
                     ? users.map(otherEntity => (
@@ -163,7 +145,7 @@ export const ProfileUpdate = () => {
                         </option>
                       ))
                     : null}
-                </ValidatedField>
+                </ValidatedField> */}
                 {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/profile" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
                   &nbsp;

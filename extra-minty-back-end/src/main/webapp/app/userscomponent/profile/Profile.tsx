@@ -12,39 +12,24 @@ import profile from 'app/entities/profile/profile.reducer';
 // import { MaxLength } from 'buffer';
 import { toast } from 'react-toastify';
 import { Link, useParams } from 'react-router-dom';
+import { useAppSelector } from 'app/config/store';
 
 
 
 const Profile = () => {
     const [currentUser, setCurrentUser] = useState<IUser>({})
     const [profileUser, setProfileUser] = useState<IProfile>({})
-
-      const { id } = useParams<'id'>();
-      const isNew = id === undefined;
-
-    // useEffect(() => {
-    //     axios.get('/api/bank-accounts/currentUser')
-    //     .then(response => {
-    //         console.log(response.data)
-    //         setCurrentUserId(response.data)
-    //     })
-    //     .catch((error) => console.log(error))
-    // }, [])
+    const [isNew, setIsNew] = useState(true)
 
     useEffect(() =>{
         axios.get('/api/account')
         .then(res => {
-            console.log(res.data)
             setCurrentUser(res.data)
         })
-    },[])
-    
-    useEffect(() =>{
-        axios.get('api/profiles/current-user')
-        .then(res =>{
-            console.log(res.data)
-            setProfileUser(res.data)
-        })
+        axios.get('api/profiles/current-user').then(res => {
+          setProfileUser(res.data);
+          setIsNew(res.data.birthdate === null || res.data.birthdate === undefined)
+        });
     },[])
 
     // useEffect(() => {
@@ -55,7 +40,6 @@ const Profile = () => {
     //     })
     //     .catch((error) => console.log(error))
     // }, [])
-
 
     return (
       <Container fluid="m" className="profile-content">
@@ -103,7 +87,8 @@ const Profile = () => {
                     {profileUser && profileUser.profilePicture ? (
                       <span>
                         {' '}
-                        <img className="profile-picture"
+                        <img
+                          className="profile-picture"
                           src={`data:${[profileUser.profilePicture]};base64,${profileUser.profilePicture}`}
                         />{' '}
                       </span>
@@ -122,7 +107,7 @@ const Profile = () => {
                       <ListGroupItem className="form">{'Username: ' + currentUser.login}</ListGroupItem>
                       <ListGroupItem>{'First Name: ' + currentUser.firstName}</ListGroupItem>
                       <ListGroupItem>{'Last Name: ' + currentUser.lastName}</ListGroupItem>
-                      <ListGroupItem>{'Email: ' + currentUser.firstName}</ListGroupItem>
+                      <ListGroupItem>{'Email: ' + currentUser.email}</ListGroupItem>
                       <ListGroupItem>{'Date of Birth: ' + profileUser.birthdate}</ListGroupItem>
                       <ListGroupItem>
                         Join Date:{' '}
@@ -131,7 +116,7 @@ const Profile = () => {
                         ) : null}
                       </ListGroupItem>
                       <ListGroupItem>Peppermint Points: {profileUser.peppermintPoints}</ListGroupItem>
-                      <a href={isNew ? `profile/new`:`profile/${profileUser.id}/edit`}>
+                      <a href={isNew ? `profile/new` : `profile/${profileUser.id}/edit`}>
                         <button>Edit Profile</button>
                       </a>
                     </div>
@@ -148,6 +133,6 @@ const Profile = () => {
 }
 export default Profile;
 
-function useAppSelector(arg0: (state: any) => any) {
-  throw new Error('Function not implemented.');
-}
+// function useAppSelector(arg0: (state: any) => any) {
+//   throw new Error('Function not implemented.');
+// }
