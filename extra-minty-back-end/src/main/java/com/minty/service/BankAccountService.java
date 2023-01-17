@@ -106,11 +106,11 @@ public class BankAccountService {
     }
 
     //CUSTOM -TROY
-    @Transactional(readOnly = true)
-    public List<BankAccountDTO> findAllSavingsBankAccountsForUser(){
-        log.debug("Request to get all savings accounts");
-        return findAllForUser().stream().filter(bankAccount -> bankAccount.getType().equals(BankAccountType.SAVINGS)).collect(Collectors.toCollection(LinkedList::new));
-    }
+    // @Transactional(readOnly = true)
+    // public List<BankAccountDTO> findAllSavingsBankAccountsForUser(){
+    //     log.debug("Request to get all savings accounts");
+    //     return bankAccountRepository.findByUserIsCurrentUser().stream().filter(bankAccount -> bankAccount.getType().equals(BankAccountType.SAVINGS)).collect(Collectors.toCollection(LinkedList::new));
+    // }
     
     /**
      * Get all the bankAccounts with eager load of many-to-many relationships.
