@@ -4,15 +4,15 @@ import './Features.css'
 const Features = () => {
     return(
         <>
-        <div className="features-title">Features include:</div>
+        <div className="features-title">ExtraMinty features:</div>
             <div className="features-text">
             <ul>
-                <li><strong>Deposit</strong> money to each bank accounts</li>
-                <li><strong>Withdraw</strong> money from each bank accounts</li>
-                <li><strong>Transfer</strong> money to and from one bank account to another bank accounts</li>
+                <li><strong>Connect/create</strong> bank accounts</li>
+                <li><strong>Deposit/withdraw</strong> money to and from bank accounts</li>
+                <li><strong>Transfer</strong> money to and from one bank account to another bank account</li>
                 <li>Create your own <strong>categories</strong> of transactions</li>
                 <ul>
-                    <li>Pre set categories:</li>
+                    <li>Preset categories:</li>
                     <ul>
                         <li>Income</li>
                         <li>Bills</li>
@@ -20,10 +20,9 @@ const Features = () => {
                         <li>Transportation</li>
                     </ul>
                 </ul>
-                <li><strong>Create/manage</strong> your own budget</li>
+                <li><strong>Create & manage</strong> your budgets</li>
                 <li><strong>Track</strong> your spending</li>
-                <li><strong>Connect/create</strong> bank accounts</li>
-                <li><a href="/rewards" className="custom-link">Rewards</a> for meeting your savings goal</li>
+                <li><a href="/rewards" className="custom-link">Rewards</a> for reaching your savings goals!</li>
             </ul>
         </div>
         </>

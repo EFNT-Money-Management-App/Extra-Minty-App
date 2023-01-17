@@ -99,6 +99,9 @@ export const TransactionDetail = () => {
             <Translate contentKey="entity.action.back">Back</Translate>
           </span>
         </Button>
+        <Button tag={Link} to={`/transaction/${transactionEntity.id}/edit`}>
+          Edit
+        </Button>
         &nbsp;
         {/* <Button tag={Link} to={`/transaction/${transactionEntity.id}/edit`} replace color="primary">
           <FontAwesomeIcon icon="pencil-alt" />{' '}

@@ -32,3 +32,59 @@ button {
 .transaction-button {
     padding-right: 10px;
 }
+
+.details-button, .details-button:hover {
+    margin: 3px;
+    background-color: #00b7ff;
+    border-color: #00b7ff;
+}
+
+.checking-button, .checking-button:hover {
+    margin: 3px;
+    background-color: #7CECE4;
+    border-color: #7CECE4;
+    color: black;
+}
+
+.checking-button:focus {
+    font-weight: bold;
+    color: black;
+    background: linear-gradient(-45deg, #7CECE4, white, #7cec9c);
+    background-size: 400% 400%;
+    animation: Gradient 5s ease infinite;
+}
+
+.checking-table {
+    background-color: #7CECE4;
+}
+
+.savings-button, .savings-button:hover {
+    margin: 3px;
+    background-color: #7cec9c;
+    border-color: #7cec9c;
+    color: black;
+}
+
+.savings-button:focus {
+    font-weight: bold;
+    color: black;
+    background: linear-gradient(-45deg, #7cec9c, white, #7CECE4);
+    background-size: 400% 400%;
+    animation: Gradient 5s ease infinite;
+}
+
+.savings-table {
+    background-color: black;
+}
+
+@keyframes Gradient {
+  0% {
+  background-position: 0% 50%
+  }
+50% {
+background-position: 100% 50%
+}
+100% {
+background-position: 0% 50%
+}
+}

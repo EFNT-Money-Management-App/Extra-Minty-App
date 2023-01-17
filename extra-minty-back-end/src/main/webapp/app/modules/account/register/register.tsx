@@ -20,8 +20,8 @@ export const RegisterPage = () => {
 
   const currentLocale = useAppSelector(state => state.locale.currentLocale);
 
-  const handleValidSubmit = ({ username, email, firstPassword }) => {
-    dispatch(handleRegister({ login: username, email, password: firstPassword, langKey: currentLocale }));
+  const handleValidSubmit = ({ username, firstName, lastName, email, firstPassword }) => {
+    dispatch(handleRegister({ login: username, firstName: firstName, lastName: lastName, email, password: firstPassword, langKey: currentLocale }));
   };
 
   const updatePassword = event => setPassword(event.target.value);
@@ -60,6 +60,36 @@ export const RegisterPage = () => {
                 maxLength: { value: 50, message: translate('register.messages.validate.login.maxlength') },
               }}
               data-cy="username"
+            />
+            <ValidatedField
+              name="firstName"
+              label={translate('global.form.firstName.label')}
+              placeholder={translate('global.form.firstName.placeholder')}
+              validate={{
+                required: { value: true, message: translate('register.messages.validate.firstName.required') },
+                pattern: {
+                  value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
+                  message: translate('register.messages.validate.firstName.pattern'),
+                },
+                minLength: { value: 1, message: translate('register.messages.validate.firstName.minlength') },
+                maxLength: { value: 50, message: translate('register.messages.validate.firstName.maxlength') },
+              }}
+              data-cy="firstName"
+            />
+            <ValidatedField
+              name="lastName"
+              label={translate('global.form.lastName.label')}
+              placeholder={translate('global.form.lastName.placeholder')}
+              validate={{
+                required: { value: true, message: translate('register.messages.validate.lastName.required') },
+                pattern: {
+                  value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
+                  message: translate('register.messages.validate.lastName.pattern'),
+                },
+                minLength: { value: 1, message: translate('register.messages.validate.lastName.minlength') },
+                maxLength: { value: 50, message: translate('register.messages.validate.lastName.maxlength') },
+              }}
+              data-cy="lastName"
             />
             <ValidatedField
               name="email"

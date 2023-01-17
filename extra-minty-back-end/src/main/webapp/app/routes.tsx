@@ -17,6 +17,7 @@ import { AUTHORITIES } from 'app/config/constants';
 import { Features, Rewards, About, Home } from './component';
 import { Peppermint, Useraccount, Budget, Profile, Userhome } from './userscomponent';
 import Test from './entities/test/test';
+import UserManagement from './modules/administration/user-management/user-management';
 
 
 const loading = <div>loading ...</div>;
@@ -37,6 +38,7 @@ const AppRoutes = () => {
       <ErrorBoundaryRoutes>
         <Route path="/" element={<Home />} />
         <Route path="features" element={<Features />} />
+        {/* <Route path="user-management/*" element={<UserManagement />} /> */}
         <Route path="rewards" element={<Rewards />} />
         <Route path="about" element={<About />} />
         <Route path="login" element={<Login />} />
@@ -45,7 +47,7 @@ const AppRoutes = () => {
         <Route path="useraccount" element={<Useraccount />} />
         <Route path="userprofile" element={<Profile />} />
         <Route path="userhome" element={<Userhome />} />
-        <Route path="test" element={<Test/>} />
+        <Route path="test" element={<Test />} />
         <Route path="userpeppermint" element={<Peppermint />} />
         <Route path="account">
           <Route

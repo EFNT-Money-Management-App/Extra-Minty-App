@@ -142,14 +142,16 @@ export const TransactionUpdate = () => {
   return (
     <div>
       <Button style={{ background: '#00c314', border: '#00c314' }} onClick={handleShow}>
-        Add Transaction
+        {isNew ? 'Add Transaction' : 'Update Transaction'}
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={isNew ? show : true} onHide={handleClose}>
         <Row className="justify-content-center">
           <Col md="8">
             <h2 id="extraMintyApp.transaction.home.createOrEditLabel" data-cy="TransactionCreateUpdateHeading">
-              <Translate contentKey="extraMintyApp.transaction.home.createOrEditLabel">Create or edit a Transaction</Translate>
+              <Translate contentKey={isNew ? 'extraMintyApp.transaction.home.createLabel' : 'extraMintyApp.transaction.home.editLabel'}>
+                {isNew ? "Create a new Transaction" : "Edit current Transaction"}
+              </Translate>
             </h2>
           </Col>
         </Row>
@@ -247,10 +249,10 @@ export const TransactionUpdate = () => {
                 >
                   <option value="" key="0" />
                   {userBudget.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.name}
-                        </option>
-                      ))}
+                    <option value={otherEntity.id} key={otherEntity.id}>
+                      {otherEntity.name}
+                    </option>
+                  ))}
                 </ValidatedField>
                 <ValidatedField
                   id="transaction-bankAccount"
@@ -259,11 +261,11 @@ export const TransactionUpdate = () => {
                   label={translate('extraMintyApp.transaction.bankAccount')}
                   type="select"
                 >
-                      {userBankAccounts.map(bankAcct => (
-                        <option value={bankAcct.id} key={bankAcct.id}>
-                          {bankAcct.bankName}
-                        </option>
-                      ))}
+                  {userBankAccounts.map(bankAcct => (
+                    <option value={bankAcct.id} key={bankAcct.id}>
+                      {bankAcct.bankName}
+                    </option>
+                  ))}
                 </ValidatedField>
                 &nbsp;
                 <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>

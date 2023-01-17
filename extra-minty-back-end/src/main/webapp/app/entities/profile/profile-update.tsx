@@ -13,6 +13,8 @@ import { getUsers } from 'app/modules/administration/user-management/user-manage
 import { IProfile } from 'app/shared/model/profile.model';
 import { getEntity, updateEntity, createEntity, reset } from './profile.reducer';
 
+import { Modal } from 'react-bootstrap';
+
 export const ProfileUpdate = () => {
   const dispatch = useAppDispatch();
 
@@ -27,8 +29,10 @@ export const ProfileUpdate = () => {
   const updating = useAppSelector(state => state.profile.updating);
   const updateSuccess = useAppSelector(state => state.profile.updateSuccess);
 
+  const account = useAppSelector(state => state.authentication.account);
+
   const handleClose = () => {
-    navigate('/profile');
+    navigate('/userprofile');
   };
 
   useEffect(() => {
@@ -51,7 +55,7 @@ export const ProfileUpdate = () => {
     const entity = {
       ...profileEntity,
       ...values,
-      user: users.find(it => it.id.toString() === values.user.toString()),
+      user: users.find(it => it.login === account.login),
     };
 
     if (isNew) {
@@ -71,92 +75,95 @@ export const ProfileUpdate = () => {
 
   return (
     <div>
-      <Row className="justify-content-center">
-        <Col md="8">
-          <h2 id="extraMintyApp.profile.home.createOrEditLabel" data-cy="ProfileCreateUpdateHeading">
-            <Translate contentKey="extraMintyApp.profile.home.createOrEditLabel">Create or edit a Profile</Translate>
-          </h2>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col md="8">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? (
+
+      <Modal show={true} onHide={handleClose}>
+        <Row className="justify-content-center">
+          <Col md="8">
+            <h2 id="extraMintyApp.profile.home.createOrEditLabel" data-cy="ProfileCreateUpdateHeading">
+              <Translate contentKey="extraMintyApp.profile.home.createOrEditLabel">Create or edit a Profile</Translate>
+            </h2>
+          </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <Col md="8">
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
+                {!isNew ? (
+                  <ValidatedField
+                    name="id"
+                    required
+                    readOnly
+                    id="profile-id"
+                    label={translate('global.field.id')}
+                    validate={{ required: true }}
+                  />
+                ) : null}
                 <ValidatedField
-                  name="id"
-                  required
-                  readOnly
-                  id="profile-id"
-                  label={translate('global.field.id')}
-                  validate={{ required: true }}
+                  label={translate('extraMintyApp.profile.birthdate')}
+                  id="profile-birthdate"
+                  name="birthdate"
+                  data-cy="birthdate"
+                  type="date"
                 />
-              ) : null}
-              <ValidatedField
-                label={translate('extraMintyApp.profile.birthdate')}
-                id="profile-birthdate"
-                name="birthdate"
-                data-cy="birthdate"
-                type="date"
-              />
-              <ValidatedField
-                label={translate('extraMintyApp.profile.peppermintPoints')}
-                id="profile-peppermintPoints"
-                name="peppermintPoints"
-                data-cy="peppermintPoints"
-                type="text"
-              />
-              <ValidatedField
-                label={translate('extraMintyApp.profile.securityQuestion')}
-                id="profile-securityQuestion"
-                name="securityQuestion"
-                data-cy="securityQuestion"
-                type="text"
-              />
-              <ValidatedField
-                label={translate('extraMintyApp.profile.securityAnswer')}
-                id="profile-securityAnswer"
-                name="securityAnswer"
-                data-cy="securityAnswer"
-                type="text"
-              />
-              <ValidatedBlobField
-                label={translate('extraMintyApp.profile.profilePicture')}
-                id="profile-profilePicture"
-                name="profilePicture"
-                data-cy="profilePicture"
-                isImage
-                accept="image/*"
-              />
-              <ValidatedField id="profile-user" name="user" data-cy="user" label={translate('extraMintyApp.profile.user')} type="select">
-                <option value="" key="0" />
-                {users
-                  ? users.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.login}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/profile" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
+                {/* <ValidatedField
+                  label={translate('extraMintyApp.profile.peppermintPoints')}
+                  id="profile-peppermintPoints"
+                  name="peppermintPoints"
+                  data-cy="peppermintPoints"
+                  type="text"
+                /> */}
+                {/* <ValidatedField
+                  label={translate('extraMintyApp.profile.securityQuestion')}
+                  id="profile-securityQuestion"
+                  name="securityQuestion"
+                  data-cy="securityQuestion"
+                  type="text"
+                /> */}
+                {/* <ValidatedField
+                  label={translate('extraMintyApp.profile.securityAnswer')}
+                  id="profile-securityAnswer"
+                  name="securityAnswer"
+                  data-cy="securityAnswer"
+                  type="text"
+                /> */}
+                <ValidatedBlobField
+                  label={translate('extraMintyApp.profile.profilePicture')}
+                  id="profile-profilePicture"
+                  name="profilePicture"
+                  data-cy="profilePicture"
+                  isImage
+                  accept="image/*"
+                />
+                {/* <ValidatedField id="profile-user" name="user" data-cy="user" label={translate('extraMintyApp.profile.user')} type="select">
+                  <option value="" key="0" />
+                  {users
+                    ? users.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.login}
+                        </option>
+                      ))
+                    : null}
+                </ValidatedField> */}
+                {/* <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/profile" replace color="info">
+                  <FontAwesomeIcon icon="arrow-left" />
+                  &nbsp;
+                  <span className="d-none d-md-inline">
+                    <Translate contentKey="entity.action.back">Back</Translate>
+                  </span>
+                </Button> */}
                 &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
-              </Button>
-            </ValidatedForm>
-          )}
-        </Col>
-      </Row>
+                <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                  <FontAwesomeIcon icon="save" />
+                  &nbsp;
+                  <Translate contentKey="entity.action.save">Save</Translate>
+                </Button>
+              </ValidatedForm>
+            )}
+          </Col>
+        </Row>
+      </Modal>
     </div>
   );
 };

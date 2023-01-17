@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
-    <img src="content/images/logo-jhipster.png" alt="Logo" />
+    <img src="content/images/Logo.png" alt="Logo" />
   </div>
 );
 
@@ -17,7 +17,7 @@ export const Brand = () => (
     <span className="brand-title">
       <Translate contentKey="global.title">ExtraMinty</Translate>
     </span>
-    <span className="navbar-version">{VERSION}</span>
+    {/* <span className="navbar-version">{VERSION}</span> */}
   </NavbarBrand>
 );
 
