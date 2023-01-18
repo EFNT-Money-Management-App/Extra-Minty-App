@@ -146,17 +146,40 @@ public class ProfileService {
 
     //CUSTOM
 
-    public void updatePeppermintPoints(Long id){
-        log.debug("Request to update peppermint points for a profile.");
-        ProfileDTO profileDTO = findOne(id).get();
-        Profile profile = profileMapper.toEntity(profileDTO);
-        //get the savings bank accounts of the user
-        List<BankAccountDTO> list = bankAccountService.findAllSavingsBankAccountsForUser();
-        // get the balance of all savings accounts, then add them together
-        List<BankAccount> entities = list.stream().map(bankAccountMapper::toEntity).collect(Collectors.toCollection(LinkedList::new));
-        Double totalPeppermints = entities.stream().map(BankAccount::getBalance).reduce(0.00, Double::sum);
-        // peppermint points is equal to that
-        profile.setPeppermintPoints(totalPeppermints.intValue());
-        profileRepository.save(profile);
-    }
+    // public void updatePeppermintPoints(Long id){
+    //     log.debug("Request to update peppermint points for a profile.");
+    //     ProfileDTO profileDTO = findOne(id).get();
+    //     Profile profile = profileMapper.toEntity(profileDTO);
+    //     //get the savings bank accounts of the user
+    //     List<BankAccountDTO> list = bankAccountService.findAllSavingsBankAccountsForUser();
+    //     // get the balance of all savings accounts, then add them together
+    //     List<BankAccount> entities = list.stream().map(bankAccountMapper::toEntity).collect(Collectors.toCollection(LinkedList::new));
+    //     Double totalPeppermints = entities.stream().map(BankAccount::getBalance).reduce(0.00, Double::sum);
+    //     // peppermint points is equal to that
+    //     profile.setPeppermintPoints(totalPeppermints.intValue());
+    //     profileRepository.save(profile);
+    // }
+
+    //transaction the thing that changes the balance (get the dto, change to entity)
+    //bank account, the thing we are changing the field of (grab from repository by finding it )
+
+    //savings bank accounts, the thing that changes the peppermint points (get entities of all bank accounts in a list)
+    //profile, the thing we are changing the field of (grab from repository by id and must be an entity to be able to grab the peppermints)
+
+    // public void updatePeppermintPoints(Long id){
+    //     log.debug("Request to update peppermint points for a profile");
+    //     List<BankAccountDTO> list = bankAccountService.findAllSavingsBankAccountsForUser();
+    //     //get the balance of all savings accounts, then add them together
+    //     List<BankAccount> entities = list.stream().map(bankAccountMapper::toEntity).collect(Collectors.toCollection(LinkedList::new));
+    //     Double totalPeppermints = entities.stream().map(BankAccount::getBalance).reduce(0.00, Double::sum);
+    //     Profile profile = profileRepository.findOneByUserId(id).get();
+    //     profile.setPeppermintPoints(totalPeppermints.intValue());
+    //     profileRepository.save(profile);
+    // }
+
+    // public void updatePeppermintPoints(Long id){
+    //     log.debug("Request to update peppermint points for a profile");
+    //     List<BankAccount> entities = bankAccountService.findAllForUser().stream().map(bankAccountMapper::toEntity).collect(Collectors.toCollection(LinkedList::new));
+    //     List<Double> list =  entities.stream().map(BankAccount.getBalance).collect(Collectors.toCollection(LinkedList::new));
+    // }
 }

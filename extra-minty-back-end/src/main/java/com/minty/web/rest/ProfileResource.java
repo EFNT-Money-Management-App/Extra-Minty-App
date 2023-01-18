@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
@@ -186,19 +187,11 @@ public class ProfileResource {
     }
 //CUSTOM - TROY
     //make a endpoint for refreshing the profile and mapping it to a button in the front end
-    @PutMapping("/profiles/update-peppermints")
-    public ResponseEntity<ProfileDTO> updatePeppermints(@PathVariable Long id){
-        profileService.findOne(id);
-        profileService.updatePeppermintPoints(id);
-        ProfileDTO result = profileService.update(profileDTO);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, profileDTO.getId().toString()))
-            .body(result);
+    @PutMapping("/profiles/update-peppermints/{id}")
+    public ResponseEntity<ProfileDTO> updatePeppermints(@PathVariable(value = "id", required = false) Long id){
+        log.debug("REST request to update Profile : {}", id);
+        ProfileDTO updatedProfile = profileService.findOne(id).get();
+        profileService.update(updatedProfile);
+        return ResponseEntity.ok().body(updatedProfile);
     }
-
-    //get the profile
-    //change it
-    //save it to the repository
-    //might have to break the method up in the profile service
 }
