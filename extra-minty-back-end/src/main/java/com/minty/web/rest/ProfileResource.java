@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
@@ -183,5 +184,14 @@ public class ProfileResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+//CUSTOM - TROY
+    //make a endpoint for refreshing the profile and mapping it to a button in the front end
+    @PutMapping("/profiles/update-peppermints/{id}")
+    public ResponseEntity<ProfileDTO> updatePeppermints(@PathVariable(value = "id", required = false) Long id){
+        log.debug("REST request to update Profile : {}", id);
+        ProfileDTO updatedProfile = profileService.findOne(id).get();
+        profileService.update(updatedProfile);
+        return ResponseEntity.ok().body(updatedProfile);
     }
 }

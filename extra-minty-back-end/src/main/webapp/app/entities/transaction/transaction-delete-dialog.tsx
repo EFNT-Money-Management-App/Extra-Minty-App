@@ -25,7 +25,7 @@ export const TransactionDeleteDialog = () => {
   const updateSuccess = useAppSelector(state => state.transaction.updateSuccess);
 
   const handleClose = () => {
-    navigate('/transaction');
+    navigate('/useraccount');
   };
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const TransactionDeleteDialog = () => {
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
       <ModalBody id="extraMintyApp.transaction.delete.question">
-        <Translate contentKey="extraMintyApp.transaction.delete.question" interpolate={{ id: transactionEntity.id }}>
+        <Translate contentKey="extraMintyApp.transaction.delete.question" interpolate={{ id: transactionEntity.customCategoryName }}>
           Are you sure you want to delete this Transaction?
         </Translate>
       </ModalBody>

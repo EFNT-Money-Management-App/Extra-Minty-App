@@ -1,8 +1,11 @@
 package com.minty.service;
 
+import com.minty.domain.BankAccount;
 import com.minty.domain.Profile;
 import com.minty.repository.ProfileRepository;
+import com.minty.service.dto.BankAccountDTO;
 import com.minty.service.dto.ProfileDTO;
+import com.minty.service.mapper.BankAccountMapper;
 import com.minty.service.mapper.ProfileMapper;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,11 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
 
     private final ProfileMapper profileMapper;
+    
+    @Autowired
+    private BankAccountService bankAccountService;
+    @Autowired
+    private BankAccountMapper bankAccountMapper;
 
     public ProfileService(ProfileRepository profileRepository, ProfileMapper profileMapper) {
         this.profileRepository = profileRepository;
@@ -45,7 +54,7 @@ public class ProfileService {
         profile = profileRepository.save(profile);
         return profileMapper.toDto(profile);
     }
-
+    //CUSTOM -TROY LINE 67
     /**
      * Update a profile.
      *
@@ -55,6 +64,7 @@ public class ProfileService {
     public ProfileDTO update(ProfileDTO profileDTO) {
         log.debug("Request to update Profile : {}", profileDTO);
         Profile profile = profileMapper.toEntity(profileDTO);
+        updatePeppermintPoints(profile.getId());
         profile = profileRepository.save(profile);
         return profileMapper.toDto(profile);
     }
@@ -133,4 +143,43 @@ public class ProfileService {
         log.debug("Request to delete Profile : {}", id);
         profileRepository.deleteById(id);
     }
+
+    //CUSTOM
+
+    // public void updatePeppermintPoints(Long id){
+    //     log.debug("Request to update peppermint points for a profile.");
+    //     ProfileDTO profileDTO = findOne(id).get();
+    //     Profile profile = profileMapper.toEntity(profileDTO);
+    //     //get the savings bank accounts of the user
+    //     List<BankAccountDTO> list = bankAccountService.findAllSavingsBankAccountsForUser();
+    //     // get the balance of all savings accounts, then add them together
+    //     List<BankAccount> entities = list.stream().map(bankAccountMapper::toEntity).collect(Collectors.toCollection(LinkedList::new));
+    //     Double totalPeppermints = entities.stream().map(BankAccount::getBalance).reduce(0.00, Double::sum);
+    //     // peppermint points is equal to that
+    //     profile.setPeppermintPoints(totalPeppermints.intValue());
+    //     profileRepository.save(profile);
+    // }
+
+    //transaction the thing that changes the balance (get the dto, change to entity)
+    //bank account, the thing we are changing the field of (grab from repository by finding it )
+
+    //savings bank accounts, the thing that changes the peppermint points (get entities of all bank accounts in a list)
+    //profile, the thing we are changing the field of (grab from repository by id and must be an entity to be able to grab the peppermints)
+
+    // public void updatePeppermintPoints(Long id){
+    //     log.debug("Request to update peppermint points for a profile");
+    //     List<BankAccountDTO> list = bankAccountService.findAllSavingsBankAccountsForUser();
+    //     //get the balance of all savings accounts, then add them together
+    //     List<BankAccount> entities = list.stream().map(bankAccountMapper::toEntity).collect(Collectors.toCollection(LinkedList::new));
+    //     Double totalPeppermints = entities.stream().map(BankAccount::getBalance).reduce(0.00, Double::sum);
+    //     Profile profile = profileRepository.findOneByUserId(id).get();
+    //     profile.setPeppermintPoints(totalPeppermints.intValue());
+    //     profileRepository.save(profile);
+    // }
+
+    // public void updatePeppermintPoints(Long id){
+    //     log.debug("Request to update peppermint points for a profile");
+    //     List<BankAccount> entities = bankAccountService.findAllForUser().stream().map(bankAccountMapper::toEntity).collect(Collectors.toCollection(LinkedList::new));
+    //     List<Double> list =  entities.stream().map(BankAccount.getBalance).collect(Collectors.toCollection(LinkedList::new));
+    // }
 }
