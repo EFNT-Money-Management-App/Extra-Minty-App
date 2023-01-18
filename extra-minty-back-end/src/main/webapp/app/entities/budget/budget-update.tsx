@@ -144,6 +144,8 @@ export const BudgetUpdate = (props) => {
                 <ValidatedField
                   label={translate('extraMintyApp.budget.currentSpending')}
                   id="budget-currentSpending"
+                  readOnly
+                  value="0"
                   name="currentSpending"
                   data-cy="currentSpending"
                   type="text"
