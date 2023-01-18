@@ -23,7 +23,7 @@
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
-        "main": "Account",
+        "main": "settings",
         "settings": "Settings",
         "password": "Password",
         "sessions": "Sessions",
@@ -64,7 +64,7 @@
     "messages": {
       "info": {
         "authenticated": {
-          "prefix": "If you want to ",
+          "prefix": "If you have an account, feel free to ",
           "link": "sign in",
           "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
         },
