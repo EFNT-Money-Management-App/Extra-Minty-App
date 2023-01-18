@@ -13,12 +13,14 @@ import profile from 'app/entities/profile/profile.reducer';
 import { toast } from 'react-toastify';
 import { Link, useParams } from 'react-router-dom';
 import { useAppSelector } from 'app/config/store';
+import { IBankAccount } from 'app/shared/model/bank-account.model';
 
 
 
 const Profile = () => {
     const [currentUser, setCurrentUser] = useState<IUser>({})
     const [profileUser, setProfileUser] = useState<IProfile>({})
+    const [accounts, setAccounts] = useState<IBankAccount[]>([])
     const [isNew, setIsNew] = useState(true)
     const [hover, setHover] = useState(false)
 
@@ -28,6 +30,15 @@ const Profile = () => {
     const handleMouseOut = () => {
       setHover (false)
     }
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+      setLoading(true);
+      axios.get('/api/bank-accounts/currentUser').then((res) => {
+        setAccounts(res.data);
+        setLoading(false);
+      });
+    }, []);
 
     useEffect(() =>{
         axios.get('/api/account')
@@ -38,7 +49,17 @@ const Profile = () => {
           setProfileUser(res.data);
           setIsNew(res.data.birthdate === null || res.data.birthdate === undefined)
         });
+        axios.get('/api/bank-accounts/currentUser').then(res => {
+          setAccounts(res.data);
+        })
     },[])
+
+    const getPeppermints = (accounts: IBankAccount[]): number => {
+      // let savings = accounts.filter(account => account.type === 'SAVINGS').map(account => account.balance)
+      // return savings.reduce((sum, current) => sum + current.balance, 0)
+      return accounts.filter(account => account.type === 'SAVINGS')
+      .reduce((sum, current) => sum + current.balance, 0);
+    }
 
     // useEffect(() => {
     //     axios.get(`/api/profiles/${currentUser.id}`)
@@ -51,7 +72,6 @@ const Profile = () => {
 
     return (
       <Container fluid="m" className="profile-content">
-
         <Row>
           <Col sm={{ size: '4' }} className="left-column">
             <Container className="bottom-left-card">
@@ -122,7 +142,7 @@ const Profile = () => {
                             <TextFormat value={currentUser.createdDate} type="date" format={APP_DATE_FORMAT} />
                           ) : null}
                         </ListGroupItem>
-                        <ListGroupItem>Peppermint Points: {profileUser.peppermintPoints}</ListGroupItem>
+                        <ListGroupItem>Peppermint Points: {loading ? 'Loading....' : (accounts.length > 0 ? getPeppermints(accounts) : 0)}</ListGroupItem>
                       </div>
                       <a href={isNew ? `profile/new` : `profile/${profileUser.id}/edit`}>
                         <Button className="apply-button">Add birthdate & profile image</Button>
