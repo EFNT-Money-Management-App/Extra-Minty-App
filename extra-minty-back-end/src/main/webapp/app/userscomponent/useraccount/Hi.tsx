@@ -104,11 +104,6 @@ const Temp = () => {
                 {selectedBankAccount ? <h3 className="account-balance">{"Account Balance: $" + selectedBankAccount.balance}</h3> : "No Bank Account Selected"}
               </span>
             </div>
-              
-            
-            
-              
-            
         </div>
         {currentTransactions && currentTransactions.length > 0 ? (
           <table>

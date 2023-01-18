@@ -36,11 +36,16 @@ export const TransactionDetail = () => {
             </span>
           </dt>
           <dd>{transactionEntity.id}</dd> */}
-          {transactionEntity.TransactionType == TransactionCategory.CUSTOM ? <><dt>
-            <span id="customCategoryName">
-              <Translate contentKey="extraMintyApp.transaction.customCategoryName">Custom Category Name</Translate>
-            </span>
-          </dt><dd>{transactionEntity.customCategoryName}</dd></> : null }
+          {transactionEntity.TransactionType == TransactionCategory.CUSTOM ? (
+            <>
+              <dt>
+                <span id="customCategoryName">
+                  <Translate contentKey="extraMintyApp.transaction.customCategoryName">Custom Category Name</Translate>
+                </span>
+              </dt>
+              <dd>{transactionEntity.customCategoryName}</dd>
+            </>
+          ) : null}
           <dt>
             <span id="type">
               <Translate contentKey="extraMintyApp.transaction.type">Type</Translate>
@@ -52,7 +57,7 @@ export const TransactionDetail = () => {
               <Translate contentKey="extraMintyApp.transaction.amount">Amount</Translate>
             </span>
           </dt>
-          <dd>{"$" + transactionEntity.amount + ".00"}</dd>
+          <dd>{'$' + transactionEntity.amount + '.00'}</dd>
           <dt>
             <span id="category">
               <Translate contentKey="extraMintyApp.transaction.category">Category</Translate>
@@ -71,36 +76,51 @@ export const TransactionDetail = () => {
             </span>
           </dt>
           <dd>{transactionEntity.description}</dd>
-          {transactionEntity.type == TransactionType.TRANSFER ? <><dt>
-            <span id="transferToAccountNumber">
-              <Translate contentKey="extraMintyApp.transaction.transferToAccountNumber">Transfer To Account Number</Translate>
-            </span>
-          </dt><dd>{transactionEntity.transferToAccountNumber}</dd></> : null}
-          {transactionEntity.type == TransactionType.TRANSFER ?
-          <><dt>
-              <span id="transferFromAccountNumber">
-                <Translate contentKey="extraMintyApp.transaction.transferFromAccountNumber">Transfer From Account Number</Translate>
-              </span>
-            </dt><dd>{transactionEntity.transferFromAccountNumber}</dd></> : null}
-            {transactionEntity.budget ? 
-            <><dt>
-            <Translate contentKey="extraMintyApp.transaction.budget">Budget</Translate>
-          </dt><dd>{transactionEntity.budget ? transactionEntity.budget.id : ''}</dd>
-          </> : null}
-          
+          {transactionEntity.type == TransactionType.TRANSFER ? (
+            <>
+              <dt>
+                <span id="transferToAccountNumber">
+                  <Translate contentKey="extraMintyApp.transaction.transferToAccountNumber">Transfer To Account Number</Translate>
+                </span>
+              </dt>
+              <dd>{transactionEntity.transferToAccountNumber}</dd>
+            </>
+          ) : null}
+          {transactionEntity.type == TransactionType.TRANSFER ? (
+            <>
+              <dt>
+                <span id="transferFromAccountNumber">
+                  <Translate contentKey="extraMintyApp.transaction.transferFromAccountNumber">Transfer From Account Number</Translate>
+                </span>
+              </dt>
+              <dd>{transactionEntity.transferFromAccountNumber}</dd>
+            </>
+          ) : null}
+          {transactionEntity.budget ? (
+            <>
+              <dt>
+                <Translate contentKey="extraMintyApp.transaction.budget">Budget</Translate>
+              </dt>
+              <dd>{transactionEntity.budget ? transactionEntity.budget.id : ''}</dd>
+            </>
+          ) : null}
+
           <dt>
             <Translate contentKey="extraMintyApp.transaction.bankAccount">Bank Account</Translate>
           </dt>
           <dd>{transactionEntity.bankAccount ? transactionEntity.bankAccount.id : ''}</dd>
         </dl>
-        <Button tag={Link} to="/useraccount" replace color="info" data-cy="entityDetailsBackButton">
+        <Button style={{ marginRight: 3}}tag={Link} to="/useraccount" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}
           <span className="d-none d-md-inline">
             <Translate contentKey="entity.action.back">Back</Translate>
           </span>
         </Button>
-        <Button tag={Link} to={`/transaction/${transactionEntity.id}/edit`}>
-          Edit
+        <Button className="update-button" tag={Link} to={`/transaction/${transactionEntity.id}/edit`}>
+          Update
+        </Button>
+        <Button className="delete-button" tag={Link} to={`/transaction/${transactionEntity.id}/delete`}>
+          Delete
         </Button>
         &nbsp;
         {/* <Button tag={Link} to={`/transaction/${transactionEntity.id}/edit`} replace color="primary">
