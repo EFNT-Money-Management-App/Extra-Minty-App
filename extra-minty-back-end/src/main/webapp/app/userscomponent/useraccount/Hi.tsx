@@ -119,7 +119,7 @@ const Temp = () => {
             </thead>
             <tbody>
               {currentTransactions.map(transaction => (
-                <tr key={transaction.id}>
+                <tr className="transaction-table" key={transaction.id}>
                   <td>{transaction.date ? <TextFormat value={transaction.date} type="date" format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{transaction.type}</td>
                   <td>{transaction.category}</td>
