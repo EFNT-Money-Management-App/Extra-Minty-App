@@ -88,3 +88,10 @@ background-position: 100% 50%
 background-position: 0% 50%
 }
 }
+
+.transaction-table {
+    background: linear-gradient(transparent, #9be2ff,#9be2ff, #9be2ff, #9be2ff, #9be2ff,#9be2ff, transparent);
+    padding: 10px;
+    /* border: 10px solid rgba(0, 0, 0, 0.48) */
+    
+}
