@@ -46,7 +46,7 @@ export const BudgetDeleteDialog = () => {
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
       <ModalBody id="extraMintyApp.budget.delete.question">
-        <Translate contentKey="extraMintyApp.budget.delete.question" interpolate={{ id: budgetEntity.id }}>
+        <Translate contentKey="extraMintyApp.budget.delete.question" interpolate={{ id: budgetEntity.name }}>
           Are you sure you want to delete this Budget?
         </Translate>
       </ModalBody>
