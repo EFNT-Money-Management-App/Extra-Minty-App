@@ -67,7 +67,7 @@ export const BankAccountUpdate = () => {
 
 
   const handleClose = () => {
-    // navigate('/useraccount');
+    navigate('/useraccount');
     window.location.reload();
     setShow(false);
   };

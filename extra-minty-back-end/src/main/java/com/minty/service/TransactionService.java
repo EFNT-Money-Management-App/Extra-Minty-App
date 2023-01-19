@@ -14,6 +14,7 @@ import com.minty.service.mapper.TransactionMapper;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -153,7 +154,9 @@ public class TransactionService {
     @Transactional(readOnly = true)
     public List<TransactionDTO> findAllForBankAccount(Long id) {
         log.debug("Request to get all Transactions for BankAccount");
-        return transactionRepository.findByBankAccountId(id).stream().map(transactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+        return transactionRepository.findByBankAccountId(id).stream()
+        .sorted(Comparator.comparing(Transaction::getDate).reversed())
+        .map(transactionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
     //CUSTOM
     /**

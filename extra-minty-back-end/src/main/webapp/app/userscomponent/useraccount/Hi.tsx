@@ -4,9 +4,7 @@ import axios from "axios";
 import { IBankAccount } from "app/shared/model/bank-account.model";
 import { ITransaction } from "app/shared/model/transaction.model";
 import { IUser } from '../../shared/model/user.model';
-import { NavLink } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
-import transaction from 'app/entities/transaction/transaction.reducer';
 import { APP_DATE_FORMAT } from "app/config/constants";
 import { TextFormat } from "react-jhipster";
 import TransactionUpdate from 'app/entities/transaction/transaction-update'
@@ -104,11 +102,6 @@ const Temp = () => {
                 {selectedBankAccount ? <h3 className="account-balance">{"Account Balance: $" + selectedBankAccount.balance}</h3> : "No Bank Account Selected"}
               </span>
             </div>
-              
-            
-            
-              
-            
         </div>
         {currentTransactions && currentTransactions.length > 0 ? (
           <table>
@@ -124,7 +117,7 @@ const Temp = () => {
             </thead>
             <tbody>
               {currentTransactions.map(transaction => (
-                <tr key={transaction.id}>
+                <tr className="transaction-table" key={transaction.id}>
                   <td>{transaction.date ? <TextFormat value={transaction.date} type="date" format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{transaction.type}</td>
                   <td>{transaction.category}</td>
