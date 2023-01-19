@@ -68,3 +68,7 @@
     border-color: #5f6ce1;
     margin: 3px;
 }
+
+.budget-table-style {
+    background: linear-gradient(transparent, #9be2ff,#9be2ff, #9be2ff, #9be2ff, #9be2ff,#9be2ff, transparent);
+}

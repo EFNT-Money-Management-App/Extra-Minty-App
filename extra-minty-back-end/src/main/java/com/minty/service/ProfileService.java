@@ -64,7 +64,7 @@ public class ProfileService {
     public ProfileDTO update(ProfileDTO profileDTO) {
         log.debug("Request to update Profile : {}", profileDTO);
         Profile profile = profileMapper.toEntity(profileDTO);
-        updatePeppermintPoints(profile.getId());
+        // updatePeppermintPoints(profile.getId());
         profile = profileRepository.save(profile);
         return profileMapper.toDto(profile);
     }
