@@ -6,7 +6,6 @@ import { Container, Col, Row } from 'reactstrap';
 import { IUser } from 'app/shared/model/user.model';
 import { IBankAccount } from 'app/shared/model/bank-account.model';
 import { IProfile } from 'app/shared/model/profile.model';
-import { size } from 'lodash';
 import { Progress } from 'reactstrap';
 
 const Peppermint = () => {
@@ -55,8 +54,8 @@ const Peppermint = () => {
             <Container className='center-display'>
               <h2 > Current Peppermints: {loading ? 'Loading....' : (accounts.length > 0 ? getPeppermints(accounts) : 0)}</h2>
             </Container>
-            <Container><h3>{250000 - getPeppermints(accounts)} points to next badge!</h3></Container>
-           <Container className='center-display'>
+            <Container><h3>{2000 - getPeppermints(accounts)} points to next badge!</h3></Container>
+            <Container className='center-display'>
            
              <Progress
                     animated
@@ -68,13 +67,13 @@ const Peppermint = () => {
                         height: '3vh'
                         width: '100%'
                     }}></Progress>
-                    <h4>/250000pts</h4>
+                    <h4>/2000pts</h4>
                     
              </Container>
              <Container className='center-display'>
              
              <div className='highlight'>
-             <h5>Tip: Shaving ### off of your food budget will be a great help in upgrading to earning Penny Pincher!</h5>
+             <h5>Tip: Shaving 10% off of your food budget will be a great help in upgrading to earning Penny Pincher!</h5>
             </div>
             </Container>
              <Container className="bottom-left-card">
