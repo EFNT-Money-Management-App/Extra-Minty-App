@@ -9,7 +9,7 @@ const About = () => {
                     <span className="about-name">Eryk Liszewski</span>
                     <ul>
                         <li>
-                            <a href="https://github.com/eliszewski">Go to github profile</a>
+                            <a href="https://github.com/eliszewski">Go to GitHub profile</a>
                         </li>
                         <li>
                             <a href="https://www.linkedin.com/in/erykliszewski/">Go to LinkedIn profile</a>
@@ -22,7 +22,7 @@ const About = () => {
                     <span className="about-name">Freddy Mintarja</span>
                     <ul>
                         <li>
-                            <a href="https://github.com/fmintar1">Go to github profile</a>
+                            <a href="https://github.com/fmintar1">Go to GitHub profile</a>
                         </li>
                         <li>
                             <a href="https://www.linkedin.com/in/freddymintarja/">Go to LinkedIn profile</a>
@@ -35,7 +35,7 @@ const About = () => {
                     <span className="about-name">Nina Chen</span>
                     <ul>
                         <li>
-                            <a href="https://github.com/ninachen22">Go to github profile</a>
+                            <a href="https://github.com/ninachen22">Go to GitHub profile</a>
                         </li>
                         <li>
                             <a href="https://www.linkedin.com/in/ninachen22/">Go to LinkedIn profile</a>
@@ -48,7 +48,7 @@ const About = () => {
                     <span className="about-name">Troyanna Butler</span>
                     <ul>
                         <li>
-                            <a href="https://github.com/Troy2797B">Go to github profile</a>
+                            <a href="https://github.com/Troy2797B">Go to GitHub profile</a>
                         </li>
                         <li>
                             <a href="https://www.linkedin.com/in/troyannabutler/">Go to LinkedIn profile</a>
