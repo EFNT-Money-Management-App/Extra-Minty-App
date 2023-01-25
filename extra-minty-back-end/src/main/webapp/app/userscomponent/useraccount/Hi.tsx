@@ -4,9 +4,7 @@ import axios from "axios";
 import { IBankAccount } from "app/shared/model/bank-account.model";
 import { ITransaction } from "app/shared/model/transaction.model";
 import { IUser } from '../../shared/model/user.model';
-import { NavLink } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
-import transaction from 'app/entities/transaction/transaction.reducer';
 import { APP_DATE_FORMAT } from "app/config/constants";
 import { TextFormat } from "react-jhipster";
 import TransactionUpdate from 'app/entities/transaction/transaction-update'

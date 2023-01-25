@@ -1,13 +1,10 @@
 import * as React from 'react';
-// import Chart from 'react-google-charts';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-// import Budgetmodal from '../budgetmodal/Budgetmodal';
 import { IBudget } from 'app/shared/model/budget.model';
 import axios from 'axios';
 import BudgetUpdate from 'app/entities/budget/budget-update';
 import ProgressBar from 'react-animated-progress-bar';
-import BudgetDeleteDialog from 'app/entities/budget/budget-delete-dialog';
 import { Button } from 'reactstrap';
 import './Budget.css';
 
@@ -143,7 +140,7 @@ const Budget = () => {
           <tbody>
             {userBudgets.length !== 0 ? (
               userBudgets.map(budget => (
-                <tr key={budget.id}>
+                <tr className="budget-table-style"key={budget.id}>
                   <td className="budget-style">{budget.name}</td>
                   <td className="budget-style">{'$' + budget.currentSpending + '.00'}</td>
                   <td className="budget-style">{'$' + budget.spendingLimit + '.00'}</td>
@@ -151,7 +148,6 @@ const Budget = () => {
                   <a href={'/budget/' + budget.id + '/edit'}>
                     <Button className="update-button">Update</Button>
                   </a>
-                  {/* <BudgetUpdate id={budget}/> */}
                   <a href={'/budget/' + budget.id + '/delete'}>
                     <Button className="delete-button">Delete</Button>
                   </a>
