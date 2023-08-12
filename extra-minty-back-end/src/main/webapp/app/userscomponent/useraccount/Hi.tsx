@@ -47,15 +47,6 @@ const Temp = () => {
         })
     },[])
 
-    // const getTransactions = async (bankAccountId: number) => {
-    //     try {
-    //         const response = await axios.get(`/api/transactions/bank-account/{id}?id=${bankAccountId}`);
-    //         return response.data;
-    //     } catch (error) {
-    //         console.error(error);
-    //         throw error;
-    //     }
-    // }
     const getTransactions = async (bankAccountId: number) => {
         if (dataCache.has(bankAccountId)) {
             return dataCache.get(bankAccountId);
@@ -74,10 +65,6 @@ const Temp = () => {
     const handleTabClick = (bankAccount: IBankAccount) => {
         setSelectedBankAccount(bankAccount);
         getTransactions(bankAccount.id).then((data) => setCurrentTransactions(data));
-    }
-
-    const handleDetailsClick = (transaction: ITransaction) => {
-
     }
     
     return (

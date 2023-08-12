@@ -67,10 +67,7 @@ const Userhome = () => {
 
     return (
         <div className='userhome-global'>           
-            <div className='userhome-profile-content'>
-                {/* <div>
-                    <img className='userhome-profile-picture' src='./icon.png' alt="prof pic goes here" />
-                </div> */}
+            <div className='userhome-profile-content'>              
                 {user ? <h3 className='userhome-profile-username'>
                     {"Welcome Back " + user.firstName}
                 </h3> : "error: no user"}
